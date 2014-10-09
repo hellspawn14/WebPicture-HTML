@@ -1,0 +1,155 @@
+<! DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<!-- Icono del sitio -->
+	<link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/gen.css">
+    <link rel="stylesheet" type="text/css" href="../js/joint.css" />
+
+	<head>
+		<title>Editor name</title>
+	</head>
+	<body>
+    <div class="page-wrap">
+    	<div class="top-head">
+    		<a class="logo"></a>
+    	</div>
+        <div class="jumbo">
+        <div class="tool-bar">
+        </div>
+        <div class="divPalet">
+        	<div class="paletteTitle">Palette elements</div>
+       		<div class="paletteElement">
+        		<div class="titlePaletteElement">Classes</div>
+            	<canvas id="classCanvas" style="height:auto;width:auto">
+				</canvas>
+        	</div>
+        
+        	<div class="paletteElement">
+        		<div class="titlePaletteElement">Relations and nodes</div>
+            	<canvas id="nodeCanvas">
+				</canvas>
+        	</div>
+        </div>
+        <div class="divCanvas">
+        	<div class="titlePaletteElement">Model name</div>
+        	<div id="paperCanvas" style="height:auto;width:auto">
+			</div>
+        </div>
+        
+        </div>
+        </div>
+        <footer class="site-footer">WebPicture</footer>
+        
+        <script src="../js/lib/jquery.js"></script>
+        <script src="../js/lib/lodash.js"></script>
+        <script src="../js/lib/backbone.js"></script>
+
+        <script src="../js/src/core.js"></script>
+        <script src="../js/src/vectorizer.js"></script>
+        <script src="../js/src/geometry.js"></script>
+
+
+        <script src="../js/src/joint.dia.graph.js"></script>
+
+        <script src="../js/src/joint.dia.cell.js"></script>
+        <script src="../js/src/joint.dia.element.js"></script>
+        <script src="../js/src/joint.dia.link.js"></script>
+        <script src="../js/src/joint.dia.paper.js"></script>
+
+        <script src="../js/plugins/joint.shapes.basic.js"></script>
+        
+
+        <script src="../js/plugins/routers/joint.routers.orthogonal.js"></script>
+        <script src="../js/plugins/routers/joint.routers.manhattan.js"></script>
+        <script src="../js/plugins/routers/joint.routers.metro.js"></script>
+
+		<script src="../js/plugins/connectors/joint.connectors.normal.js"></script>
+		<script src="../js/plugins/connectors/joint.connectors.rounded.js"></script> 
+		<script src="../js/plugins/connectors/joint.connectors.smooth.js"></script>
+		
+        <!-- Insert generated JS here -->
+		<script>
+		var graph = new joint.dia.Graph;
+
+var paper = new joint.dia.Paper({
+
+    el: $('#paperCanvas'),
+    model: graph,
+    linkView: joint.dia.LinkView.extend({
+	pointerdblclick: function(evt, x, y) {
+	    if (V(evt.target).hasClass('connection') || V(evt.target).hasClass('connection-wrap')) {
+		this.addVertex({ x: x, y: y });
+	    }
+	}
+    }),
+    interactive: function(cellView) {
+	if (cellView.model.get('vertexOnDblClick')) {
+	    return {
+		//arrowheadMove: false
+		// vertexMove: false,
+		vertexAdd: false,
+		//    vertexRemove: false,
+	    };
+	}
+	return true;
+    }
+});
+
+var PictureQComplexFigureX7f31245a= new joint.shapes.basic.Rhombus({
+	position: { x: 335, y: 50 },
+	size: { width:100, height:100},
+	attrs: {
+		text: {text:'Elemento'}
+	}
+});
+graph.addCell(PictureQComplexFigureX7f31245a);
+
+var PictureQEllipseX7f31245a= new joint.shapes.basic.Circle({
+	position: { x: 335, y: 50 },
+	size: { width:100, height:100},
+	attrs: {
+		circle: {fill:'#F5140D'},
+		text: {text:'Elipse'}
+	}
+});
+
+var PictureQPictureFigureX7f31245a= new joint.shapes.basic.Image({
+	position: { x: 335, y: 50 },
+	size: { width:100, height:100},
+	attrs: {
+		image: { 'xlink:href': '../res/who.jpg', width:100, height:100},
+		text: {text:'Foto'}
+	}
+});
+graph.addCell(PictureQPictureFigureX7f31245a);
+
+var PictureQEllipseX7f31245a= new joint.shapes.basic.Circle({
+	position: { x: 335, y: 50 },
+	size: { width:100, height:100},
+	attrs: {
+		circle: {fill:'#F5140D'},
+		text: {text:'Elipse'}
+	}
+});
+graph.addCell(PictureQEllipseX7f31245a);
+
+var PictureQRectangleX7f31245a= new joint.shapes.basic.Rect({
+	position: { x: 335, y: 50 },
+	size: { width:100, height:500},
+	attrs: {
+		rect: {fill:'#F5140D'},
+		text: {text:'Rect'}
+	}
+});
+graph.addCell(PictureQRectangleX7f31245a);
+
+
+
+        </script>
+
+        
+        
+        
+    </body>
+</html>
