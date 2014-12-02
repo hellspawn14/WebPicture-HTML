@@ -14,6 +14,11 @@
     <link rel="stylesheet" href="../pure-css/css/layouts/marketing.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="../pure-css/css/layouts/headers.css">
+    
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    
 </head>
 <body>
     <div class="header">
@@ -23,28 +28,147 @@
 	</div>
     <div class="pure-g">
         <!-- Paleta de elementos -->
-        <div class="pure-u-1-5" style="text-align:center;border-right:1px solid #808080; height:100%; background-color:#808080; overflow-y: auto">
+        <div class="pure-u-1-5" style="text-align:center;border-right:1px solid #808080; height:100%; background-color:#F0F0F0; overflow-y: auto">
             <!-- Encabezado de la paleta de elementos -->
             <div class="hero-titles" style="background-color:#181818">    
-                <h3 class="marketing-header" style="text-align:center;color:white">Palette</h3>
+                <h3 class="marketing-header-canvas" style="text-align:center;color:white">Palette</h3>
+            </div>
+            <div id="tools">
+                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction I</h3>
+                <div style="background-color:#FFFFFF; overflow-y: auto; height:100%; border-top:1px solid #808080; vertical-align: top">
+                    <p>
+    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+    purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+    velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+    suscipit faucibus urna.
+    </p>
+                </div>
+  <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction II</h3>
+  <div style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+    <p>
+    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+    purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+    velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+    suscipit faucibus urna.
+    </p>
+  </div>
+  <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction III</h3>
+  <div style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+    <p>
+    Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+    Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+    ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+    lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+    </p>
+</div>
+  <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction IV</h3>
+  <div style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+    <p>
+    Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+    et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+    faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+    mauris vel est.
+    </p>
+    <p>
+    Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+    inceptos himenaeos.
+    </p>
+  </div>
             </div>
         </div>
         <!-- Area de trabajo o diagramas-->
         <div class="pure-u-4-5" style="text-align:center; height:100%; overflow-y: auto">
-            <div class="hero-titles" style="background-color:#181818; width:100%">    
-                
+            <!-- Barra de herramientas -->
+            <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">  
+                <div class="pure-g">
+                    <div class="pure-u-1-4">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="goHomeSave()"><i class="fa fa-home"></i> Home</button>
+                    </div>
+                    <div class="pure-u-1-4">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i> Save</button>
+                    </div>
+                    <div class="pure-u-1-4">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i> Export</button>
+                    </div>
+                    <div class="pure-u-1-4">
+                        <button type="submit" class="pure-button" style="width:100%" onclick="clearCanvas()"><i class="fa fa-times"></i> Clear</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Canvas -->
+            <div>
+                <canvas id="modelCanvas" style="height:100%;width:100%">
+                    
+                </canvas>
             </div>
         </div>
     </div>
 
-    
-    <!-- Script de referencia para llamar la funcion de acuerdo al comando y al editor seleccionado-->
+    <!-- Script del canvas -->
     <script>
-        function getSelectedActionForModel(action, model)
-        {
-            alert("model: " + action + " for " + model);
-        }
+        
     </script>
     
+    <script>
+        /*
+        * Indica si los cambios en el canvas estan guardados en el servidor
+        */
+        var saved = 0;
+        
+        //---------------------------------------------------------------
+        //Funciones botones barra herramientas
+        //---------------------------------------------------------------
+        
+        /*
+        * Verifica que el modelo esta guardado en el servidor (guarda de ser el caso) y redirecciona a la pagina inicial 
+        */
+        function goHomeSave()
+        {
+            if (saved == 0)
+            {
+                saveChanges = confirm("There're unsaved changes would you like to save");
+                if (saveChanges)
+                {
+                    saveModel();
+                }
+            }
+            window.location.href = "webPictureActions.html";
+        }
+        
+        /*
+        * Guarda el estado del canvas en el servidor
+        */
+        function saveModel()
+        {
+            saved = 1;
+            alert("All changes saved on server");
+        }
+        
+        /*
+        * Exporta el diagrama actual a png
+        */
+        function exportCanvas()
+        {
+            
+        }
+        
+        /*
+        * Borra todo el diagrama
+        */
+        function clearCanvas()
+        {
+            saved = 0;
+        }
+        
+    </script>
+    
+    <!-- Script de acordion elementos de la paleta -->
+    <script>
+        $(function() 
+        {
+            $( "#tools" ).accordion();
+        });
+    </script>
 </body>
 </html>
