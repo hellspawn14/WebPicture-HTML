@@ -6,20 +6,18 @@ var paper = new joint.dia.Paper({
     gridSize: 10,
     perpendicularLinks: false,
     model: graph,
-    linkConnectionPoint: function(linkView, view, magnet, reference) {
-
-	var bbox = view.getStrokeBBox(magnet);
-
-	if (magnet && magnet.isPointInStroke && _.contains(['path', 'circle', 'rect'], magnet.localName)) {
-
-	    spot = intersection(magnet, reference);
-
-	} else {
-
-	    spot = g.rect(bbox).intersectionWithLineFromCenterToPoint(reference);
-	}
-
-	return spot || g.rect(bbox).center();
+    linkConnectionPoint: function(linkView, view, magnet, reference)
+    {
+      var bbox = view.getStrokeBBox(magnet);
+      if (magnet && magnet.isPointInStroke && _.contains(['path', 'circle', 'rect'], magnet.localName))
+      {
+        spot = intersection(magnet, reference);
+      }
+      else
+      {
+        spot = g.rect(bbox).intersectionWithLineFromCenterToPoint(reference);
+      }
+      return spot || g.rect(bbox).center();
     }
 });
 
@@ -66,8 +64,8 @@ var palm = 'M14.296,27.885v-2.013c0,0-0.402-1.408-1.073-2.013c-0.671-0.604-1.274
 
 var icons = [cross, star, umbrella, music, thunder, palm];
 
-var d = star;
-var o7 = (new path({ position: { x: 150, y: 370 }, attrs: { text: { text: 'path' }, path: { magnet: true, d: d }}})).addTo(graph);
+var d = thunder;
+var o7 = (new path({ position: { x: 150, y: 370 }, attrs: { text: { text: 'estrella' }, path: { magnet: true, d: d }}})).addTo(graph);
 var o8 = (new rect({ position: { x: 300, y: 380 }, size: { width: 60, height: 30 } })).addTo(graph);
 var linko7o8 = (new link({ source: { id: o7.id, selector: 'path' }, target: { id: o8.id } })).addTo(graph);
 
@@ -94,7 +92,7 @@ function intersection(node, ref) {
 
 
     while (dist > 1) {
-	
+
 	spot = spot.move(center, -1);
 	dist = spot.distance(center);
 	//console.log(dist);
@@ -130,9 +128,9 @@ function showPoint(x, y, radius, fill) {
         y = x.y;
         x = x.x;
     }
-    
+
     radius = radius || 2;
-    fill = fill || 'red';
+    fill = fill || 'blue';
 
     var el = V('circle', { cx: x, cy: y, r: radius, fill: fill });
 

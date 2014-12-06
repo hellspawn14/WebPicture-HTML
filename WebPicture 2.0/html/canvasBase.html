@@ -1,174 +1,614 @@
 <! DOCTYPE html>
 <meta charset="UTF-8">
 <html lang="en">
-<link rel="icon" href="../res/siteIcon.png" type="image/x-icon"> 
+<link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Index web site for WebPicture online DSL model editor">
+
 <head>
-	<title>WebPicture</title>
+    <title>WebPicture</title>
     <link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
-    <!-- Hojas de estilo -->
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <!-- Bootstrap -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Bootbox -->
+    <script src="../bootbox/bootbox.js"></script>
+    <!-- Pure CSS -->
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure//pure.css">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure//grids-responsive.css">
     <link rel="stylesheet" href="../pure-css/css/layouts/marketing.css">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="../pure-css/css/layouts/headers.css">
-    
-    <!-- JQuery -->
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    
+    <!-- Fort Awesome icons -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- WebPicture2File -->
+    <script src="../extras/canvas2image.js"></script>
+    <script src="../extras/html2canvas.js"></script>
+    <script src="../extras/FileSaver.js"></script>
+    <script src="../extras/Blob.js"></script>
+    <script src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
+    <!-- Scripts de Joint JS -->
+    <script src="../js/lib/lodash.js"></script>
+    <script src="../js/lib/backbone.js"></script>
+    <script src="../js/src/core.js"></script>
+    <script src="../js/src/vectorizer.js"></script>
+    <script src="../js/src/geometry.js"></script>
+    <script src="../js/src/joint.dia.graph.js"></script>
+    <script src="../js/src/joint.dia.cell.js"></script>
+    <script src="../js/src/joint.dia.element.js"></script>
+    <script src="../js/src/joint.dia.link.js"></script>
+    <script src="../js/src/joint.dia.paper.js"></script>
+    <script src="../js/plugins/joint.shapes.basic.js"></script>
+    <script src="../js/plugins/routers/joint.routers.orthogonal.js"></script>
+    <script src="../js/plugins/routers/joint.routers.manhattan.js"></script>
+    <script src="../js/plugins/routers/joint.routers.metro.js"></script>
+    <script src="../js/plugins/connectors/joint.connectors.normal.js"></script>
+    <script src="../js/plugins/connectors/joint.connectors.rounded.js"></script>
+    <script src="../js/plugins/connectors/joint.connectors.smooth.js"></script>
+    <link rel="stylesheet" href="../js/joint.css">
 </head>
+
 <body>
     <div class="header">
-    	<div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed"style="background-color:#181818">
-        	<a class="pure-menu-heading" href="index.html"><img src="../res/logo.png" class="pure-img"/></a>
-    	</div>  
-	</div>
+        <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed" style="background-color:#181818; position:fixed">
+            <a class="pure-menu-heading" href="index.html">
+                <img src="../res/logo.png" class="pure-img" />
+            </a>
+        </div>
+    </div>
     <div class="pure-g">
         <!-- Paleta de elementos -->
-        <div class="pure-u-1-5" style="text-align:center;border-right:1px solid #808080; height:100%; background-color:#F0F0F0; overflow-y: auto">
+        <div class="pure-u-1-5" style="text-align:center;border-right:1px solid #808080; height:100%; background-color:#181818; overflow-y: auto">
             <!-- Encabezado de la paleta de elementos -->
-            <div class="hero-titles" style="background-color:#181818">    
+            <div class="hero-titles" style="background-color:#181818">
                 <h3 class="marketing-header-canvas" style="text-align:center;color:white">Palette</h3>
             </div>
             <div id="tools">
                 <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction I</h3>
-                <div style="background-color:#FFFFFF; overflow-y: auto; height:100%; border-top:1px solid #808080; vertical-align: top">
-                    <p>
-    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-    purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-    velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-    suscipit faucibus urna.
-    </p>
+                <div id="grupo1" style="background-color:#FFFFFF; overflow-y: auto; height:100%; border-top:1px solid #808080; vertical-align: top">
+
                 </div>
-  <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction II</h3>
-  <div style="background-color:#FFFFFF; overflow-y: auto; height:100%">
-    <p>
-    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-    purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-    velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-    suscipit faucibus urna.
-    </p>
-  </div>
-  <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction III</h3>
-  <div style="background-color:#FFFFFF; overflow-y: auto; height:100%">
-    <p>
-    Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-    Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-    ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-    lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
-    </p>
-</div>
-  <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction IV</h3>
-  <div style="background-color:#FFFFFF; overflow-y: auto; height:100%">
-    <p>
-    Cras dictum. Pellentesque habitant morbi tristique senectus et netus
-    et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
-    faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
-    mauris vel est.
-    </p>
-    <p>
-    Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
-    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-    inceptos himenaeos.
-    </p>
-  </div>
+                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction II</h3>
+                <div id="grupo2" style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+
+                </div>
+                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction III</h3>
+                <div id="grupo3" style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+                    <div id="grupo3" class="drag">
+                    </div>
+                </div>
+                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction IV</h3>
+                <div id="grupo4" style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+                </div>
             </div>
         </div>
         <!-- Area de trabajo o diagramas-->
         <div class="pure-u-4-5" style="text-align:center; height:100%; overflow-y: auto">
             <!-- Barra de herramientas -->
-            <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">  
+            <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">
                 <div class="pure-g">
-                    <div class="pure-u-1-4">
+                    <div class="pure-u-1-5">
                         <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="goHomeSave()"><i class="fa fa-home"></i> Home</button>
                     </div>
-                    <div class="pure-u-1-4">
+                    <div class="pure-u-1-5">
                         <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i> Save</button>
                     </div>
-                    <div class="pure-u-1-4">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i> Export</button>
+                    <div class="pure-u-1-5">
+                        <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i> Export</button>
                     </div>
-                    <div class="pure-u-1-4">
-                        <button type="submit" class="pure-button" style="width:100%" onclick="clearCanvas()"><i class="fa fa-times"></i> Clear</button>
+                    <div class="pure-u-1-5">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="clearCanvas()"><i class="fa fa-times"></i> Clear</button>
+                    </div>
+                    <div class="pure-u-1-5">
+                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="unDo()"><i class="fa fa-reply"></i> Undo</button>
                     </div>
                 </div>
             </div>
             <!-- Canvas -->
-            <div>
-                <canvas id="modelCanvas" style="height:100%;width:100%">
-                    
-                </canvas>
+            <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto">
+
             </div>
         </div>
     </div>
 
-    <!-- Script del canvas -->
+
+    <!-- Script de pruba de la paleta -->
+    <!--<script src="../../Editors/8e8745eb-bb31-423d-80f4-1ae5e15fba3d/Scripts/script.js"></script>-->
     <script>
-        
+        var graphGrupo1 = new joint.dia.Graph;
+        var paperGrupo1 = new joint.dia.Paper({
+            el: $('#grupo1'),
+            gridSize: 10,
+            height: 500,
+            width: $('#tools').width(),
+            gridSize: 1,
+            model: graphGrupo1
+        });
+
+        var c = new joint.shapes.basic.Circle({
+            position: {
+                x: 10,
+                y: 10
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+                circle: {
+                    fill: '#9B59B6',
+                    opacity: 0.5
+                },
+
+                text: {
+                    text: 'circle',
+                    fill: 'black',
+                    'y-alignment': 'middle'
+                },
+            },
+        });
+        graphGrupo1.addCell(c);
+        var rbx = new joint.shapes.basic.Rect({
+            position: {
+                x: 10,
+                y: 120
+            },
+            size: {
+                width: 100,
+                height: 40
+            },
+            attrs: {
+                text: {
+                    text: 'basic.ola ke ase',
+                    'y-alignment': 'middle'
+                },
+                rect: {
+                    fill: '#2ECC71',
+                    opacity: 0.5
+                },
+            }
+        });
+
+        graphGrupo1.addCell(rbx);
+
+        var Circ5e481248 = new joint.shapes.basic.Circle({
+            position: {
+                x: 10,
+                y: 180
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+                circle: {
+                    width: 100,
+                    height: 100,
+                    fill: '#00FFFF',
+                    rx: 100,
+                    ry: 100,
+                    'stroke-width': 1,
+                    stroke: '#000000',
+                    'stroke-dasharray': '0,0',
+                },
+                text: {
+                    text: 'Ola ke ase',
+                    fill: 'black',
+                    'font-size': 14,
+                    'font-weight': 'normal'
+                },
+            }
+        });
+        graphGrupo1.addCell(Circ5e481248);
+
+        paperGrupo1.findViewByModel(c).options.interactive = false;
+        paperGrupo1.findViewByModel(c).options.DRAGDROP = true;
     </script>
-    
     <script>
-        /*
-        * Indica si los cambios en el canvas estan guardados en el servidor
-        */
-        var saved = 0;
-        
-        //---------------------------------------------------------------
-        //Funciones botones barra herramientas
-        //---------------------------------------------------------------
-        
-        /*
-        * Verifica que el modelo esta guardado en el servidor (guarda de ser el caso) y redirecciona a la pagina inicial 
-        */
-        function goHomeSave()
-        {
-            if (saved == 0)
-            {
-                saveChanges = confirm("There're unsaved changes would you like to save");
-                if (saveChanges)
-                {
-                    saveModel();
+        var graph = new joint.dia.Graph;
+        var paper = new joint.dia.Paper({
+            el: $('#grupo2'),
+            gridSize: 10,
+            height: 1000,
+            width: $('#tools').width(),
+            gridSize: 1,
+            model: graph
+        });
+        var rb = new joint.shapes.basic.Rect({
+            position: {
+                x: 10,
+                y: 10
+            },
+            size: {
+                width: 100,
+                height: 40
+            },
+            attrs: {
+                text: {
+                    text: 'basic.Rect'
                 }
             }
-            window.location.href = "webPictureActions.html";
-        }
-        
-        /*
-        * Guarda el estado del canvas en el servidor
-        */
-        function saveModel()
-        {
-            saved = 1;
-            alert("All changes saved on server");
-        }
-        
-        /*
-        * Exporta el diagrama actual a png
-        */
-        function exportCanvas()
-        {
-            
-        }
-        
-        /*
-        * Borra todo el diagrama
-        */
-        function clearCanvas()
-        {
-            saved = 0;
-        }
-        
+        });
+        graph.addCell(rb);
+        var rbx = new joint.shapes.basic.Rect({
+            position: {
+                x: 10,
+                y: 60
+            },
+            size: {
+                width: 100,
+                height: 40
+            },
+            attrs: {
+                text: {
+                    text: 'basic.ola ke ase'
+                }
+            }
+        });
+        graph.addCell(rbx);
     </script>
-    
-    <!-- Script de acordion elementos de la paleta -->
+    <!-- Script de pruba del canvas -->
     <script>
-        $(function() 
-        {
-            $( "#tools" ).accordion();
+        //----------------------------------------------------------
+         //Atributos 
+         //----------------------------------------------------------
+
+        /**
+         * Dirección del directorio de Joint CSS
+         */
+        var svgStyle = "<?xml-stylesheet href=" + '"' + "http://www.jointjs.com/downloads/joint.css" + '"' + " type=" + '"' + "text/css" + '"' + "?>"
+
+        var svgLocalStyle = "<?xml-stylesheet href=" + '"' + "../js/joint.css" + '"' + " type=" + '"' + "text/css" + '"' + "?>"
+
+        var svgImg = null;
+
+        /**
+         * Estado actual del diagrama
+         */
+        var currentState = null;
+
+        /*
+         * Estado pasado del diagrama
+         */
+        var lastState = null;
+
+        /**
+         * Estado del diagrama salvado
+         */
+        var savedDiagram = null;
+
+        /**
+         * Representación SVG del diagrama actual
+         */
+        var diagramSVG = null;
+
+        /**
+         * Contenedor del modelo
+         */
+        var graph = new joint.dia.Graph;
+
+
+        /**
+         * Contenedor del diagrama
+         */
+        var paper = new joint.dia.Paper({
+            el: $('#modelCanvas'),
+            gridSize: 10,
+            height: $('#modelCanvas').height(),
+            width: $('#modelCanvas').width(),
+            gridSize: 1,
+            model: graph
+        });
+
+        var c = new joint.shapes.basic.Circle({
+            position: {
+                x: 10,
+                y: 10
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+                circle: {
+                    fill: '#9B59B6',
+                    opacity: 0.5,
+                    magnet: true
+                },
+
+                text: {
+                    text: 'circle',
+                    fill: 'black',
+                    'y-alignment': 'middle'
+                },
+            },
+        });
+        graph.addCell(c);
+
+
+        var ci = new joint.shapes.basic.Circle({
+            position: {
+                x: 500,
+                y: 500
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+                circle: {
+                    fill: '#9B59B6',
+                    opacity: 0.5,
+                    magnet: true
+                },
+
+                text: {
+                    text: 'circle',
+                    fill: 'black',
+                    'y-alignment': 'middle'
+                },
+            },
+        });
+        graph.addCell(ci);
+
+         //----------------------------------------------------------
+         //Funciones basicas del canvas 
+         //----------------------------------------------------------
+
+        /**
+         * Borra todo el contenido del Paper del canvas
+         */
+        function deleteAllContents() {
+            graph.clear();
+            updateStates();
+        }
+
+        /**
+         * Restaura el contenido de un diagrama
+         */
+        function restoreDiagram(strJSON) {
+            graph.fromJSON(JSON.parse(strJSON));
+        }
+
+        /** 
+         * Guarda el contenido de un diagrama
+         */
+        function saveDiagram() {
+            savedDiagram = JSON.stringify(graph);
+            initStates();
+        }
+
+        /*
+         * Inicializa los estados
+         */
+        function initStates() {
+            //Estado actual e inicial
+            currentState = JSON.stringify(graph);
+            //No hay estado anterior
+            lastState = null
+            //Bloquea los botones 
+            document.getElementById('unDoBtn').disabled = true;
+        }
+
+        function updateStates() {
+            lastState = currentState;
+            currentState = JSON.stringify(graph);
+            savedDiagram = null;
+            document.getElementById('unDoBtn').disabled = false;
+        }
+
+        /**
+         * Deshace la ultima accion en el diagrama
+         */
+        function unDoImpl() {
+            graph.fromJSON(JSON.parse(lastState));
+            updateStates();
+        }
+
+        /**
+         * Genera una representación SVG del diagrama actual
+         */
+        function exportImpl() {
+            var svgDoc = paper.svg;
+            var serializer = new XMLSerializer();
+            diagramSVG = svgStyle + "\n" + serializer.serializeToString(svgDoc);
+            svgImg = svgLocalStyle + "\n" + serializer.serializeToString(svgDoc);
+
+        }
+
+        /**
+         * Exporta el contenido del modelo a un archivo SVG
+         */
+        function exportSVG() {
+            var blob = new Blob([diagramSVG], {
+                type: "text/plain;charset=utf-8"
+            });
+            saveAs(blob, "model.svg");
+        }
+
+        /**
+         * Exporta el contenido del modelo a un archivo PNG
+         */
+        function exportPNG() {
+            var image = new Image();
+            image.src = 'data:image/svg+xml;base64,' + window.btoa(svgImg);
+            image.onload = function () {
+                var canvas = document.createElement('canvas');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                var context = canvas.getContext('2d');
+                context.drawImage(image, 0, 0);
+                var a = document.createElement('a');
+                a.download = "model.png";
+                a.href = canvas.toDataURL('image/png');
+                document.body.appendChild(a);
+                a.click();
+            }
+
+        }
+
+        /**
+         * Notifica al modelo sobre cambios en el diagrama
+         */
+        graph.on('change', function (cell) {
+            updateStates();
         });
     </script>
+    <!-- Scripts -->
+    <script>
+        /*
+         * Indica si los cambios en el canvas estan guardados en el servidor
+         */
+        var saved = 0;
+
+         //---------------------------------------------------------------
+         //Funciones botones barra herramientas
+         //---------------------------------------------------------------
+
+        /*
+         * Verifica que el modelo esta guardado en el servidor (guarda de ser el caso) y redirecciona a la pagina inicial
+         */
+        function goHomeSave() {
+
+            //Hay cambios sin salvar 
+            if (saved === 0) {
+                bootbox.dialog({
+                    message: "There're unsaved changes would you like to save them?",
+                    buttons: {
+                        success: {
+                            label: "Yes",
+                            className: "btn-primary",
+                            callback: function () {
+                                saveModelImpl();
+                                window.location.href = "webPictureActions.html";
+                            }
+                        },
+                        danger: {
+                            label: "No",
+                            className: "btn-danger",
+                            callback: function () {
+                                window.location.href = "webPictureActions.html";
+                            }
+                        }
+                    }
+                });
+            } else {
+                window.location.href = "webPictureActions.html";
+            }
+        }
+
+        /*
+         * Guarda el estado del canvas en el servidor
+         */
+        function saveModel() {
+            bootbox.alert("All changes saved on server", function () {
+                saveModelImpl();
+            });
+        }
+
+        /**
+         * Implementación de la funcion para guardar el canvas
+         */
+        function saveModelImpl() {
+            saved = 1;
+            saveDiagram();
+
+        }
+
+        /*
+         * Exporta el diagrama actual a png
+         */
+        function exportCanvas() {
+            //Guarda el modelo 
+            saveModelImpl();
+            //Exporta a SVG en memoria
+            exportImpl();
+            //Exporta y crea el archivo segun el caso
+            bootbox.dialog({
+                message: "Please choose an exporting format",
+                buttons: {
+                    toPNG: {
+                        label: ".png",
+                        className: "btn-primary",
+                        callback: function () {
+                            exportPNG();
+                        }
+                    },
+                    toSVG: {
+                        label: ".svg",
+                        className: "btn-primary",
+                        callback: function () {
+                            exportSVG();
+                        }
+                    }
+                }
+            });
+
+
+
+            exportImpl();
+        }
+
+        /*
+         * Borra todo el diagrama
+         */
+        function clearCanvas() {
+            bootbox.dialog({
+                message: "All elements in current diagram will be deleted, would you like to continue?",
+                buttons: {
+                    success: {
+                        label: "Yes",
+                        className: "btn-primary",
+                        callback: function () {
+                            clearCanvasImpl();
+                        }
+                    },
+                    danger: {
+                        label: "No",
+                        className: "btn-danger",
+                        callback: function () {
+                            //Hacer nada
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * Implementación de la funcion clear canvas
+         */
+        function clearCanvasImpl() {
+            saved = 0;
+            deleteAllContents();
+        }
+
+        /*
+         * Deshace la ultima accion en el diagrama
+         */
+        function unDo() {
+            unDoImpl();
+        }
+    </script>
+    <!-- Script de acordion elementos de la paleta -->
+    <script>
+        $(function () {
+            $("#tools").accordion({
+                collapsible: true,
+                heightStyle: "fill",
+                //active: false
+            });
+        });
+    </script>
+
+    <!-- Script de inicialización de la ventana -->
+    <script>
+        window.onload = function () {
+            initStates();
+        };
+    </script>
 </body>
+
 </html>
