@@ -30,6 +30,7 @@
     <script src="../extras/FileSaver.js"></script>
     <script src="../extras/Blob.js"></script>
     <script src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
+    <script src="../extras/canvas-toBlob.js"></script>
     <!-- Scripts de Joint JS -->
     <script src="../js/lib/lodash.js"></script>
     <script src="../js/lib/backbone.js"></script>
@@ -48,6 +49,7 @@
     <script src="../js/plugins/connectors/joint.connectors.normal.js"></script>
     <script src="../js/plugins/connectors/joint.connectors.rounded.js"></script>
     <script src="../js/plugins/connectors/joint.connectors.smooth.js"></script>
+    <script src="../js/dist/joint.shapes.org.js"></script>
     <link rel="stylesheet" href="../js/joint.css">
 </head>
 
@@ -90,20 +92,23 @@
             <!-- Barra de herramientas -->
             <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">
                 <div class="pure-g">
-                    <div class="pure-u-1-5">
+                    <div class="pure-u-1-6">
                         <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="goHomeSave()"><i class="fa fa-home"></i> Home</button>
                     </div>
-                    <div class="pure-u-1-5">
+                    <div class="pure-u-1-6">
                         <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i> Save</button>
                     </div>
-                    <div class="pure-u-1-5">
+                    <div class="pure-u-1-6">
                         <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i> Export</button>
                     </div>
-                    <div class="pure-u-1-5">
+                    <div class="pure-u-1-6">
                         <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="clearCanvas()"><i class="fa fa-times"></i> Clear</button>
                     </div>
-                    <div class="pure-u-1-5">
-                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="unDo()"><i class="fa fa-reply"></i> Undo</button>
+                    <div class="pure-u-1-6">
+                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i> Undo</button>
+                    </div>
+                    <div class="pure-u-1-6">
+                        <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i> Redo</button>
                     </div>
                 </div>
             </div>
@@ -146,7 +151,8 @@
                 text: {
                     text: 'circle',
                     fill: 'black',
-                    'y-alignment': 'middle'
+                    //'y-alignment': 'middle'
+
                 },
             },
         });
@@ -257,13 +263,19 @@
          //----------------------------------------------------------
 
         /**
-         * Dirección del directorio de Joint CSS
+         * Posición del estado actual
          */
-        var svgStyle = "<?xml-stylesheet href=" + '"' + "http://www.jointjs.com/downloads/joint.css" + '"' + " type=" + '"' + "text/css" + '"' + "?>"
+        var mainStateIndex = 0;
 
-        var svgLocalStyle = "<?xml-stylesheet href=" + '"' + "../js/joint.css" + '"' + " type=" + '"' + "text/css" + '"' + "?>"
+        /**
+         * Estado actual del modelo
+         */
+        var mainState = null;
 
-        var svgImg = null;
+        /**
+         * Lista con los estados del diagrama
+         */
+        var states = new Array();
 
         /**
          * Estado actual del diagrama
@@ -279,11 +291,6 @@
          * Estado del diagrama salvado
          */
         var savedDiagram = null;
-
-        /**
-         * Representación SVG del diagrama actual
-         */
-        var diagramSVG = null;
 
         /**
          * Contenedor del modelo
@@ -305,8 +312,8 @@
 
         var c = new joint.shapes.basic.Circle({
             position: {
-                x: 10,
-                y: 10
+                x: 20,
+                y: 20
             },
             size: {
                 width: 100,
@@ -322,11 +329,39 @@
                 text: {
                     text: 'circle',
                     fill: 'black',
-                    'y-alignment': 'middle'
+                    //'y-alignment': 'middle',
+                    'ref-y': -10
                 },
             },
         });
         graph.addCell(c);
+
+        var Image7f31245a = new joint.shapes.basic.Image({
+            position: {
+                x: 100,
+                y: 100
+            },
+            size: {
+                width: 50,
+                height: 50
+            },
+            attrs: {
+
+
+                type: 'EClass',
+                text: {
+                    text: 'cosplay'
+                },
+                image: {
+                    magnet: true,
+                    'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
+                    width: 50,
+                    height: 50
+                }
+            }
+        });
+
+        graph.addCell(Image7f31245a);
 
 
         var ci = new joint.shapes.basic.Circle({
@@ -354,16 +389,159 @@
         });
         graph.addCell(ci);
 
+        var member = function (x, y, name, image, background, border) {
+
+            var cell = new joint.shapes.org.Member({
+                position: {
+                    x: x,
+                    y: y
+                },
+                attrs: {
+                    '.card': {
+                        fill: background,
+                        stroke: border,
+                        magnet: true,
+                    },
+                    image: {
+                        'xlink:href': image
+                    },
+                    /*
+                    '.rank': {
+                        text: rank
+                    },*/
+
+                    '.name': {
+                        text: name,
+                        'y-alignment': 'middle'
+                        //'ref-y': -15
+                    }
+                }
+            });
+            graph.addCell(cell);
+            return cell;
+        };
+
+        var memberX = function (x, y, rank, name, image, background, border) {
+
+            var cell = new joint.shapes.org.Member({
+                position: {
+                    x: x,
+                    y: y
+                },
+                attrs: {
+                    '.card': {
+                        fill: background,
+                        stroke: border
+                    },
+                    image: {
+                        'xlink:href': '/images/' + image
+                    },
+                    '.rank': {
+                        text: rank
+                    },
+                    '.name': {
+                        text: name
+                    }
+                }
+            });
+            graph.addCell(cell);
+            return cell;
+        };
+
+        var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray');
+        var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
+
+
+
          //----------------------------------------------------------
          //Funciones basicas del canvas 
          //----------------------------------------------------------
+
+        /**
+         * Inicializa los estados del diagrama
+         */
+        function startDiagram() {
+            //Inicializa el estado principal 
+            mainState = JSON.stringify(graph);
+            states.push(mainState);
+            //Reinicia el arreglo de estados
+            while (states.length > 0) {
+                states.pop();
+            }
+            mainStateIndex = 0;
+            //Bloquea los botones 
+            document.getElementById('unDoBtn').disabled = true;
+            document.getElementById('reDoBtn').disabled = true;
+
+        }
+
+        /**
+         * Actualiza los estados actuales del diagrama
+         */
+        function updateDiagram() {
+            if (mainStateIndex == 0)
+            {
+               document.getElementById('unDoBtn').disabled = true; 
+            }
+            else{
+                document.getElementById('unDoBtn').disabled = false;
+            }
+            
+            if (mainStateIndex != states.length - 1) {
+                document.getElementById('reDoBtn').disabled = true;
+            } else {
+                document.getElementById('reDoBtn').disabled = false;
+            }
+            //Nuevo estado a introducir 
+            mainState = JSON.stringify(graph);
+            //Esta en un estado intermedio no es el primero ni el ultimo 
+            if (mainStateIndex != 0 || mainStateIndex != states.length - 1) {
+                //Eliminar los estados que estan adelante 
+                var i = mainStateIndex + 1;
+                for (i; i < states.length; i++) {
+                    //Elimina cada uno de los elementos desde la posicion dada hasta el final 
+                    states.splice(i, 1);
+                }
+            }
+            //Evita overflows en el arreglo (longitud controlada)
+            if (states.length == 10) {
+                states = states.slice(4);
+            }
+            //Inserta el nuevo estado y cambia el apuntador al estado actual
+            states.push(mainState);
+            mainStateIndex = states.length - 1;
+        }
+
+        /**
+         * Retrocede un estado con respecto al actual y deshace el ultimo cambio hacia el estado anterior
+         */
+        function unDoLastChange() {
+            //Tiene que estar en un estado diferente del primero para retroceder
+            if (mainStateIndex != 0) {
+                mainStateIndex = mainStateIndex - 1;
+                mainState = states[mainStateIndex];
+                graph.fromJSON(JSON.parse(mainState));
+            }
+        }
+
+        /**
+         * Avanza un estado con respecto al actual y rehace el ultimo cambio hacia el estado siguiente
+         */
+        function reDoLastChange() {
+            if (mainStateIndex != states.length - 1) {
+                mainStateIndex = mainStateIndex + 1;
+                mainState = states[mainStateIndex];
+                graph.fromJSON(JSON.parse(mainState));
+            }
+        }
+
 
         /**
          * Borra todo el contenido del Paper del canvas
          */
         function deleteAllContents() {
             graph.clear();
-            updateStates();
+            updateDiagram();
         }
 
         /**
@@ -378,52 +556,15 @@
          */
         function saveDiagram() {
             savedDiagram = JSON.stringify(graph);
-            initStates();
-        }
-
-        /*
-         * Inicializa los estados
-         */
-        function initStates() {
-            //Estado actual e inicial
-            currentState = JSON.stringify(graph);
-            //No hay estado anterior
-            lastState = null
-            //Bloquea los botones 
-            document.getElementById('unDoBtn').disabled = true;
-        }
-
-        function updateStates() {
-            lastState = currentState;
-            currentState = JSON.stringify(graph);
-            savedDiagram = null;
-            document.getElementById('unDoBtn').disabled = false;
-        }
-
-        /**
-         * Deshace la ultima accion en el diagrama
-         */
-        function unDoImpl() {
-            graph.fromJSON(JSON.parse(lastState));
-            updateStates();
-        }
-
-        /**
-         * Genera una representación SVG del diagrama actual
-         */
-        function exportImpl() {
-            var svgDoc = paper.svg;
-            var serializer = new XMLSerializer();
-            diagramSVG = svgStyle + "\n" + serializer.serializeToString(svgDoc);
-            svgImg = svgLocalStyle + "\n" + serializer.serializeToString(svgDoc);
-
+            startDiagram();
         }
 
         /**
          * Exporta el contenido del modelo a un archivo SVG
          */
         function exportSVG() {
-            var blob = new Blob([diagramSVG], {
+            var svgExp = this.paperToSVG();
+            var blob = new Blob([svgExp], {
                 type: "text/plain;charset=utf-8"
             });
             saveAs(blob, "model.svg");
@@ -433,28 +574,107 @@
          * Exporta el contenido del modelo a un archivo PNG
          */
         function exportPNG() {
+            var svgExp = this.paperToSVG();
             var image = new Image();
-            image.src = 'data:image/svg+xml;base64,' + window.btoa(svgImg);
+            image.src = 'data:image/svg+xml;base64,' + window.btoa(svgExp);
             image.onload = function () {
                 var canvas = document.createElement('canvas');
                 canvas.width = image.width;
                 canvas.height = image.height;
                 var context = canvas.getContext('2d');
+                context.rect(0, 0, $('#modelCanvas').width(), $('#modelCanvas').height());
+                context.fillStyle = "white";
+                context.fill();
                 context.drawImage(image, 0, 0);
                 var a = document.createElement('a');
                 a.download = "model.png";
-                a.href = canvas.toDataURL('image/png');
+                var sURL = canvas.toDataURL('image/png');
+                a.href = sURL;
                 document.body.appendChild(a);
                 a.click();
             }
+        }
 
+        /**
+         * Exporta el contenido del modelo a un archivo json
+         */
+        function exportToJSON() {
+            var JSONExp = JSON.stringify(graph);
+            var blob = new Blob([JSONExp], {
+                type: "text/plain;charset=utf-8"
+            });
+            saveAs(blob, "model.json");
+        }
+
+        /**
+         * Exporta el contenido del paper a SVG incluye las hojas de estilo y las correcciones
+         */
+        function paperToSVG() {
+            var viewportTransform = V(paper.viewport).attr("transform");
+            V(paper.viewport).attr("transform", "");
+            var viewportBbox = paper.getContentBBox();
+            var svgClone = paper.svg.cloneNode(true);
+            V(paper.viewport).attr("transform", viewportTransform || "");
+            svgClone.removeAttribute("style");
+            V(svgClone).attr({
+                width: "100%",
+                height: "100%"
+            });
+            V(svgClone).attr("viewBox", viewportBbox.x + " " + viewportBbox.y + " " + viewportBbox.width + " " + viewportBbox.height);
+            var styleSheetsCount = document.styleSheets.length;
+            var styleSheetsCopy = [];
+            for (var i = styleSheetsCount - 1; i >= 0; i--) {
+                styleSheetsCopy[i] = document.styleSheets[i];
+                document.styleSheets[i].disabled = true
+            }
+            var defaultComputedStyles = {};
+            $(paper.svg).find("*").each(function (idx) {
+                var computedStyle = window.getComputedStyle(this, null);
+                var defaultComputedStyle = {};
+                _.each(computedStyle, function (property) {
+                    defaultComputedStyle[property] = computedStyle.getPropertyValue(property)
+                });
+                defaultComputedStyles[idx] = defaultComputedStyle
+            });
+            if (styleSheetsCount != document.styleSheets.length) {
+                _.each(styleSheetsCopy, function (copy, i) {
+                    document.styleSheets[i] = copy
+                })
+            }
+            for (var i = 0; i < styleSheetsCount; i++) {
+                document.styleSheets[i].disabled = false
+            }
+            var customStyles = {};
+            $(paper.svg).find("*").each(function (idx) {
+                var computedStyle = window.getComputedStyle(paper, null);
+                var defaultComputedStyle = defaultComputedStyles[idx];
+                var customStyle = {};
+                _.each(computedStyle, function (property) {
+                    if (computedStyle.getPropertyValue(property) !== defaultComputedStyle[property]) {
+                        customStyle[property] = computedStyle.getPropertyValue(property)
+                    }
+                });
+                customStyles[idx] = customStyle
+            });
+            $(svgClone).find("*").each(function (idx) {
+                $(paper).css(customStyles[idx])
+            });
+            $(svgClone).find(".connection-wrap, .marker-vertices, .link-tools, .marker-arrowheads").remove();
+            var svgString;
+            try {
+                var serializer = new XMLSerializer;
+                svgString = serializer.serializeToString(svgClone);
+            } catch (err) {
+                console.error("Error serializing paper to SVG:", err)
+            }
+            return svgString;
         }
 
         /**
          * Notifica al modelo sobre cambios en el diagrama
          */
         graph.on('change', function (cell) {
-            updateStates();
+            updateDiagram();
         });
     </script>
     <!-- Scripts -->
@@ -524,8 +744,6 @@
         function exportCanvas() {
             //Guarda el modelo 
             saveModelImpl();
-            //Exporta a SVG en memoria
-            exportImpl();
             //Exporta y crea el archivo segun el caso
             bootbox.dialog({
                 message: "Please choose an exporting format",
@@ -543,13 +761,16 @@
                         callback: function () {
                             exportSVG();
                         }
+                    },
+                    tojsonformat: {
+                        label: ".json",
+                        className: "btn-primary",
+                        callback: function () {
+                            exportToJSON();
+                        }
                     }
                 }
             });
-
-
-
-            exportImpl();
         }
 
         /*
@@ -584,13 +805,6 @@
             saved = 0;
             deleteAllContents();
         }
-
-        /*
-         * Deshace la ultima accion en el diagrama
-         */
-        function unDo() {
-            unDoImpl();
-        }
     </script>
     <!-- Script de acordion elementos de la paleta -->
     <script>
@@ -606,7 +820,7 @@
     <!-- Script de inicialización de la ventana -->
     <script>
         window.onload = function () {
-            initStates();
+            startDiagram();
         };
     </script>
 </body>
