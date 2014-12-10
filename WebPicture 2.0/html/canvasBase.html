@@ -63,58 +63,71 @@
     </div>
     <div class="pure-g">
         <!-- Paleta de elementos -->
-        <div class="pure-u-1-5" style="text-align:center;border-right:1px solid #808080; height:100%; background-color:#181818; overflow-y: auto">
+        <div class="pure-u-4-24" style="text-align:center;border-right:1px solid #181818; height:100%; background-color:#181818; overflow-y: auto">
             <!-- Encabezado de la paleta de elementos -->
-            <div class="hero-titles" style="background-color:#181818">
-                <h3 class="marketing-header-canvas" style="text-align:center;color:white">Palette</h3>
+            <div class="hero-titles" style="background-color:#181818;margin-bottom:0">
+                <h4 class="marketing-header-canvas" style="text-align:center;color:white;">Palette</h4>
             </div>
-            <div id="tools">
-                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction I</h3>
-                <div id="grupo1" style="background-color:#FFFFFF; overflow-y: auto; height:100%; border-top:1px solid #808080; vertical-align: top">
-
+            <div id="tools" style="background-color:#181818; overflow-y: auto;">
+                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <div id="grupo1" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
-                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction II</h3>
-                <div id="grupo2" style="background-color:#FFFFFF; overflow-y: auto; height:100%">
-
+                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <div id="grupo2" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
-                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction III</h3>
-                <div id="grupo3" style="background-color:#FFFFFF; overflow-y: auto; height:100%">
-                    <div id="grupo3" class="drag">
-                    </div>
+                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <div id="grupo3" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
-                <h3 class="marketing-header-canvas" style="text-align:center;color:white; background-color:#181818; border-top:1px solid #808080"><i class="fa fa-chevron-circle-down"></i> Secction IV</h3>
-                <div id="grupo4" style="background-color:#FFFFFF; overflow-y: auto; height:100%">
+                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <div id="grupo4" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
             </div>
         </div>
         <!-- Area de trabajo o diagramas-->
-        <div class="pure-u-4-5" style="text-align:center; height:100%; overflow-y: auto">
+        <div class="pure-u-20-24" style="text-align:center; height:100%; overflow-y: auto; overflow-x: auto">
             <!-- Barra de herramientas -->
             <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">
                 <div class="pure-g">
-                    <div class="pure-u-1-6">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="goHomeSave()"><i class="fa fa-home"></i> Home</button>
+                    <div class="pure-u-2-24">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" alt="Home" onclick="goHomeSave()"><i class="fa fa-home"></i></button>
                     </div>
-                    <div class="pure-u-1-6">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i> Save</button>
+                    <div class="pure-u-2-24">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i></button>
                     </div>
-                    <div class="pure-u-1-6">
-                        <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i> Export</button>
+                    <div class="pure-u-2-24">
+                        <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i></button>
                     </div>
-                    <div class="pure-u-1-6">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="clearCanvas()"><i class="fa fa-times"></i> Clear</button>
+                    <div class="pure-u-2-24">
+                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i></button>
                     </div>
-                    <div class="pure-u-1-6">
-                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i> Undo</button>
+                    <div class="pure-u-2-24">
+                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i></button>
                     </div>
-                    <div class="pure-u-1-6">
-                        <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:3px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i> Redo</button>
+                    <div class="pure-u-2-24">
+                        <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i></button>
+                    </div>
+                    <div class="pure-u-2-24">
+                        <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-plus"></i></button>
+                    </div>
+                    <div class="pure-u-2-24">
+                        <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-minus"></i></button>
+                    </div>
+                    <div class="pure-u-2-24">
+                        <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-check-circle"></i></button>
+                    </div>
+                    <div class="pure-u-2-24">
+                        <button id="helpBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-question"></i></button>
+                    </div>
+                    <div class="pure-u-2-24">
+                        <button id="gridsBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-th"></i></button>
+                    </div>
+                    <div class="pure-u-2-24">
+                        <button id="informationBtn" type="submit" class="pure-button" style="width:100%;"><i class="fa fa-info"></i> </button>
                     </div>
                 </div>
             </div>
             <!-- Canvas -->
             <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto">
-
             </div>
         </div>
     </div>
@@ -127,7 +140,7 @@
         var paperGrupo1 = new joint.dia.Paper({
             el: $('#grupo1'),
             gridSize: 10,
-            height: 500,
+            height: $('#grupo1').height(),
             width: $('#tools').width(),
             gridSize: 1,
             model: graphGrupo1
@@ -218,7 +231,7 @@
         var paper = new joint.dia.Paper({
             el: $('#grupo2'),
             gridSize: 10,
-            height: 1000,
+            height: $('#grupo2').height(),
             width: $('#tools').width(),
             gridSize: 1,
             model: graph
@@ -479,14 +492,12 @@
          * Actualiza los estados actuales del diagrama
          */
         function updateDiagram() {
-            if (mainStateIndex == 0)
-            {
-               document.getElementById('unDoBtn').disabled = true; 
-            }
-            else{
+            if (mainStateIndex == 0) {
+                document.getElementById('unDoBtn').disabled = true;
+            } else {
                 document.getElementById('unDoBtn').disabled = false;
             }
-            
+
             if (mainStateIndex != states.length - 1) {
                 document.getElementById('reDoBtn').disabled = true;
             } else {
@@ -811,8 +822,7 @@
         $(function () {
             $("#tools").accordion({
                 collapsible: true,
-                heightStyle: "fill",
-                //active: false
+                heightStyle: "content"
             });
         });
     </script>
