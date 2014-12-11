@@ -51,6 +51,7 @@
     <script src="../js/plugins/connectors/joint.connectors.smooth.js"></script>
     <script src="../js/dist/joint.shapes.org.js"></script>
     <link rel="stylesheet" href="../js/joint.css">
+    <script src="../basic-js/accordion.js"></script>
 </head>
 
 <body>
@@ -68,9 +69,10 @@
             <div class="hero-titles" style="background-color:#181818;margin-bottom:0">
                 <h4 class="marketing-header-canvas" style="text-align:center;color:white;">Palette</h4>
             </div>
+            <!-- Contenedor de la paleta generada para el editor -->
             <div id="tools" style="background-color:#181818; overflow-y: auto;">
                 <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
-                <div id="grupo1" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
+                <div id="grupo1" style="background-color:#F0F0F0; overflow-y: auto; height:300px" class="palette">
                 </div>
                 <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
                 <div id="grupo2" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
@@ -82,6 +84,9 @@
                 <div id="grupo4" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
             </div>
+            <!-- Contenedor intermedio para la funcion de drag and drop -->
+            <div class="paper-drag">
+            </div>
         </div>
         <!-- Area de trabajo o diagramas-->
         <div class="pure-u-20-24" style="text-align:center; height:100%; overflow-y: auto; overflow-x: auto">
@@ -89,52 +94,63 @@
             <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">
                 <div class="pure-g">
                     <div class="pure-u-2-24">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" alt="Home" onclick="goHomeSave()"><i class="fa fa-home"></i></button>
+                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" alt="Home" onclick="goHomeSave()"><i class="fa fa-home"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i></button>
+                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i></button>
+                        <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i></button>
+                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i></button>
+                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i></button>
+                        <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-plus"></i></button>
+                        <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-plus"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-minus"></i></button>
+                        <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-minus"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-check-circle"></i></button>
+                        <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-check-circle"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="helpBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-question"></i></button>
+                        <button id="helpBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-question"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="gridsBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-th"></i></button>
+                        <button id="gridsBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-th"></i>
+                        </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="informationBtn" type="submit" class="pure-button" style="width:100%;"><i class="fa fa-info"></i> </button>
+                        <button id="informationBtn" type="submit" class="pure-button" style="width:100%;"><i class="fa fa-info"></i> 
+                        </button>
                     </div>
                 </div>
             </div>
             <!-- Canvas -->
-            <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto">
+            <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto;">
             </div>
         </div>
     </div>
 
 
     <!-- Script de pruba de la paleta -->
-    <!--<script src="../../Editors/8e8745eb-bb31-423d-80f4-1ae5e15fba3d/Scripts/script.js"></script>-->
     <script>
         var graphGrupo1 = new joint.dia.Graph;
         var paperGrupo1 = new joint.dia.Paper({
@@ -143,7 +159,8 @@
             height: $('#grupo1').height(),
             width: $('#tools').width(),
             gridSize: 1,
-            model: graphGrupo1
+            model: graphGrupo1,
+            interactive: false
         });
 
         var c = new joint.shapes.basic.Circle({
@@ -158,14 +175,12 @@
             attrs: {
                 circle: {
                     fill: '#9B59B6',
-                    opacity: 0.5
+                    opacity: 0.5,
                 },
 
                 text: {
                     text: 'circle',
                     fill: 'black',
-                    //'y-alignment': 'middle'
-
                 },
             },
         });
@@ -223,18 +238,14 @@
         });
         graphGrupo1.addCell(Circ5e481248);
 
-        paperGrupo1.findViewByModel(c).options.interactive = false;
-        paperGrupo1.findViewByModel(c).options.DRAGDROP = true;
-    </script>
-    <script>
-        var graph = new joint.dia.Graph;
-        var paper = new joint.dia.Paper({
+        var graphGrupo2 = new joint.dia.Graph;
+        var paperGrupo2 = new joint.dia.Paper({
             el: $('#grupo2'),
             gridSize: 10,
             height: $('#grupo2').height(),
             width: $('#tools').width(),
             gridSize: 1,
-            model: graph
+            model: graphGrupo2
         });
         var rb = new joint.shapes.basic.Rect({
             position: {
@@ -251,7 +262,7 @@
                 }
             }
         });
-        graph.addCell(rb);
+        graphGrupo2.addCell(rb);
         var rbx = new joint.shapes.basic.Rect({
             position: {
                 x: 10,
@@ -267,7 +278,7 @@
                 }
             }
         });
-        graph.addCell(rbx);
+        graphGrupo2.addCell(rbx);
     </script>
     <!-- Script de pruba del canvas -->
     <script>
@@ -784,6 +795,7 @@
             });
         }
 
+
         /*
          * Borra todo el diagrama
          */
@@ -817,16 +829,150 @@
             deleteAllContents();
         }
     </script>
-    <!-- Script de acordion elementos de la paleta -->
-    <script>
-        $(function () {
-            $("#tools").accordion({
-                collapsible: true,
-                heightStyle: "content"
-            });
-        });
-    </script>
 
+
+    <!-- Script de referencia drag and drop for canvas -->
+    <script>
+        //Origen
+        var fromGraphGrupo1 = graphGrupo1;
+        var fromPaperGrupo1 = paperGrupo1;
+
+         //Destino 
+        var toPaper = paper;
+        var toGraph = graph;
+
+         //Intermedio 
+        var flyGraph = new joint.dia.Graph;
+        var flyPaper = new joint.dia.Paper({
+            el: $('.paper-drag'),
+            gridSize: 10,
+            width: 1,
+            height: 1,
+            model: flyGraph
+        });
+
+        var elementClone = undefined;
+        
+        var cloneBBox = undefined;
+        
+        
+        //--------------------------------------------------------------
+        // Eventos 
+        //--------------------------------------------------------------
+
+        
+        $(document.body).on({
+            "mousemove.palette touchmove.palette": elementOnDrag,
+            "mouseup.palette touchend.palette": elementOnDragEnd
+        });
+        
+        fromPaperGrupo1.on('cell:pointerdown', function(cell, evt) { 
+            elementOnDragStart(cell, evt);
+        });
+        
+        /*
+        toPaper.on('cell:pointerclick', function(evt) { 
+            elementOnDrag(evt);
+        });
+        /*
+        toPaper.on('cell:pointerdblclick', function(evt) { 
+            elementOnDragEnd(evt);
+        });*/
+        
+        
+        
+
+
+        function elementOnDragStart(cellView, event) {
+            $(".paper-drag").show();
+            $("tools").addClass("dragging");
+            //document.getElementById("tools").addClass("dragging");
+            flyPaper.$el.addClass("dragging");
+            $(document.body).append(flyPaper.$el);
+            elementClone = cellView.model.clone();
+            cloneBBox = cellView.getBBox();
+            var padding = 10;
+            var shift = g.point(cloneBBox.x - elementClone.get("position").x, cloneBBox.y - elementClone.get("position").y);
+            elementClone.set("position", {
+                x: -shift.x + padding,
+                y: -shift.y + padding
+            });
+            flyGraph.addCell(elementClone);
+            flyPaper.setDimensions(cloneBBox.width + 2 * padding, cloneBBox.height + 2 * padding);
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            flyPaper.$el.offset({
+                left: event.clientX - cloneBBox.width / 2,
+                top: event.clientY + scrollTop - cloneBBox.height / 2
+            });
+        }
+
+        function elementOnDrag(event) {
+            event = joint.util.normalizeEvent(event);
+            if (elementClone) {
+                var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+                flyPaper.$el.offset({
+                    left: event.clientX - cloneBBox.width / 2,
+                    top: event.clientY + scrollTop - cloneBBox.height / 2
+                })
+            }
+        }
+
+        function elementOnDragEnd(event) {
+            event = joint.util.normalizeEvent(event);
+            if (elementClone && cloneBBox) {
+                elementOnDrop(event, elementClone.clone(), cloneBBox);
+                //$("tools").append(flyPaper);
+                
+                //$el.append(flyPaper.$el);
+                //$("tools").addClass("dragging");
+                flyPaper.$el.removeClass("dragging");
+                elementClone.remove();
+                elementClone = undefined;
+                $(".paper-drag").hide();
+            }
+        }
+
+        function elementOnDrop(event, cell, cellViewBBox) 
+        {
+            var paper = toPaper;
+            var graph = toGraph;
+            var paperPosition = paper.$el.offset();
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+            var paperArea = g.rect(paperPosition.left + parseInt(paper.$el.css("border-left-width"), 10) - scrollLeft, paperPosition.top + parseInt(paper.$el.css("border-top-width"), 10) - scrollTop, paper.$el.innerWidth(), paper.$el.innerHeight());
+            var p = paper.svg.createSVGPoint();
+            p.x = event.clientX;
+            p.y = event.clientY;
+            if (paperArea.containsPoint(p)) {
+                var fakeRect = V("rect", {
+                    width: paper.options.width,
+                    height: paper.options.height,
+                    x: 0,
+                    y: 0,
+                    opacity: 0
+                });
+                V(paper.svg).prepend(fakeRect);
+                var paperOffset = $(paper.svg).offset();
+                fakeRect.remove();
+                p.x += scrollLeft - paperOffset.left;
+                p.y += scrollTop - paperOffset.top;
+                var pointTransformed = p.matrixTransform(paper.viewport.getCTM().inverse());
+                var cellBBox = cell.getBBox();
+                pointTransformed.x += cellBBox.x - cellViewBBox.width / 2;
+                pointTransformed.y += cellBBox.y - cellViewBBox.height / 2;
+                cell.set("position", {
+                    x: g.snapToGrid(pointTransformed.x, paper.options.gridSize),
+                    y: g.snapToGrid(pointTransformed.y, paper.options.gridSize)
+                });
+                cell.unset("z");
+                cell.unset("x");
+                cell.unset("y");
+                cell.set.interactive = true;
+                graph.addCell(cell);
+                
+            }
+        }
+    </script>
     <!-- Script de inicialización de la ventana -->
     <script>
         window.onload = function () {
