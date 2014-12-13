@@ -8,8 +8,9 @@
 <head>
     <title>WebPicture</title>
     <link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
-    <!-- JQuery -->
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <!-- JQuery 
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
     <!-- Bootstrap -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -31,6 +32,9 @@
     <script src="../extras/Blob.js"></script>
     <script src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
     <script src="../extras/canvas-toBlob.js"></script>
+    <!-- Tooltip -->
+    <script type="text/javascript" src="../extras/tipped/js/tipped/tipped.js"></script>
+    <link rel="stylesheet" href="../extras/tipped/css/tipped/tipped.css" />
     <!-- Scripts de Joint JS -->
     <script src="../js/lib/lodash.js"></script>
     <script src="../js/lib/backbone.js"></script>
@@ -52,6 +56,10 @@
     <script src="../js/dist/joint.shapes.org.js"></script>
     <link rel="stylesheet" href="../js/joint.css">
     <script src="../basic-js/accordion.js"></script>
+    <!-- Toolbar -->
+    <script src="../extras/toolbar/jquery.toolbar.js"></script>
+    <link rel="stylesheet" href="../extras/toolbar/jquery.toolbars.css" />
+    <link rel="stylesheet" href="../extras/toolbar/bootstrap.icons.css" />
 </head>
 
 <body>
@@ -71,16 +79,16 @@
             </div>
             <!-- Contenedor de la paleta generada para el editor -->
             <div id="tools" style="background-color:#181818; overflow-y: auto;">
-                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
-                <div id="grupo1" style="background-color:#F0F0F0; overflow-y: auto; height:300px" class="palette">
+                <h5 id="headGroup1" class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <div id="grupo1" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
-                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <h5 id="headGroup2" class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction II</h5>
                 <div id="grupo2" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
-                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <h5 id="headGroup3" class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction III</h5>
                 <div id="grupo3" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
-                <h5 class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction I</h5>
+                <h5 id="headGroup4" class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction IV</h5>
                 <div id="grupo4" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
             </div>
@@ -94,19 +102,19 @@
             <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">
                 <div class="pure-g">
                     <div class="pure-u-2-24">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" alt="Home" onclick="goHomeSave()"><i class="fa fa-home"></i>
+                        <button id="homeBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="goHomeSave()"><i class="fa fa-home"></i>
                         </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i>
+                        <button id="saveBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i>
                         </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button id="btnSave" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i>
+                        <button id="exportBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i>
                         </button>
                     </div>
                     <div class="pure-u-2-24">
-                        <button type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i>
+                        <button id="clearBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i>
                         </button>
                     </div>
                     <div class="pure-u-2-24">
@@ -147,6 +155,12 @@
             <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto;">
             </div>
         </div>
+    </div>
+    <!-- Barra de herramientas -->
+    <div id="user-options-small" class="toolbar-icons" style="display: none;">
+        <a id="editElementBtn" href="" onclick="$('#hdnClickedIcon').val('edit');"><i class="icon-edit"></i></a>
+        <a id="deleteElementBtn" href="" onclick="$('#hdnClickedIcon').val('delete');"><i class="icon-remove"></i></a>
+        <input id="hdnClickedIcon" type="hidden" value="none" />
     </div>
 
 
@@ -196,16 +210,17 @@
             },
             attrs: {
                 text: {
-                    text: 'basic.ola ke ase',
+                    text: 'basic.ola ke ase id',
                     'y-alignment': 'middle'
                 },
                 rect: {
                     fill: '#2ECC71',
-                    opacity: 0.5
-                },
-            }
-        });
+                    opacity: 0.5,
 
+                },
+            },
+
+        });
         graphGrupo1.addCell(rbx);
 
         var Circ5e481248 = new joint.shapes.basic.Circle({
@@ -227,6 +242,7 @@
                     'stroke-width': 1,
                     stroke: '#000000',
                     'stroke-dasharray': '0,0',
+                    //id: 'hfsa'
                 },
                 text: {
                     text: 'Ola ke ase',
@@ -234,7 +250,8 @@
                     'font-size': 14,
                     'font-weight': 'normal'
                 },
-            }
+            },
+            id: 'XDV'
         });
         graphGrupo1.addCell(Circ5e481248);
 
@@ -245,7 +262,8 @@
             height: $('#grupo2').height(),
             width: $('#tools').width(),
             gridSize: 1,
-            model: graphGrupo2
+            model: graphGrupo2, 
+            interactive: false
         });
         var rb = new joint.shapes.basic.Rect({
             position: {
@@ -357,6 +375,7 @@
                     'ref-y': -10
                 },
             },
+            id: 'jkasd',
         });
         graph.addCell(c);
 
@@ -405,13 +424,14 @@
                 },
 
                 text: {
-                    text: 'circle',
+                    text: 'circle ci',
                     fill: 'black',
                     'y-alignment': 'middle'
                 },
             },
         });
         graph.addCell(ci);
+
 
         var member = function (x, y, name, image, background, border) {
 
@@ -692,10 +712,13 @@
             return svgString;
         }
 
+
+
         /**
          * Notifica al modelo sobre cambios en el diagrama
          */
         graph.on('change', function (cell) {
+
             updateDiagram();
         });
     </script>
@@ -837,6 +860,9 @@
         var fromGraphGrupo1 = graphGrupo1;
         var fromPaperGrupo1 = paperGrupo1;
 
+        var fromGraphGrupo2 = graphGrupo2;
+        var fromPaperGrupo2 = paperGrupo2;
+
          //Destino 
         var toPaper = paper;
         var toGraph = graph;
@@ -852,45 +878,51 @@
         });
 
         var elementClone = undefined;
-        
-        var cloneBBox = undefined;
-        
-        
-        //--------------------------------------------------------------
-        // Eventos 
-        //--------------------------------------------------------------
 
-        
+        var cloneBBox = undefined;
+
+
+         //--------------------------------------------------------------
+         // Eventos 
+         //--------------------------------------------------------------
+
+
         $(document.body).on({
             "mousemove.palette touchmove.palette": elementOnDrag,
             "mouseup.palette touchend.palette": elementOnDragEnd
         });
-        
-        fromPaperGrupo1.on('cell:pointerdown', function(cell, evt) { 
+
+        fromPaperGrupo1.on('cell:pointerdown', function (cell, evt) {
             elementOnDragStart(cell, evt);
         });
-        
-        /*
-        toPaper.on('cell:pointerclick', function(evt) { 
-            elementOnDrag(evt);
+
+        fromPaperGrupo2.on('cell:pointerdown', function (cell, evt) {
+            elementOnDragStart(cell, evt);
         });
-        /*
-        toPaper.on('cell:pointerdblclick', function(evt) { 
-            elementOnDragEnd(evt);
-        });*/
-        
-        
-        
+
+         //--------------------------------------------------------------
+         // Funciones  
+         //--------------------------------------------------------------
 
 
         function elementOnDragStart(cellView, event) {
             $(".paper-drag").show();
             $("tools").addClass("dragging");
-            //document.getElementById("tools").addClass("dragging");
             flyPaper.$el.addClass("dragging");
             $(document.body).append(flyPaper.$el);
-            elementClone = cellView.model.clone();
-            cloneBBox = cellView.getBBox();
+
+            //Cambio de icono en el drag and drop 
+            if (cellView.model.id == 'XDV') {
+                elementClone = c.clone();
+                cloneBBox = c.getBBox();
+            } else {
+                elementClone = cellView.model.clone();
+                cloneBBox = cellView.getBBox();
+            }
+
+
+
+            //cloneBBox = cellView.getBBox();
             var padding = 10;
             var shift = g.point(cloneBBox.x - elementClone.get("position").x, cloneBBox.y - elementClone.get("position").y);
             elementClone.set("position", {
@@ -921,10 +953,6 @@
             event = joint.util.normalizeEvent(event);
             if (elementClone && cloneBBox) {
                 elementOnDrop(event, elementClone.clone(), cloneBBox);
-                //$("tools").append(flyPaper);
-                
-                //$el.append(flyPaper.$el);
-                //$("tools").addClass("dragging");
                 flyPaper.$el.removeClass("dragging");
                 elementClone.remove();
                 elementClone = undefined;
@@ -932,8 +960,7 @@
             }
         }
 
-        function elementOnDrop(event, cell, cellViewBBox) 
-        {
+        function elementOnDrop(event, cell, cellViewBBox) {
             var paper = toPaper;
             var graph = toGraph;
             var paperPosition = paper.$el.offset();
@@ -969,7 +996,6 @@
                 cell.unset("y");
                 cell.set.interactive = true;
                 graph.addCell(cell);
-                
             }
         }
     </script>
@@ -979,6 +1005,140 @@
             startDiagram();
         };
     </script>
+    <!-- Tooltip -->
+    <script>
+        $(document).ready(function () {
+
+            /*
+             * Tooltips de los botones de la herramienta
+             */
+            Tipped.create('#homeBtn', 'Home', {
+                position: 'bottom'
+            });
+            Tipped.create('#saveBtn', 'Save diagram', {
+                position: 'bottom'
+            });
+            Tipped.create('#exportBtn', 'Export diagram as', {
+                position: 'bottom'
+            });
+            Tipped.create('#clearBtn', 'Delete all contents', {
+                position: 'bottom'
+            });
+            Tipped.create('#unDoBtn', 'Undo', {
+                position: 'bottom'
+            });
+            Tipped.create('#reDoBtn', 'Redo', {
+                position: 'bottom'
+            });
+            Tipped.create('#zoomInBtn', 'Zoom in', {
+                position: 'bottom'
+            });
+            Tipped.create('#zoomOutBtn', 'Zoom out', {
+                position: 'bottom'
+            });
+            Tipped.create('#validateBtn', 'Validate diagram', {
+                position: 'bottom'
+            });
+            Tipped.create('#helpBtn', 'Help', {
+                position: 'bottom'
+            });
+            Tipped.create('#gridsBtn', 'Grids', {
+                position: 'bottom'
+            });
+            Tipped.create('#informationBtn', 'Information', {
+                position: 'bottom'
+            });
+
+            /**
+             * Tool tips paneles de herramientas
+             */
+            Tipped.create('#headGroup1', 'Group I description', {
+                position: 'right'
+            });
+            Tipped.create('#headGroup2', 'Group II description', {
+                position: 'right'
+            });
+            Tipped.create('#headGroup3', 'Group III description', {
+                position: 'right'
+            });
+            Tipped.create('#headGroup4', 'Group IV description', {
+                position: 'right'
+            });
+
+        });
+    </script>
+
+    <!-- Script barra de herramientas de los elementos del diagrama -->
+    <script>
+        var currentCell = undefined;
+
+
+         //Eventos de las celdas en el paper principal 
+        paper.on('cell:pointerdown', function (cell, evt) {
+            $(".tool-container").remove();
+            showToolBar(cell);
+        });
+
+        paper.on('blank:pointerdown', function (cell, evt) {
+            $(".tool-container").remove();
+        });
+
+        /**
+         * Muestra el panel de propiedades del elemento
+         */
+        function showToolBar(cell) {
+            var cellId = "#" + cell.id;
+            var el = $(cellId)
+            el.toolbar({
+                content: '#user-options-small',
+                position: 'top',
+                hideOnClick: true
+            });
+            el.on('toolbarItemClick',
+                function (event) {
+                    var command = $('#hdnClickedIcon').val();
+                    if (command == 'edit') {
+                        bootbox.prompt("Edit element name", function (result) {
+                            if (result === null) {
+                                //Hacer nada
+                            } else {
+                                result = result.trim();
+                                if (result != '')
+                                {
+                                    updateCell(cell, result);
+                                    //Hacer nada 
+                                    console.log("nada");
+                                }   
+                            }
+                        });
+
+                    } else if (command == 'delete') {
+                        removeCell(cell);
+                        $(".tool-container").remove();
+                    }
+
+                }
+            );
+
+        }
+
+        function removeCell(cell) {
+            cell.remove();
+        }
+
+        function updateCell(cell, label) {
+            
+            cell.attr('text', label);
+        }
+    </script>
+
+
+    <script>
+    </script>
+
+
+
+
 </body>
 
 </html>
