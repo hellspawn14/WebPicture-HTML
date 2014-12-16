@@ -8,9 +8,9 @@
 <head>
     <title>WebPicture</title>
     <link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
-    <!-- JQuery 
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
     <script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
     <!-- Bootstrap -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -55,6 +55,7 @@
     <script src="../js/plugins/connectors/joint.connectors.smooth.js"></script>
     <script src="../js/dist/joint.shapes.org.js"></script>
     <link rel="stylesheet" href="../js/joint.css">
+    <!-- JQuery accordion -->
     <script src="../basic-js/accordion.js"></script>
     <!-- Toolbar -->
     <script src="../extras/toolbar/jquery.toolbar.js"></script>
@@ -75,7 +76,7 @@
         <div class="pure-u-4-24" style="text-align:center;border-right:1px solid #181818; height:100%; background-color:#181818; overflow-y: auto">
             <!-- Encabezado de la paleta de elementos -->
             <div class="hero-titles" style="background-color:#181818;margin-bottom:0">
-                <h4 class="marketing-header-canvas" style="text-align:center;color:white;">Palette</h4>
+                <h4 id="paletteName" class="marketing-header-canvas" style="text-align:center;color:white;">Palette</h4>
             </div>
             <!-- Contenedor de la paleta generada para el editor -->
             <div id="tools" style="background-color:#181818; overflow-y: auto;">
@@ -97,72 +98,75 @@
             </div>
         </div>
         <!-- Area de trabajo o diagramas-->
-        <div class="pure-u-20-24" style="text-align:center; height:100%; overflow-y: auto; overflow-x: auto">
+        <div id="workArea" class="pure-u-20-24" style="text-align:center; height:100%; overflow-y: auto; overflow-x: auto;">
             <!-- Barra de herramientas -->
-            <div class="hero-tool-bar" style="width:100%;background-color:#808080; height:5px">
-                <div class="pure-g">
-                    <div class="pure-u-2-24">
-                        <button id="homeBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="goHomeSave()"><i class="fa fa-home"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="saveBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="exportBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="clearBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-plus"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-minus"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-check-circle"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="helpBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-question"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="gridsBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-th"></i>
-                        </button>
-                    </div>
-                    <div class="pure-u-2-24">
-                        <button id="informationBtn" type="submit" class="pure-button" style="width:100%;"><i class="fa fa-info"></i> 
-                        </button>
-                    </div>
+            <div class="pure-g" style="width:inherit;position:fixed;margin-top: 2em; text-align:center; overflow-y: auto; overflow-x: auto;">
+                <div class="pure-u-1-12">
+                    <button id="homeBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080; " onclick="goHomeSave()"><i class="fa fa-home"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="saveBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="saveModel()"><i class="fa fa-floppy-o"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="exportBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="exportCanvas()"><i class="fa fa-download"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="clearBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="clearCanvas()"><i class="fa fa-trash-o"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="unDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="unDoLastChange()"><i class="fa fa-reply"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="reDoBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="reDoLastChange()"><i class="fa fa-share"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-plus"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-minus"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-check-circle"></i>
+                    </button>
+                </div>
+
+                <div class="pure-u-1-12">
+                    <button id="gridsBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="gridsProperties()"><i class="fa fa-th"></i>
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="informationBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="getDiagraminformation()"><i class="fa fa-info"></i> 
+                    </button>
+                </div>
+                <div class="pure-u-1-12">
+                    <button id="helpBtn" type="submit" class="pure-button" style="width:100%" onclick="help()"><i class="fa fa-question"></i>
+                    </button>
                 </div>
             </div>
+            <h3 style="visibility: hidden">
+                I bet you cant see me
+            </h3>
             <!-- Canvas -->
-            <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto;">
+            <div id="modelCanvas" style="height:100%;width:100%; overflow-y: auto; overflow-x: auto;background-image:url(../res/tiny_grid.png);background-repeat:repeat;">
             </div>
         </div>
     </div>
-    <!-- Barra de herramientas -->
+    <!-- Panel de propiedades de los elementos del diagrama -->
     <div id="user-options-small" class="toolbar-icons" style="display: none;">
         <a id="editElementBtn" href="" onclick="$('#hdnClickedIcon').val('edit');"><i class="icon-edit"></i></a>
+        <a id="toTopElement" href="" onclick="$('#hdnClickedIcon').val('toTop');"><i class="icon-arrow-up"></i></a>
+        <a id="toBackElement" href="" onclick="$('#hdnClickedIcon').val('toBack');"><i class="icon-arrow-down"></i></a>
         <a id="deleteElementBtn" href="" onclick="$('#hdnClickedIcon').val('delete');"><i class="icon-remove"></i></a>
         <input id="hdnClickedIcon" type="hidden" value="none" />
     </div>
-
 
     <!-- Script de pruba de la paleta -->
     <script>
@@ -262,7 +266,7 @@
             height: $('#grupo2').height(),
             width: $('#tools').width(),
             gridSize: 1,
-            model: graphGrupo2, 
+            model: graphGrupo2,
             interactive: false
         });
         var rb = new joint.shapes.basic.Rect({
@@ -496,6 +500,24 @@
         var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
 
 
+        var rpoc = new joint.shapes.basic.Rect({
+            position: {
+                x: 10,
+                y: 60
+            },
+            size: {
+                width: 100,
+                height: 40
+            },
+            attrs: {
+                text: {
+                    text: 'basic.ola ke ase'
+                }
+            }
+        });
+        graph.addCell(rpoc);
+
+
 
          //----------------------------------------------------------
          //Funciones basicas del canvas 
@@ -599,6 +621,7 @@
         function saveDiagram() {
             savedDiagram = JSON.stringify(graph);
             startDiagram();
+            updateLastModification();
         }
 
         /**
@@ -851,17 +874,58 @@
             saved = 0;
             deleteAllContents();
         }
+
+
+        /**
+         * Muestra una ventana de ayuda
+         * - No generado -
+         */
+        function help() {
+            bootbox.alert("Drag and drop elements from the Palette panels to the main canvas", function () {
+                //Hacer nada 
+            });
+        }
+
+
+        /**
+         * Ultima fecha de modificación registrada
+         * - Generado -
+         */
+        var lastModified = "2014/12/7 22:30:56";;
+
+
+        function updateLastModification() {
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var MM = today.getMonth() + 1;
+            var dd = today.getDate();
+            var HH = today.getHours();
+            var mm = today.getMinutes();
+            var ss = today.getSeconds();
+            lastModified = yyyy + "/" + MM + "/" + dd + " " + HH + ":" + mm + ":" + ss;
+        }
+
+        function getDiagraminformation() {
+            //"yyyy/MM/dd HH:mm:ss";
+            var diagramName = "Archi";
+            var editorName = "Archi light editor";
+            var diagramDescription = "Archi application diagram for EA";
+            var created = "2014/11/15 22:30:56";
+            var author = "Mario Sanchez";
+            var inf = '<div class="pure-u-5-6" style="text-align:left">' + '<i class="fa fa-bookmark-o" style="margin-left:10px"></i> Diagram name: ' + diagramName + '<br>' + '<i class="fa fa-pencil" style="margin-left:10px"></i> Editor: ' + editorName + '<br>' + '<i class="fa fa-user" style="margin-left:10px"></i> Author: ' + author + '<br>' + '<i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: ' + diagramDescription + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Created: ' + created + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: ' + lastModified + '<br>' + '</div>';
+            //"Diagram name: " + diagramName + "\n" + "Editor: " + editorName + "\n" + "Author: " + author + "\n" + "Created: " + created + "\n" + "Last modified: " + lastModified;
+            bootbox.dialog({
+                title: "Diagram information",
+                message: inf
+            });
+
+        }
     </script>
 
 
     <!-- Script de referencia drag and drop for canvas -->
     <script>
         //Origen
-        var fromGraphGrupo1 = graphGrupo1;
-        var fromPaperGrupo1 = paperGrupo1;
-
-        var fromGraphGrupo2 = graphGrupo2;
-        var fromPaperGrupo2 = paperGrupo2;
 
          //Destino 
         var toPaper = paper;
@@ -886,17 +950,35 @@
          // Eventos 
          //--------------------------------------------------------------
 
-
+        /**
+         * Responde a los eventos para iniciar y terminar el arrastre de un elemento al paper principal
+         * - No generado -
+         */
         $(document.body).on({
             "mousemove.palette touchmove.palette": elementOnDrag,
             "mouseup.palette touchend.palette": elementOnDragEnd
         });
 
-        fromPaperGrupo1.on('cell:pointerdown', function (cell, evt) {
+         //--------------------------------------------------------------
+         // Eventos generados drag and drop 
+         //--------------------------------------------------------------
+
+
+        /** 
+         * En el evento cell:pointerdown para el paper seleccionado inicia la funcion elementOnDragStart(cell, evt)
+         * para la celda seleccionada
+         * - Generado para cada paper -
+         */
+        paperGrupo1.on('cell:pointerdown', function (cell, evt) {
             elementOnDragStart(cell, evt);
         });
 
-        fromPaperGrupo2.on('cell:pointerdown', function (cell, evt) {
+        /** 
+         * En el evento cell:pointerdown para el paper seleccionado inicia la funcion elementOnDragStart(cell, evt)
+         * para la celda seleccionada
+         * - Generado para cada paper -
+         */
+        paperGrupo2.on('cell:pointerdown', function (cell, evt) {
             elementOnDragStart(cell, evt);
         });
 
@@ -919,9 +1001,6 @@
                 elementClone = cellView.model.clone();
                 cloneBBox = cellView.getBBox();
             }
-
-
-
             //cloneBBox = cellView.getBBox();
             var padding = 10;
             var shift = g.point(cloneBBox.x - elementClone.get("position").x, cloneBBox.y - elementClone.get("position").y);
@@ -938,6 +1017,10 @@
             });
         }
 
+        /**
+         * Inicia el evento drag para transladar un elemento de un paper a otro
+         * - No generado -
+         */
         function elementOnDrag(event) {
             event = joint.util.normalizeEvent(event);
             if (elementClone) {
@@ -949,6 +1032,9 @@
             }
         }
 
+        /** 
+         *
+         */
         function elementOnDragEnd(event) {
             event = joint.util.normalizeEvent(event);
             if (elementClone && cloneBBox) {
@@ -1007,6 +1093,9 @@
     </script>
     <!-- Tooltip -->
     <script>
+        /** 
+         *
+         */
         $(document).ready(function () {
 
             /*
@@ -1045,12 +1134,13 @@
             Tipped.create('#gridsBtn', 'Grids', {
                 position: 'bottom'
             });
-            Tipped.create('#informationBtn', 'Information', {
+            Tipped.create('#informationBtn', 'About this diagram', {
                 position: 'bottom'
             });
 
             /**
              * Tool tips paneles de herramientas
+             * - Generado segun los paneles de herramientas de la paleta -
              */
             Tipped.create('#headGroup1', 'Group I description', {
                 position: 'right'
@@ -1065,26 +1155,94 @@
                 position: 'right'
             });
 
+            //paletteName
+            Tipped.create('#paletteName', 'Descripción de la paleta', {
+                position: 'right'
+            });
         });
     </script>
 
     <!-- Script barra de herramientas de los elementos del diagrama -->
     <script>
-        var currentCell = undefined;
+        //--------------------------------------------------------------------
+         //Eventos 
+         //--------------------------------------------------------------------
 
-
-         //Eventos de las celdas en el paper principal 
+        /**
+         * En el evento cell:pointerdown (triggered when a pointer is pressed on a cell) oculta los paneles de
+         * propiedades existentes y llama a la funcion showToolBar(cell) para mostrar un nuevo panel de propiedades
+         * en la celda seleccionada
+         * - No generado -
+         */
         paper.on('cell:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
-            showToolBar(cell);
+            if (cell instanceof joint.dia.Link) {
+                // is link -> Hacer nada 
+            } else {
+                showToolBar(cell);
+            }
         });
 
+        /**
+         * Oculta los paneles de propiedades existentes
+         * para mostrar un nuevo panel de propiedades en la celda seleccionada
+         * - No generado -
+         */
         paper.on('blank:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
+        });
+        
+        /**
+        * Ajusta el tamaño del paper de acuerdo al lugar en el que se deje una celda
+        * - No generado - 
+        */
+        paper.on('cell:pointermove', function (cell, evt, x, y) {
+            $(".tool-container").remove();
+            if(x >= $('#modelCanvas').width())
+            {
+                adjustWidth();
+            }
+            if (y >= $('#modelCanvas').height())
+            {
+                adjustHeight();
+            }
+            
+        });
+
+
+        /**
+         * Indicador de scrolling left
+         * - No generado -
+         */
+        var lastScrollLeft = 0;
+
+        /**
+         * Indicador de scrolling down
+         * - No generado -
+         */
+        var lastScrollDown = 0;
+
+        /**
+         * Responde a los eventos scrolldown y scrolltop para reajustar el
+         * tamaño del paper principal
+         */
+        $(window).scroll(function (event) {
+            $(".tool-container").remove();
+            var documentScrollLeft = $(document).scrollLeft();
+            if (lastScrollLeft != documentScrollLeft) {
+                adjustWidth();
+                lastScrollLeft = documentScrollLeft;
+            }
+            var documentScrollTop = $(document).scrollTop();
+            if (lastScrollDown != documentScrollTop) {
+                adjustHeight();
+                lastScrollDown = documentScrollTop;
+            }
         });
 
         /**
          * Muestra el panel de propiedades del elemento
+         * - No generado -
          */
         function showToolBar(cell) {
             var cellId = "#" + cell.id;
@@ -1100,45 +1258,165 @@
                     if (command == 'edit') {
                         bootbox.prompt("Edit element name", function (result) {
                             if (result === null) {
-                                //Hacer nada
+                                console.log("No text");
                             } else {
                                 result = result.trim();
-                                if (result != '')
-                                {
+                                if (result != '') {
                                     updateCell(cell, result);
-                                    //Hacer nada 
-                                    console.log("nada");
-                                }   
+                                } else {
+                                    console.log("No text");
+                                }
                             }
                         });
 
                     } else if (command == 'delete') {
                         removeCell(cell);
                         $(".tool-container").remove();
+                    } else if (command == 'toTop') {
+                        sentToTop(cell);
+                    } else if (command == 'toBack') {
+                        sendToBack(cell);
                     }
-
                 }
             );
-
         }
 
+        /**
+         * Elimina la celda seleccionada del diagrama
+         * - No generado -
+         */
         function removeCell(cell) {
-            cell.remove();
+            var shape = cell.model;
+            shape.remove();
         }
 
+        /**
+         * Actualiza el texto de la celda selecionada
+         * - No generado -
+         */
         function updateCell(cell, label) {
-            
-            cell.attr('text', label);
+            var shape = cell.model;
+            shape.attr('text/text', label);
+        }
+
+        /**
+         * Envia el elemento seleccionado a la parte superior del diagrama
+         * - No generado -
+         */
+        function sentToTop(cell) {
+            cell.model.toFront();
+        }
+
+        /**
+         * Envia el elemento seleccionado a la parte de atras del diagrama
+         * - No generado -
+         */
+        function sendToBack(cell) {
+            cell.model.toBack();
+        }
+
+        /**
+        * Ajusta el ancho del paper principal 
+        * - No generado - 
+        */
+        function adjustWidth() {
+            var nW = $('#modelCanvas').width() + 50;
+            var nH = $('#modelCanvas').height();
+            $('#modelCanvas').animate({
+                width: '+=50'
+            }, 0);
+            paper.setDimensions(nW, nH);
+        }
+
+        /**
+        * Ajusta el alto del paper principal 
+        * - No generado - 
+        */
+        function adjustHeight() {
+            var nW = $('#modelCanvas').width();
+            var nH = $('#modelCanvas').height() + 50;
+            $('#modelCanvas').animate({
+                height: '+=50'
+            }, 0);
+            paper.setDimensions(nW, nH);
+        }
+
+        /**
+         * Indicador base de los grids
+         * 0 -> Grids off
+         * 1 -> Grids on
+         */
+        var gridsIndicator = 1;
+        
+        /**
+        * Lanza una ventana para confirmar el estado de los grids en el canvas principal
+        * Los grids no afectan como se ve el diagrama exportado 
+        * - No generado - 
+        */
+        function gridsProperties() {
+            if (gridsIndicator == 1) {
+                var msg = "Grids are on, would you like to turn them off?"
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        success: {
+                            label: "Yes",
+                            className: "btn-primary",
+                            callback: function () {
+                                setGrids('off');
+                                gridsIndicator = 0;
+                            }
+                        },
+                        danger: {
+                            label: "No",
+                            className: "btn-primary",
+                            callback: function () {
+                                //Hacer nada
+                            }
+                        }
+                    }
+                });
+            } else {
+                var msg = "Grids are off, would you like to turn them on?"
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        success: {
+                            label: "Yes",
+                            className: "btn-primary",
+                            callback: function () {
+                                setGrids('on');
+                                gridsIndicator = 1;
+                            }
+                        },
+                        danger: {
+                            label: "No",
+                            className: "btn-primary",
+                            callback: function () {
+                                //Hacer nada
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        /**
+        * Cambia los grids del paper principal de acuerdo con la accion del usuario 
+        * - No generado - 
+        */
+        function setGrids(action) {
+            if (action == 'on') {
+                $('#modelCanvas').css("background-image", "url(../res/tiny_grid.png)");
+                $('#modelCanvas').css("background-repeat", "repeat");
+            } else {
+                $('#modelCanvas').css("background-image", "url(/myimage.jpg)");
+            }
         }
     </script>
-
-
+    <!-- Script de referencia para auto aujustar en paper principal -->
     <script>
     </script>
-
-
-
-
 </body>
 
 </html>
