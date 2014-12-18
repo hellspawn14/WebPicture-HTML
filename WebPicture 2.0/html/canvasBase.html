@@ -126,11 +126,11 @@
                     </button>
                 </div>
                 <div class="pure-u-1-12">
-                    <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-plus"></i>
+                    <button id="zoomInBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="zoomIn()"><i class="fa fa-search-plus"></i>
                     </button>
                 </div>
                 <div class="pure-u-1-12">
-                    <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-search-minus"></i>
+                    <button id="zoomOutBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="zoomOut()"><i class="fa fa-search-minus"></i>
                     </button>
                 </div>
                 <div class="pure-u-1-12">
@@ -1176,7 +1176,7 @@
          */
         paper.on('cell:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
-            if (cell instanceof joint.dia.Link) {
+            if (cell.model instanceof joint.dia.Link) {
                 // is link -> Hacer nada 
             } else {
                 showToolBar(cell);
@@ -1206,9 +1206,7 @@
             {
                 adjustHeight();
             }
-            
         });
-
 
         /**
          * Indicador de scrolling left
@@ -1225,6 +1223,7 @@
         /**
          * Responde a los eventos scrolldown y scrolltop para reajustar el
          * tamaño del paper principal
+         * - No generado - 
          */
         $(window).scroll(function (event) {
             $(".tool-container").remove();
@@ -1414,8 +1413,44 @@
             }
         }
     </script>
-    <!-- Script de referencia para auto aujustar en paper principal -->
     <script>
+        
+        /**
+        * Factor maximo de escalamiento 
+        */
+        var maxScale = 4; 
+        
+        /**
+        * Marcador de escala del diagrama
+        */
+        var currentScaleFactor = 1; 
+        
+        /**
+        * Hace zoom sobre el paper principal 
+        * - No generado - 
+        */
+        function zoomIn()
+        {
+            if (currentScaleFactor < maxScale)
+            {
+                currentScaleFactor ++; 
+                paper.scale(currentScaleFactor, currentScaleFactor);
+            }
+        }
+        
+        /**
+        * Hace zoom out sobre el paper principal
+        * - No generado - 
+        */
+        function zoomOut()
+        {
+            if(currentScaleFactor > 1)
+            {
+                currentScaleFactor --; 
+                paper.scale(currentScaleFactor, currentScaleFactor);
+            }
+        }
+        
     </script>
 </body>
 
