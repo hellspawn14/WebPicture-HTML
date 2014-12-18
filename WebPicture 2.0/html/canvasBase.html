@@ -324,16 +324,6 @@
         var states = new Array();
 
         /**
-         * Estado actual del diagrama
-         */
-        var currentState = null;
-
-        /*
-         * Estado pasado del diagrama
-         */
-        var lastState = null;
-
-        /**
          * Estado del diagrama salvado
          */
         var savedDiagram = null;
@@ -437,9 +427,10 @@
         graph.addCell(ci);
 
 
-        var member = function (x, y, name, image, background, border) {
+        var member = function (x, y, name, image, background, border, Rx, Ry, w, h) {
 
             var cell = new joint.shapes.org.Member({
+                size: { width: w, height: h },
                 position: {
                     x: x,
                     y: y
@@ -449,20 +440,18 @@
                         fill: background,
                         stroke: border,
                         magnet: true,
+                        rx: Rx, 
+                        ry: Ry
                     },
                     image: {
                         'xlink:href': image
                     },
-                    /*
-                    '.rank': {
-                        text: rank
-                    },*/
 
                     '.name': {
                         text: name,
                         'y-alignment': 'middle'
                         //'ref-y': -15
-                    }
+                    },
                 }
             });
             graph.addCell(cell);
@@ -479,7 +468,8 @@
                 attrs: {
                     '.card': {
                         fill: background,
-                        stroke: border
+                        stroke: border,
+                        rx: 0, ry: 0
                     },
                     image: {
                         'xlink:href': '/images/' + image
@@ -489,15 +479,16 @@
                     },
                     '.name': {
                         text: name
-                    }
+                    },
+                    '.size': { width: 200, height: 300 },
                 }
             });
             graph.addCell(cell);
             return cell;
         };
 
-        var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray');
-        var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
+        var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray', 10, 10, 180, 70);
+        //var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
 
 
         var rpoc = new joint.shapes.basic.Rect({
@@ -527,53 +518,37 @@
          * Inicializa los estados del diagrama
          */
         function startDiagram() {
-            //Inicializa el estado principal 
-            mainState = JSON.stringify(graph);
-            states.push(mainState);
+
             //Reinicia el arreglo de estados
             while (states.length > 0) {
                 states.pop();
             }
             mainStateIndex = 0;
+            //Inicializa el estado principal 
+            mainState = JSON.stringify(graph);
+            states.push(mainState);
             //Bloquea los botones 
-            document.getElementById('unDoBtn').disabled = true;
-            document.getElementById('reDoBtn').disabled = true;
+            //document.getElementById('unDoBtn').disabled = true;
+            //document.getElementById('reDoBtn').disabled = true;
 
         }
 
         /**
          * Actualiza los estados actuales del diagrama
+         * Mantiene 10 estados
+         * - No generado -
          */
         function updateDiagram() {
-            if (mainStateIndex == 0) {
-                document.getElementById('unDoBtn').disabled = true;
-            } else {
-                document.getElementById('unDoBtn').disabled = false;
-            }
-
-            if (mainStateIndex != states.length - 1) {
-                document.getElementById('reDoBtn').disabled = true;
-            } else {
-                document.getElementById('reDoBtn').disabled = false;
-            }
-            //Nuevo estado a introducir 
-            mainState = JSON.stringify(graph);
-            //Esta en un estado intermedio no es el primero ni el ultimo 
-            if (mainStateIndex != 0 || mainStateIndex != states.length - 1) {
-                //Eliminar los estados que estan adelante 
-                var i = mainStateIndex + 1;
-                for (i; i < states.length; i++) {
-                    //Elimina cada uno de los elementos desde la posicion dada hasta el final 
-                    states.splice(i, 1);
-                }
-            }
-            //Evita overflows en el arreglo (longitud controlada)
-            if (states.length == 10) {
+            if (states.length >= 10) {
                 states = states.slice(4);
+                mainState = JSON.stringify(graph);
+                states.push(mainState);
+                mainStateIndex = states.length - 1;
+            } else {
+                mainState = JSON.stringify(graph);
+                states.push(mainState);
+                mainStateIndex++;
             }
-            //Inserta el nuevo estado y cambia el apuntador al estado actual
-            states.push(mainState);
-            mainStateIndex = states.length - 1;
         }
 
         /**
@@ -735,15 +710,12 @@
             return svgString;
         }
 
-
-
         /**
-         * Notifica al modelo sobre cambios en el diagrama
+         * Notifica al modelo sobre adicion de celdas al diagrama
          */
-        graph.on('change', function (cell) {
-
+        graph.on('add', function (cell) {            
             updateDiagram();
-        });
+        }); 
     </script>
     <!-- Scripts -->
     <script>
@@ -1191,19 +1163,17 @@
         paper.on('blank:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
         });
-        
+
         /**
-        * Ajusta el tamaño del paper de acuerdo al lugar en el que se deje una celda
-        * - No generado - 
-        */
+         * Ajusta el tamaño del paper de acuerdo al lugar en el que se deje una celda
+         * - No generado -
+         */
         paper.on('cell:pointermove', function (cell, evt, x, y) {
             $(".tool-container").remove();
-            if(x >= $('#modelCanvas').width())
-            {
+            if (x >= $('#modelCanvas').width()) {
                 adjustWidth();
             }
-            if (y >= $('#modelCanvas').height())
-            {
+            if (y >= $('#modelCanvas').height()) {
                 adjustHeight();
             }
         });
@@ -1223,7 +1193,7 @@
         /**
          * Responde a los eventos scrolldown y scrolltop para reajustar el
          * tamaño del paper principal
-         * - No generado - 
+         * - No generado -
          */
         $(window).scroll(function (event) {
             $(".tool-container").remove();
@@ -1287,6 +1257,7 @@
         function removeCell(cell) {
             var shape = cell.model;
             shape.remove();
+            updateDiagram();
         }
 
         /**
@@ -1296,6 +1267,7 @@
         function updateCell(cell, label) {
             var shape = cell.model;
             shape.attr('text/text', label);
+            updateDiagram();
         }
 
         /**
@@ -1304,6 +1276,7 @@
          */
         function sentToTop(cell) {
             cell.model.toFront();
+            updateDiagram();
         }
 
         /**
@@ -1312,12 +1285,13 @@
          */
         function sendToBack(cell) {
             cell.model.toBack();
+            updateDiagram();
         }
 
         /**
-        * Ajusta el ancho del paper principal 
-        * - No generado - 
-        */
+         * Ajusta el ancho del paper principal
+         * - No generado -
+         */
         function adjustWidth() {
             var nW = $('#modelCanvas').width() + 50;
             var nH = $('#modelCanvas').height();
@@ -1328,9 +1302,9 @@
         }
 
         /**
-        * Ajusta el alto del paper principal 
-        * - No generado - 
-        */
+         * Ajusta el alto del paper principal
+         * - No generado -
+         */
         function adjustHeight() {
             var nW = $('#modelCanvas').width();
             var nH = $('#modelCanvas').height() + 50;
@@ -1344,14 +1318,15 @@
          * Indicador base de los grids
          * 0 -> Grids off
          * 1 -> Grids on
+         * - No generado -
          */
         var gridsIndicator = 1;
-        
+
         /**
-        * Lanza una ventana para confirmar el estado de los grids en el canvas principal
-        * Los grids no afectan como se ve el diagrama exportado 
-        * - No generado - 
-        */
+         * Lanza una ventana para confirmar el estado de los grids en el canvas principal
+         * Los grids no afectan como se ve el diagrama exportado
+         * - No generado -
+         */
         function gridsProperties() {
             if (gridsIndicator == 1) {
                 var msg = "Grids are on, would you like to turn them off?"
@@ -1401,9 +1376,9 @@
         }
 
         /**
-        * Cambia los grids del paper principal de acuerdo con la accion del usuario 
-        * - No generado - 
-        */
+         * Cambia los grids del paper principal de acuerdo con la accion del usuario
+         * - No generado -
+         */
         function setGrids(action) {
             if (action == 'on') {
                 $('#modelCanvas').css("background-image", "url(../res/tiny_grid.png)");
@@ -1414,43 +1389,39 @@
         }
     </script>
     <script>
-        
         /**
-        * Factor maximo de escalamiento 
-        */
-        var maxScale = 4; 
-        
+         * Factor maximo de escalamiento
+         * - No generado -
+         */
+        var maxScale = 4;
+
         /**
-        * Marcador de escala del diagrama
-        */
-        var currentScaleFactor = 1; 
-        
+         * Marcador de escala del diagrama
+         * - No generado -
+         */
+        var currentScaleFactor = 1;
+
         /**
-        * Hace zoom sobre el paper principal 
-        * - No generado - 
-        */
-        function zoomIn()
-        {
-            if (currentScaleFactor < maxScale)
-            {
-                currentScaleFactor ++; 
+         * Hace zoom sobre el paper principal
+         * - No generado -
+         */
+        function zoomIn() {
+            if (currentScaleFactor < maxScale) {
+                currentScaleFactor++;
                 paper.scale(currentScaleFactor, currentScaleFactor);
             }
         }
-        
+
         /**
-        * Hace zoom out sobre el paper principal
-        * - No generado - 
-        */
-        function zoomOut()
-        {
-            if(currentScaleFactor > 1)
-            {
-                currentScaleFactor --; 
+         * Hace zoom out sobre el paper principal
+         * - No generado -
+         */
+        function zoomOut() {
+            if (currentScaleFactor > 1) {
+                currentScaleFactor--;
                 paper.scale(currentScaleFactor, currentScaleFactor);
             }
         }
-        
     </script>
 </body>
 
