@@ -167,6 +167,15 @@
         <a id="deleteElementBtn" href="" onclick="$('#hdnClickedIcon').val('delete');"><i class="icon-remove"></i></a>
         <input id="hdnClickedIcon" type="hidden" value="none" />
     </div>
+    <!-- Panel de propiedades de los elementos del diagrama -->
+    <div id="link-options-small" class="toolbar-icons" style="display: none;">
+        <a id="confirmLink" href="" onclick="$('#hdnClickedIcon').val('cnfLink');"><i class="icon-ok"></i></a>
+        <a id="deleteLink" href="" onclick="$('#hdnClickedIcon').val('delLink');"><i class="icon-remove"></i></a>
+        <input id="linkClickedIcon" type="hidden" value="none" />
+    </div>
+
+
+
 
     <!-- Script de pruba de la paleta -->
     <script>
@@ -223,7 +232,6 @@
                     opacity: 0.5,
                 },
             },
-
             id: 'rect1'
 
         });
@@ -352,9 +360,8 @@
 
             //Generado 
             validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
-                var SRC_7f31245a = (magnetS && magnetS.getAttribute('type') === 'imag');
-                var TRG_7f31245a = (magnetT && magnetT.getAttribute('type') === 'a');
-                return true;
+                var VAL_7f31245a = (magnetS && magnetS.getAttribute('type') === 'A') && (magnetT && magnetT.getAttribute('type') === 'A');
+                return VAL_7f31245a;
             }
 
         });
@@ -375,10 +382,8 @@
                     fill: '#9B59B6',
                     opacity: 0.5,
                     magnet: true,
-                    type: 'a'
+                    type: 'A',
                 },
-
-
                 text: {
                     text: 'circle lld',
                     fill: 'black',
@@ -386,7 +391,6 @@
                     'ref-y': -10
                 },
             },
-            id: 'jkasd',
         });
         graph.addCell(c);
 
@@ -400,18 +404,17 @@
                 height: 50
             },
             attrs: {
+
                 text: {
                     text: 'cosplay'
                 },
                 image: {
                     magnet: true,
-                    type: 'imag',
+                    type: 'A',
                     'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
                     width: 50,
                     height: 50
                 },
-                type: 'ssd',
-
             },
         });
         graph.addCell(Image7f31245a);
@@ -431,16 +434,13 @@
                     fill: '#9B59B6',
                     opacity: 0.5,
                     magnet: true,
-                    type: 'a',
+                    type: 'A',
                 },
-
-
                 text: {
                     text: 'circle ci',
                     fill: 'black',
                     'y-alignment': 'middle'
                 },
-
             },
         });
         graph.addCell(ci);
@@ -462,6 +462,7 @@
                         fill: background,
                         stroke: border,
                         magnet: true,
+                        type: 'A',
                         rx: Rx,
                         ry: Ry
                     },
@@ -497,7 +498,13 @@
             attrs: {
                 text: {
                     text: 'basic.ola ke ase'
-                }
+                },
+                rect: {
+                    fill: '#2ECC72',
+                    opacity: 0.5,
+                    magnet: true,
+                    type: 'A',
+                },
             }
         });
         graph.addCell(rpoc);
@@ -542,6 +549,7 @@
 
         /**
          * Retrocede un estado con respecto al actual y deshace el ultimo cambio hacia el estado anterior
+         * - No generado - 
          */
         function unDoLastChange() {
             //Tiene que estar en un estado diferente del primero para retroceder
@@ -554,6 +562,7 @@
 
         /**
          * Avanza un estado con respecto al actual y rehace el ultimo cambio hacia el estado siguiente
+         * - No generado - 
          */
         function reDoLastChange() {
             if (mainStateIndex != states.length - 1) {
@@ -566,6 +575,7 @@
 
         /**
          * Borra todo el contenido del Paper del canvas
+         * - No generado - 
          */
         function deleteAllContents() {
             graph.clear();
@@ -574,6 +584,7 @@
 
         /**
          * Restaura el contenido de un diagrama
+         * - No generado - 
          */
         function restoreDiagram(strJSON) {
             graph.fromJSON(JSON.parse(strJSON));
@@ -581,6 +592,7 @@
 
         /** 
          * Guarda el contenido de un diagrama
+         * - No generado - 
          */
         function saveDiagram() {
             savedDiagram = JSON.stringify(graph);
@@ -590,6 +602,7 @@
 
         /**
          * Exporta el contenido del modelo a un archivo SVG
+         * - No generado - 
          */
         function exportSVG() {
             var svgExp = this.paperToSVG();
@@ -708,10 +721,6 @@
          */
         graph.on('add', function (cell) {
             updateDiagram();
-        });
-
-        graph.on('all', function (eventName, cell) {
-            console.log(arguments);
         });
     </script>
     <!-- Scripts -->
@@ -1146,7 +1155,7 @@
         paper.on('cell:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
             if (cell.model instanceof joint.dia.Link) {
-                // is link -> Hacer nada 
+                //showLinkToolBar(cell)// is link -> Hacer nada 
             } else {
                 showToolBar(cell);
             }
@@ -1173,6 +1182,18 @@
             if (y >= $('#modelCanvas').height()) {
                 adjustHeight();
             }
+        });
+
+        /**
+         * ACA
+         */
+        paper.on('cell:pointerup change:position', function (cell) {
+            //console.log("changes pos");
+            if (cell.model instanceof joint.dia.Link) {} else {
+                updateDiagram();
+            }
+
+
         });
 
         /**
@@ -1243,6 +1264,22 @@
                     } else if (command == 'toBack') {
                         sendToBack(cell);
                     }
+                }
+            );
+        }
+
+        function showLinkToolBar(cell) {
+            var cellId = "#" + cell.id;
+            var el = $(cellId)
+            el.toolbar({
+                content: '#link-options-small',
+                position: 'top',
+                hideOnClick: true
+            });
+            el.on('toolbarItemClick',
+                function (event) {
+                    var command = $('#hdnClickedIcon').val();
+                    console.log(command);
                 }
             );
         }
@@ -1382,6 +1419,76 @@
                 $('#modelCanvas').css("background-repeat", "repeat");
             } else {
                 $('#modelCanvas').css("background-image", "url(/myimage.jpg)");
+            }
+        }
+
+
+        /**
+         * Evento de reemplazo de la conexion
+         * Los dos elementos deben estar conectados al momento de hacer el reemplazo
+         * - No generado -
+         */
+        graph.on('change:target', function (oldLink) {
+            var source = oldLink.get('source');
+            var target = oldLink.get('target');
+
+            if (source.id && target.id) { // link is connected from an element to an element
+                var sourceCell = graph.getCell(source.id);
+                var targetCell = graph.getCell(target.id);
+                var src = sourceCell.attr(getElementInstance(sourceCell));
+                var trg = targetCell.attr(getElementInstance(targetCell));
+                replaceLink(oldLink, src, trg);
+                updateDiagram();
+            }
+        });
+
+        /**
+         * Cambia el estilo del link generado
+         * - Generado -
+         */
+        function replaceLink(oldLink, src, trg) {
+
+            //Formato de ejemplo 
+            //src -> tipo de magnet
+            //trg -> tipo de magnet
+            if (src == 'A' && trg == 'A') {
+                //Se hace un cambio en el estilo del link ya creado 
+                oldLink.attr({
+                    '.connection': {
+                        stroke: 'blue'
+                    },
+
+                    '.marker-source': {
+                        d: 'M 10 0 L 0 5 L 10 10 z'
+                    },
+                    '.marker-target': {
+                        d: 'M 10 0 L 0 5 L 10 10 z'
+                    },
+                });
+                //oldLink.set('router', { name: 'manhattan' });
+
+            } else {
+
+            }
+        }
+
+        /**
+         * Retorna la instancia del elemento
+         * - No generado -
+         */
+        function getElementInstance(cell) {
+            var cellType = cell.get('type');
+            cellType = cellType.split('.')[1].toLowerCase();
+            if (cellType == 'image') {
+                return 'image/type';
+            } else if (cellType == 'rect') {
+                return 'rect/type';
+            } else if (cellType == 'circle') {
+                return 'circle/type';
+            } else if (cellType == 'path') {
+                return 'path/type';
+            } else if (cellType == 'member') {
+                return '.card/type';
             }
         }
     </script>
