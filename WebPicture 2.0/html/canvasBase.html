@@ -194,8 +194,6 @@
                 circle: {
                     fill: '#9B59B6',
                     opacity: 0.5,
-                    magnet: true,
-                    type: 'a'
                 },
 
                 text: {
@@ -223,10 +221,7 @@
                 rect: {
                     fill: '#2ECC71',
                     opacity: 0.5,
-                    magnet: true,
-                    type: 'b'
                 },
-                type: 'frds',
             },
 
             id: 'rect1'
@@ -715,7 +710,9 @@
             updateDiagram();
         });
 
-
+        graph.on('all', function (eventName, cell) {
+            console.log(arguments);
+        });
     </script>
     <!-- Scripts -->
     <script>
