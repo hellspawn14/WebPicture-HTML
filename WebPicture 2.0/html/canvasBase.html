@@ -194,6 +194,8 @@
                 circle: {
                     fill: '#9B59B6',
                     opacity: 0.5,
+                    magnet: true,
+                    type: 'a'
                 },
 
                 text: {
@@ -201,6 +203,7 @@
                     fill: 'black',
                 },
             },
+            id: 'circl2'
         });
         graphGrupo1.addCell(c);
         var rbx = new joint.shapes.basic.Rect({
@@ -220,9 +223,13 @@
                 rect: {
                     fill: '#2ECC71',
                     opacity: 0.5,
-
+                    magnet: true,
+                    type: 'b'
                 },
+                type: 'frds',
             },
+
+            id: 'rect1'
 
         });
         graphGrupo1.addCell(rbx);
@@ -334,6 +341,9 @@
         var graph = new joint.dia.Graph;
 
 
+
+
+
         /**
          * Contenedor del diagrama
          */
@@ -343,8 +353,18 @@
             height: $('#modelCanvas').height(),
             width: $('#modelCanvas').width(),
             gridSize: 1,
-            model: graph
+            model: graph,
+
+            //Generado 
+            validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
+                var SRC_7f31245a = (magnetS && magnetS.getAttribute('type') === 'imag');
+                var TRG_7f31245a = (magnetT && magnetT.getAttribute('type') === 'a');
+                return true;
+            }
+
         });
+
+
 
         var c = new joint.shapes.basic.Circle({
             position: {
@@ -359,11 +379,13 @@
                 circle: {
                     fill: '#9B59B6',
                     opacity: 0.5,
-                    magnet: true
+                    magnet: true,
+                    type: 'a'
                 },
 
+
                 text: {
-                    text: 'circle',
+                    text: 'circle lld',
                     fill: 'black',
                     //'y-alignment': 'middle',
                     'ref-y': -10
@@ -383,21 +405,20 @@
                 height: 50
             },
             attrs: {
-
-
-                type: 'EClass',
                 text: {
                     text: 'cosplay'
                 },
                 image: {
                     magnet: true,
+                    type: 'imag',
                     'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
                     width: 50,
                     height: 50
-                }
-            }
-        });
+                },
+                type: 'ssd',
 
+            },
+        });
         graph.addCell(Image7f31245a);
 
 
@@ -414,14 +435,17 @@
                 circle: {
                     fill: '#9B59B6',
                     opacity: 0.5,
-                    magnet: true
+                    magnet: true,
+                    type: 'a',
                 },
+
 
                 text: {
                     text: 'circle ci',
                     fill: 'black',
                     'y-alignment': 'middle'
                 },
+
             },
         });
         graph.addCell(ci);
@@ -430,7 +454,10 @@
         var member = function (x, y, name, image, background, border, Rx, Ry, w, h) {
 
             var cell = new joint.shapes.org.Member({
-                size: { width: w, height: h },
+                size: {
+                    width: w,
+                    height: h
+                },
                 position: {
                     x: x,
                     y: y
@@ -440,7 +467,7 @@
                         fill: background,
                         stroke: border,
                         magnet: true,
-                        rx: Rx, 
+                        rx: Rx,
                         ry: Ry
                     },
                     image: {
@@ -458,37 +485,9 @@
             return cell;
         };
 
-        var memberX = function (x, y, rank, name, image, background, border) {
-
-            var cell = new joint.shapes.org.Member({
-                position: {
-                    x: x,
-                    y: y
-                },
-                attrs: {
-                    '.card': {
-                        fill: background,
-                        stroke: border,
-                        rx: 0, ry: 0
-                    },
-                    image: {
-                        'xlink:href': '/images/' + image
-                    },
-                    '.rank': {
-                        text: rank
-                    },
-                    '.name': {
-                        text: name
-                    },
-                    '.size': { width: 200, height: 300 },
-                }
-            });
-            graph.addCell(cell);
-            return cell;
-        };
 
         var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray', 10, 10, 180, 70);
-        //var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
+         //var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
 
 
         var rpoc = new joint.shapes.basic.Rect({
@@ -516,21 +515,16 @@
 
         /**
          * Inicializa los estados del diagrama
+         * - No generado -
          */
         function startDiagram() {
 
-            //Reinicia el arreglo de estados
             while (states.length > 0) {
                 states.pop();
             }
             mainStateIndex = 0;
-            //Inicializa el estado principal 
             mainState = JSON.stringify(graph);
             states.push(mainState);
-            //Bloquea los botones 
-            //document.getElementById('unDoBtn').disabled = true;
-            //document.getElementById('reDoBtn').disabled = true;
-
         }
 
         /**
@@ -612,6 +606,7 @@
 
         /**
          * Exporta el contenido del modelo a un archivo PNG
+         * - No generado -
          */
         function exportPNG() {
             var svgExp = this.paperToSVG();
@@ -637,6 +632,7 @@
 
         /**
          * Exporta el contenido del modelo a un archivo json
+         * - No generado -
          */
         function exportToJSON() {
             var JSONExp = JSON.stringify(graph);
@@ -648,6 +644,7 @@
 
         /**
          * Exporta el contenido del paper a SVG incluye las hojas de estilo y las correcciones
+         * - No generado -
          */
         function paperToSVG() {
             var viewportTransform = V(paper.viewport).attr("transform");
@@ -712,10 +709,13 @@
 
         /**
          * Notifica al modelo sobre adicion de celdas al diagrama
+         * - No generado -
          */
-        graph.on('add', function (cell) {            
+        graph.on('add', function (cell) {
             updateDiagram();
-        }); 
+        });
+
+
     </script>
     <!-- Scripts -->
     <script>
