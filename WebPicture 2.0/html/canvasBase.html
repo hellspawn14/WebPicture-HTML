@@ -16,7 +16,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <!-- Bootbox -->
-    <script src="../bootbox/bootbox.js"></script>
+    <script src="../extras/bootbox/bootbox.js"></script>
     <!-- Pure CSS -->
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure//pure.css">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
@@ -61,6 +61,12 @@
     <script src="../extras/toolbar/jquery.toolbar.js"></script>
     <link rel="stylesheet" href="../extras/toolbar/jquery.toolbars.css" />
     <link rel="stylesheet" href="../extras/toolbar/bootstrap.icons.css" />
+    <!-- Rangeslider -->
+    <link rel="stylesheet" href="../extras/rangeslider-0.3.7/rangeslider.css">
+    <script src="../extras/rangeslider-0.3.7/rangeslider.js"></script>
+    <script src="../basic-js/range.js"></script>
+
+
 </head>
 
 <body>
@@ -164,19 +170,10 @@
         <a id="editElementBtn" href="" onclick="$('#hdnClickedIcon').val('edit');"><i class="icon-edit"></i></a>
         <a id="toTopElement" href="" onclick="$('#hdnClickedIcon').val('toTop');"><i class="icon-arrow-up"></i></a>
         <a id="toBackElement" href="" onclick="$('#hdnClickedIcon').val('toBack');"><i class="icon-arrow-down"></i></a>
+        <a id="reSizeElementBtn" href="" onclick="$('#hdnClickedIcon').val('change');"><i class="icon-list-alt"></i></a>
         <a id="deleteElementBtn" href="" onclick="$('#hdnClickedIcon').val('delete');"><i class="icon-remove"></i></a>
         <input id="hdnClickedIcon" type="hidden" value="none" />
     </div>
-    <!-- Panel de propiedades de los elementos del diagrama -->
-    <div id="link-options-small" class="toolbar-icons" style="display: none;">
-        <a id="confirmLink" href="" onclick="$('#hdnClickedIcon').val('cnfLink');"><i class="icon-ok"></i></a>
-        <a id="deleteLink" href="" onclick="$('#hdnClickedIcon').val('delLink');"><i class="icon-remove"></i></a>
-        <input id="linkClickedIcon" type="hidden" value="none" />
-    </div>
-
-
-
-
     <!-- Script de pruba de la paleta -->
     <script>
         var graphGrupo1 = new joint.dia.Graph;
@@ -365,9 +362,6 @@
             }
 
         });
-
-
-
         var c = new joint.shapes.basic.Circle({
             position: {
                 x: 20,
@@ -549,7 +543,7 @@
 
         /**
          * Retrocede un estado con respecto al actual y deshace el ultimo cambio hacia el estado anterior
-         * - No generado - 
+         * - No generado -
          */
         function unDoLastChange() {
             //Tiene que estar en un estado diferente del primero para retroceder
@@ -562,7 +556,7 @@
 
         /**
          * Avanza un estado con respecto al actual y rehace el ultimo cambio hacia el estado siguiente
-         * - No generado - 
+         * - No generado -
          */
         function reDoLastChange() {
             if (mainStateIndex != states.length - 1) {
@@ -575,7 +569,7 @@
 
         /**
          * Borra todo el contenido del Paper del canvas
-         * - No generado - 
+         * - No generado -
          */
         function deleteAllContents() {
             graph.clear();
@@ -584,7 +578,7 @@
 
         /**
          * Restaura el contenido de un diagrama
-         * - No generado - 
+         * - No generado -
          */
         function restoreDiagram(strJSON) {
             graph.fromJSON(JSON.parse(strJSON));
@@ -592,7 +586,7 @@
 
         /** 
          * Guarda el contenido de un diagrama
-         * - No generado - 
+         * - No generado -
          */
         function saveDiagram() {
             savedDiagram = JSON.stringify(graph);
@@ -602,7 +596,7 @@
 
         /**
          * Exporta el contenido del modelo a un archivo SVG
-         * - No generado - 
+         * - No generado -
          */
         function exportSVG() {
             var svgExp = this.paperToSVG();
@@ -891,7 +885,6 @@
             var created = "2014/11/15 22:30:56";
             var author = "Mario Sanchez";
             var inf = '<div class="pure-u-5-6" style="text-align:left">' + '<i class="fa fa-bookmark-o" style="margin-left:10px"></i> Diagram name: ' + diagramName + '<br>' + '<i class="fa fa-pencil" style="margin-left:10px"></i> Editor: ' + editorName + '<br>' + '<i class="fa fa-user" style="margin-left:10px"></i> Author: ' + author + '<br>' + '<i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: ' + diagramDescription + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Created: ' + created + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: ' + lastModified + '<br>' + '</div>';
-            //"Diagram name: " + diagramName + "\n" + "Editor: " + editorName + "\n" + "Author: " + author + "\n" + "Created: " + created + "\n" + "Last modified: " + lastModified;
             bootbox.dialog({
                 title: "Diagram information",
                 message: inf
@@ -1140,6 +1133,8 @@
         });
     </script>
 
+
+
     <!-- Script barra de herramientas de los elementos del diagrama -->
     <script>
         //--------------------------------------------------------------------
@@ -1154,9 +1149,7 @@
          */
         paper.on('cell:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
-            if (cell.model instanceof joint.dia.Link) {
-                //showLinkToolBar(cell)// is link -> Hacer nada 
-            } else {
+            if (cell.model instanceof joint.dia.Link) {} else {
                 showToolBar(cell);
             }
         });
@@ -1185,17 +1178,19 @@
         });
 
         /**
-         * ACA
+         * Detecta los cambios de posición de los elementos del paper pricipal y
+         * actualiza el estado del diagrama para la funcion un/re do
+         * - No generado -
          */
-        paper.on('cell:pointerup change:position', function (cell) {
-            //console.log("changes pos");
-            if (cell.model instanceof joint.dia.Link) {} else {
+        paper.on('cell:pointerup change:position', function (cell, evt, x, y) {
+            //$(".tool-container").remove();
+            if (cell.model instanceof joint.dia.Link) {
+
+            } else {
                 updateDiagram();
             }
-
-
         });
-
+        
         /**
          * Indicador de scrolling left
          * - No generado -
@@ -1232,6 +1227,7 @@
          * - No generado -
          */
         function showToolBar(cell) {
+
             var cellId = "#" + cell.id;
             var el = $(cellId)
             el.toolbar({
@@ -1240,8 +1236,10 @@
                 hideOnClick: true
             });
             el.on('toolbarItemClick',
+
                 function (event) {
                     var command = $('#hdnClickedIcon').val();
+                    
                     if (command == 'edit') {
                         bootbox.prompt("Edit element name", function (result) {
                             if (result === null) {
@@ -1264,25 +1262,63 @@
                     } else if (command == 'toBack') {
                         sendToBack(cell);
                     }
+                    else if (command == 'change') {
+                        var oldWidth = cell.model.get("size").width;
+                        var oldHeight = cell.model.get("size").height;
+                        var cnt = '<form class="pure-form pure-form-stacked"><fieldset><div class="pure-control-group"><label for="nWidth">Width (px)</label><input id="nWidth" type="range" min="0" max="1000" step="10" value="' + oldWidth + '"> <output></output> </div><div class="pure-control-group"><label for="nHeight">Height (px)</label><input id="nHeight" type="range" min="0" max="1000" step="10" value="' + oldHeight + '"> <output></output> </div><div class="pure-control-group"><label for="nAngle">Angle (deg)</label><input id="nAngle" type="range" min="0" max="360" step="15" value="0"><output></output> </div></fieldset></form>';
+                        bootbox.dialog({
+                            title: "Change element properties",
+                            message: cnt,
+                            buttons: {
+                                success: {
+                                    label: "Save",
+                                    className: "btn-success",
+                                    callback: function () {
+                                        var nWidth = $('#nWidth').val();
+                                        var nHeight = $('#nHeight').val();
+                                        var nAngle = $('#nAngle').val();
+                                        resizeCell(cell, nHeight, nWidth);
+                                        rotateCell(cell, nAngle);
+                                        //Revisa cambios para actualizar el estado actual  
+                                        if (nAngle > 0 || oldWidth != nWidth || oldHeight != nHeight) {
+                                            updateDiagram();
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        $('#nWidth').rangeslider({
+                            polyfill: false
+                        });
+                        $('#nHeight').rangeslider({
+                            polyfill: false
+                        });
+                        $('#nAngle').rangeslider({
+                            polyfill: false
+                        });
+                    }
                 }
             );
         }
 
-        function showLinkToolBar(cell) {
-            var cellId = "#" + cell.id;
-            var el = $(cellId)
-            el.toolbar({
-                content: '#link-options-small',
-                position: 'top',
-                hideOnClick: true
-            });
-            el.on('toolbarItemClick',
-                function (event) {
-                    var command = $('#hdnClickedIcon').val();
-                    console.log(command);
-                }
-            );
+        /**
+         * Cambia el tamaño de una celda
+         * - No generado -
+         */
+        function resizeCell(cell, nHeight, nWidth) {
+            cell.model.resize(nWidth, nHeight);
         }
+
+        /**
+         * Rota una celda
+         * - No generado -
+         */
+        function rotateCell(cell, nDeg) {
+            cell.model.rotate(nDeg);
+        }
+
+
+
 
         /**
          * Elimina la celda seleccionada del diagrama
@@ -1527,6 +1563,8 @@
             }
         }
     </script>
+
+
 </body>
 
 </html>
