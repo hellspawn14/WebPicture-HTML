@@ -65,8 +65,6 @@
     <link rel="stylesheet" href="../extras/rangeslider-0.3.7/rangeslider.css">
     <script src="../extras/rangeslider-0.3.7/rangeslider.js"></script>
     <script src="../basic-js/range.js"></script>
-
-
 </head>
 
 <body>
@@ -140,7 +138,7 @@
                     </button>
                 </div>
                 <div class="pure-u-1-12">
-                    <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080"><i class="fa fa-check-circle"></i>
+                    <button id="validateBtn" type="submit" class="pure-button" style="width:100%;border-right:2px solid #808080" onclick="validateModel()"><i class="fa fa-check-circle"></i>
                     </button>
                 </div>
 
@@ -339,10 +337,6 @@
          * Contenedor del modelo
          */
         var graph = new joint.dia.Graph;
-
-
-
-
 
         /**
          * Contenedor del diagrama
@@ -730,9 +724,9 @@
 
         /*
          * Verifica que el modelo esta guardado en el servidor (guarda de ser el caso) y redirecciona a la pagina inicial
+         * - No generado -
          */
         function goHomeSave() {
-
             //Hay cambios sin salvar 
             if (saved === 0) {
                 bootbox.dialog({
@@ -742,8 +736,13 @@
                             label: "Yes",
                             className: "btn-primary",
                             callback: function () {
-                                saveModelImpl();
-                                window.location.href = "webPictureActions.html";
+                                var validDiagram = validateDiagram();
+                                if (validDiagram == 'The diagram has been validated, no errors found') {
+                                    saveModelImpl();
+                                    window.location.href = "webPictureActions.html";
+                                } else {
+                                    throwErrorReport(validDiagram);
+                                }
                             }
                         },
                         danger: {
@@ -762,11 +761,18 @@
 
         /*
          * Guarda el estado del canvas en el servidor
+         * Evalua que el diagrama sea valido (correcto)
+         * - No generado -
          */
         function saveModel() {
-            bootbox.alert("All changes saved on server", function () {
-                saveModelImpl();
-            });
+            var validDiagram = validateDiagram();
+            if (validDiagram == 'The diagram has been validated, no errors found') {
+                bootbox.alert("All changes saved on server", function () {
+                    saveModelImpl();
+                });
+            } else {
+                throwErrorReport(validDiagram);
+            }
         }
 
         /**
@@ -782,35 +788,41 @@
          * Exporta el diagrama actual a png
          */
         function exportCanvas() {
-            //Guarda el modelo 
-            saveModelImpl();
-            //Exporta y crea el archivo segun el caso
-            bootbox.dialog({
-                message: "Please choose an exporting format",
-                buttons: {
-                    toPNG: {
-                        label: ".png",
-                        className: "btn-primary",
-                        callback: function () {
-                            exportPNG();
-                        }
-                    },
-                    toSVG: {
-                        label: ".svg",
-                        className: "btn-primary",
-                        callback: function () {
-                            exportSVG();
-                        }
-                    },
-                    tojsonformat: {
-                        label: ".json",
-                        className: "btn-primary",
-                        callback: function () {
-                            exportToJSON();
+
+            var validDiagram = validateDiagram();
+            if (validDiagram == 'The diagram has been validated, no errors found') {
+                //Guarda el modelo 
+                saveModelImpl();
+                //Exporta y crea el archivo segun el caso
+                bootbox.dialog({
+                    message: "Please choose an exporting format",
+                    buttons: {
+                        toPNG: {
+                            label: ".png",
+                            className: "btn-primary",
+                            callback: function () {
+                                exportPNG();
+                            }
+                        },
+                        toSVG: {
+                            label: ".svg",
+                            className: "btn-primary",
+                            callback: function () {
+                                exportSVG();
+                            }
+                        },
+                        tojsonformat: {
+                            label: ".json",
+                            className: "btn-primary",
+                            callback: function () {
+                                exportToJSON();
+                            }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                throwErrorReport(validDiagram);
+            }
         }
 
 
@@ -890,6 +902,101 @@
                 message: inf
             });
 
+        }
+
+
+        function validateModel() {
+            var validate = validateDiagram();
+            throwErrorReport(validate);
+        }
+
+
+
+        /**
+         * Recorre los elementos del diagrama para hacer validaciones sobre estos
+         * - No generado -
+         */
+        function validateDiagram() {
+            var errorIndex = 0;
+            //Valida los links 
+            var links = validateLinks();
+            var errorReport = ''
+            if (links == false) {
+                errorIndex++;
+                errorReport += errorIndex + " - There are unconnected links in diagram " + '<br>';
+            }
+            //Valida la estructura del modelo 
+            var modelElements = graph.getElements();
+            for (var i = 0; i < modelElements.length; i++) {
+                //Valida que todos los links estan conectados
+                elements = validateElement(modelElements[i]);
+                if (elements != 'No') {
+                    errorIndex++;
+                    errorReport += errorIndex + elements;
+                }
+            }
+            if (errorIndex == 0) {
+                errorReport = 'The diagram has been validated, no errors found';
+                //throwErrorReport(errorReport);
+                return errorReport;
+            } else {
+                //throwErrorReport(errorReport);
+                return errorReport;
+            }
+        }
+
+        /**
+         * Valida el elemento de acuerdo con un conjunto de reglas generadas a partir del metamodelo
+         * - Genearado -
+         */
+        function validateElement(cell) {
+            var elType = cell.attr(getElementInstance(cell));
+            //Reglas generadas para cada elemento 
+            if (elType == 'A') {
+                //Ej - Los elementos tipo A no pueden tener mas de una conexion 
+                var elLinks = graph.getConnectedLinks(cell);
+                if (elLinks.length > 1) {
+                    return ' - Cardinality violation ' + '<br>';
+                } else {
+                    return 'No';
+                }
+            }
+        }
+
+        /**
+         * Valida que los links creados en el diagrama esten conectados
+         * - No generado -
+         */
+        function validateLinks() {
+            var allLinks = graph.getLinks();
+            //Varibles para recorrer el arreglo 
+            var nLink = undefined;
+            var target = undefined;
+            var source = undefined;
+            var errorFlag = 0;
+            for (var i = 0; i < allLinks.length; i++) {
+                nLink = allLinks[i];
+                target = nLink.get('target').id;
+                source = nLink.get('source').id;
+                if (target == undefined || source == undefined) {
+                    errorFlag++;
+                }
+            }
+            if (errorFlag > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        /**
+         * Muestra una dialogo con el resultado de la validación del modelo
+         * - No generado -
+         */
+        function throwErrorReport(msg) {
+            bootbox.alert(msg, function () {
+                //Hacer nada 
+            });
         }
     </script>
 
@@ -1182,15 +1289,14 @@
          * actualiza el estado del diagrama para la funcion un/re do
          * - No generado -
          */
-        paper.on('cell:pointerup change:position', function (cell, evt, x, y) {
-            //$(".tool-container").remove();
-            if (cell.model instanceof joint.dia.Link) {
-
+        paper.on('cell:pointerup', function (cellView, evt, x, y) {
+            if (cellView.model instanceof joint.dia.Link) {
+                updateDiagram();
             } else {
                 updateDiagram();
             }
         });
-        
+
         /**
          * Indicador de scrolling left
          * - No generado -
@@ -1239,7 +1345,7 @@
 
                 function (event) {
                     var command = $('#hdnClickedIcon').val();
-                    
+
                     if (command == 'edit') {
                         bootbox.prompt("Edit element name", function (result) {
                             if (result === null) {
@@ -1261,8 +1367,7 @@
                         sentToTop(cell);
                     } else if (command == 'toBack') {
                         sendToBack(cell);
-                    }
-                    else if (command == 'change') {
+                    } else if (command == 'change') {
                         var oldWidth = cell.model.get("size").width;
                         var oldHeight = cell.model.get("size").height;
                         var cnt = '<form class="pure-form pure-form-stacked"><fieldset><div class="pure-control-group"><label for="nWidth">Width (px)</label><input id="nWidth" type="range" min="0" max="1000" step="10" value="' + oldWidth + '"> <output></output> </div><div class="pure-control-group"><label for="nHeight">Height (px)</label><input id="nHeight" type="range" min="0" max="1000" step="10" value="' + oldHeight + '"> <output></output> </div><div class="pure-control-group"><label for="nAngle">Angle (deg)</label><input id="nAngle" type="range" min="0" max="360" step="15" value="0"><output></output> </div></fieldset></form>';
