@@ -17,38 +17,38 @@ if (typeof exports === 'object') {
     };
 }
 
-joint.shapes.org = {};
+joint.shapes.img = {};
 
-joint.shapes.org.Member = joint.dia.Element.extend({
+joint.shapes.img.ImageShape = joint.dia.Element.extend({
 
-    markup: '<g class="rotatable"><g class="scalable"><rect class="card"/></g><image/><text class="name"/></g>',
+    markup: '<g class="rotatable"><g class="scalable"><image/></g><text class="name"/></g>',
 
     defaults: joint.util.deepSupplement({
 
-        type: 'org.Member',
+        type: 'imageShape',
         size: { width: 180, height: 70 },
         attrs: {
 
-            rect: { width: 170, height: 60, },
-            '.card': {
-                fill: '#FFFFFF', stroke: '#000000', 'stroke-width': 2,
-                'pointer-events': 'visiblePainted', rx: 10, ry: 10
-            },
+          'circle': { fill: '#FFFFFF', stroke: 'black', r: 30, transform: 'translate(30, 30)' },
 
             image: {
-		            width: 2, height: 2,
+		width: 2, height: 2,
                 ref: '.card',
                 'ref-x': 0, 'ref-y': 0
             },
+/*
+            '.rank': {
+                //'text-decoration': 'underline',
+                ref: '.card', 'ref-x': 0.9, 'ref-y': 0.2,
+                //'font-family': 'Courier New', 'font-size': 14,
+		'text-anchor': 'end'
+  },*/
 
             '.name': {
                 //'font-weight': 'bold',
-                ref: '.card',
-                'ref-x': 0.5, 'ref-y': 0.5,
-                'font-family': 'Arial, helvetica, sans-serif',
-                'font-size': 14,
+                ref: '.card', 'ref-x': 0.9, 'ref-y': 0.5,
                 //'font-family': 'Courier New', 'font-size': 14,
-		             'text-anchor': 'middle'
+		'text-anchor': 'end'
             }
         }
     }, joint.dia.Element.prototype.defaults)

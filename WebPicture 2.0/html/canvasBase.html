@@ -54,6 +54,7 @@
     <script src="../js/plugins/connectors/joint.connectors.rounded.js"></script>
     <script src="../js/plugins/connectors/joint.connectors.smooth.js"></script>
     <script src="../js/dist/joint.shapes.org.js"></script>
+    <script src="../js/dist/joint.shapes.img.imageShape.js"></script>
     <link rel="stylesheet" href="../js/joint.css">
     <!-- JQuery accordion -->
     <script src="../basic-js/accordion.js"></script>
@@ -434,7 +435,7 @@
         graph.addCell(ci);
 
 
-        var member = function (x, y, name, image, background, border, Rx, Ry, w, h) {
+        var member = function (x, y, name, image, background, border, Rx, Ry, w, h, ix, iy) {
 
             var cell = new joint.shapes.org.Member({
                 size: {
@@ -455,7 +456,12 @@
                         ry: Ry
                     },
                     image: {
-                        'xlink:href': image
+                        'xlink:href': image,
+                        'width': 48,
+                        'height': 48,
+                        'ref-x': ix,
+                        'ref-y': iy
+
                     },
 
                     '.name': {
@@ -470,8 +476,47 @@
         };
 
 
-        var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray', 10, 10, 180, 70);
+        var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray', 0, 0, 300, 70, 0, 0);
          //var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
+
+        var imageShape = function (x, y, name, image, background, border, w, h, ix, iy) {
+
+            var cell = new joint.shapes.img.ImageShape({
+                size: {
+                    width: w,
+                    height: h
+                },
+                position: {
+                    x: x,
+                    y: y
+                },
+                attrs: {
+                    '.contenedor': {
+                        fill: background,
+                        stroke: border,
+                        magnet: true,
+                        type: 'A',
+                    },
+                    image: {
+                        'xlink:href': image,
+                        'ref-x': ix,
+                        'ref-y': iy
+                    },
+
+                    '.name': {
+                        text: name,
+                        'y-alignment': 'middle',
+                        //'ref-y': -15
+                    },
+                }
+            });
+            graph.addCell(cell);
+            return cell;
+        };
+
+        var dom = imageShape(500, 500, 'Bart Simpson', 'https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Target.png', '#F1C40F', 'gray', 500, 500, 0.2, 0.2);
+
+
 
 
         var rpoc = new joint.shapes.basic.Rect({
@@ -907,6 +952,7 @@
 
         function validateModel() {
             var validate = validateDiagram();
+            console.log(validate);
             throwErrorReport(validate);
         }
 
@@ -950,6 +996,7 @@
          * - Genearado -
          */
         function validateElement(cell) {
+
             var elType = cell.attr(getElementInstance(cell));
             //Reglas generadas para cada elemento 
             if (elType == 'A') {
@@ -960,6 +1007,8 @@
                 } else {
                     return 'No';
                 }
+            } else {
+                return 'No';
             }
         }
 
@@ -1630,6 +1679,8 @@
                 return 'path/type';
             } else if (cellType == 'member') {
                 return '.card/type';
+            } else if (cellType == 'shape') {
+                return '.contenedor/type';
             }
         }
     </script>
