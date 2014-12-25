@@ -23,7 +23,8 @@ joint.shapes.img.ImageShape = joint.dia.Element.extend({
     markup: '<g class="rotatable"><g class="scalable"><circle class="contenedor"/></g><image/><text class="name"/></g>',
     defaults: joint.util.deepSupplement({
 
-        type: 'imag.Shape',
+        type: 'img.ImageShape',
+        //img.ImageShape
         size: { width: 180, height: 180 },
         attrs: {
           circle: { width: 170, height: 170, },
