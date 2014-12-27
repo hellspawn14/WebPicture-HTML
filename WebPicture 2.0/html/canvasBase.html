@@ -10,7 +10,6 @@
     <link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
     <!-- JQuery -->
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
     <script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
     <!-- Bootstrap -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -89,7 +88,7 @@
                 <div id="grupo1" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
                 </div>
                 <h5 id="headGroup2" class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction II</h5>
-                <div id="grupo2" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
+                <div id="grupo2" style="background-color:#F0F0F0; overflow-y: auto; height:600px">
                 </div>
                 <h5 id="headGroup3" class="marketing-header-canvas" style="text-align:left;color:white; background-color:#181818;border-top:1px solid #808080"><i class="fa fa-bars" style="margin-left:5px"></i> Secction III</h5>
                 <div id="grupo3" style="background-color:#F0F0F0; overflow-y: auto; height:300px">
@@ -199,6 +198,10 @@
                 circle: {
                     fill: '#9B59B6',
                     opacity: 0.5,
+                    'stroke-width': 1,
+                    stroke: '#0A640A',
+                    'stroke-dasharray': '10,2,5,2,5,2'
+
                 },
 
                 text: {
@@ -228,10 +231,12 @@
                     opacity: 0.5,
                 },
             },
-            id: 'rect1'
-
+            //id: 'rect1'
         });
         graphGrupo1.addCell(rbx);
+         //console.log("Id ->" + rbx.id);
+         //console.log("Id ->" + rbx.findView(paperGrupo1).id);
+
 
         var Circ5e481248 = new joint.shapes.basic.Circle({
             position: {
@@ -290,7 +295,7 @@
                 }
             }
         });
-        graphGrupo2.addCell(rb);
+        //graphGrupo2.addCell(rb);
         var rbx = new joint.shapes.basic.Rect({
             position: {
                 x: 10,
@@ -306,7 +311,81 @@
                 }
             }
         });
-        graphGrupo2.addCell(rbx);
+        //graphGrupo2.addCell(rbx);
+        
+        var Image7f31245xx = new joint.shapes.basic.Image({
+            position: {
+                x: 10,
+                y: 10
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+                text: {
+                    text: 'cosplay',
+                },
+                image: {
+                    'xlink:href': '../other/ApplicationCollaboration.svg',
+                    width: 100,
+                    height: 100,
+                },
+            },
+        });
+        graphGrupo2.addCell(Image7f31245xx);
+        
+        var Image7f31245xy = new joint.shapes.basic.Image({
+            position: {
+                x: 10,
+                y: 150
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+
+                text: {
+                    text: 'cosplay',
+                    
+                },
+                image: {
+                    'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
+                    width: 50,
+                    height: 50,
+                },
+            },
+        });
+        graphGrupo2.addCell(Image7f31245xy);
+        
+        var Image7f31245aa = new joint.shapes.basic.Image({
+            position: {
+                x: 10,
+                y: 290
+            },
+            size: {
+                width: 100,
+                height: 100
+            },
+            attrs: {
+
+                text: {
+                    text: 'cosplay',                    
+                },
+                image: {
+                    'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
+                    width: 50,
+                    height: 50,
+                },
+            },
+        });
+        graphGrupo2.addCell(Image7f31245aa);
+        
+        var ICON_7f31245a = new joint.shapes.basic.Image({ position: { x: 10, y: 430 }, size: { width: 100,height: 100 }, attrs: { text: { text: 'Un modelo', }, image: { 'xlink:href': 'http://www.vgwallpaper.com/file/1920/2880x1800/crop/batman-arkham-origins-14.jpg', width: 100, height: 100,}, },});
+        graphGrupo2.addCell(ICON_7f31245a);
+        
+        
     </script>
     <!-- Script de pruba del canvas -->
     <script>
@@ -395,14 +474,19 @@
             attrs: {
 
                 text: {
-                    text: 'cosplay'
+                    text: 'cosplay',
+                    //'ref-y': -10, 
+                    'ref-x': 0.5, 
+                    
                 },
                 image: {
                     magnet: true,
                     type: 'A',
                     'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
+                    //'xlink:href': '../other/pool.svg',
                     width: 50,
-                    height: 50
+                    height: 50,
+                    //'stroke-width': 1 ,stroke: '#0A640A' , 'stroke-dasharray': '10,2,5,2,5,2'
                 },
             },
         });
@@ -506,6 +590,7 @@
                     '.name': {
                         text: name,
                         'y-alignment': 'middle',
+                        'ref-y': -10
                         //'ref-y': -15
                     },
                 }
@@ -514,7 +599,7 @@
             return cell;
         };
 
-        
+
         var dom = imageShape(500, 500, 'Bart Simpson', 'https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Target.png', '#F1C40F', 'gray', 500, 500, 0.2, 0.2);
 
 
@@ -543,6 +628,30 @@
         });
         graph.addCell(rpoc);
 
+
+        var pb = new joint.shapes.basic.Path({
+            position: {
+                x: 50,
+                y: 150
+            },
+            size: {
+                width: 40,
+                height: 40
+            },
+            attrs: {
+                fill: '#2D2BF4',
+                path: {
+                    d: 'M25.979,12.896 19.312,12.896 19.312,6.229 12.647,6.229 12.647,12.896 5.979,12.896 5.979,19.562 12.647,19.562 12.647,26.229 19.312,26.229 19.312,19.562 25.979,19.562z', 
+                    magnet: true, 
+                type: 'A',
+                },
+                
+                text: {
+                    text: 'basic.Path'
+                }
+            }
+        });
+        graph.addCell(pb);
 
 
          //----------------------------------------------------------
@@ -950,10 +1059,12 @@
 
         }
 
-
+        /**
+         * Valida el modelo y lanza una ventana emergente con el reporte de error
+         * - No generado -
+         */
         function validateModel() {
             var validate = validateDiagram();
-            console.log(validate);
             throwErrorReport(validate);
         }
 
@@ -984,10 +1095,8 @@
             }
             if (errorIndex == 0) {
                 errorReport = 'The diagram has been validated, no errors found';
-                //throwErrorReport(errorReport);
                 return errorReport;
             } else {
-                //throwErrorReport(errorReport);
                 return errorReport;
             }
         }
@@ -1004,7 +1113,7 @@
                 //Ej - Los elementos tipo A no pueden tener mas de una conexion 
                 var elLinks = graph.getConnectedLinks(cell);
                 if (elLinks.length > 1) {
-                    return ' - Cardinality violation ' + '<br>';
+                    return ' - Cardinality violation for element: ' + getElementInnerText(cell) + '<br>';
                 } else {
                     return 'No';
                 }
@@ -1306,6 +1415,7 @@
          */
         paper.on('cell:pointerdown', function (cell, evt) {
             $(".tool-container").remove();
+            //console.log(getElementInnerText(cell));
             if (cell.model instanceof joint.dia.Link) {} else {
                 showToolBar(cell);
             }
@@ -1469,7 +1579,7 @@
          * - No generado -
          */
         function rotateCell(cell, nDeg) {
-            cell.model.rotate(nDeg);
+            cell.model.rotate(-nDeg);
         }
 
 
@@ -1490,8 +1600,13 @@
          * - No generado -
          */
         function updateCell(cell, label) {
-            var shape = cell.model;
-            shape.attr('text/text', label);
+            var cellType = cell.model.get('type');
+            cellType = cellType.split('.')[1].toLowerCase();
+            if (cellType == 'member' || cellType == 'imageshape') {
+                return cell.model.attr('.name/text', label);
+            } else {
+                return cell.model.attr('text/text', label);
+            }
             updateDiagram();
         }
 
@@ -1682,6 +1797,20 @@
                 return '.card/type';
             } else if (cellType == 'imageshape') {
                 return '.contenedor/type';
+            }
+        }
+
+        /**
+         * Retorna el texto al interior del elemento
+         * - No generado -
+         */
+        function getElementInnerText(cell) {
+            var cellType = cell.get('type');
+            cellType = cellType.split('.')[1].toLowerCase();
+            if (cellType == 'member' || cellType == 'imageshape') {
+                return cell.attr('.name/text');
+            } else {
+                return cell.attr('text/text');
             }
         }
     </script>
