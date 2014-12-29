@@ -17,38 +17,33 @@ if (typeof exports === 'object') {
     };
 }
 
-joint.shapes.img = {};
+joint.shapes.poly = {};
 
-joint.shapes.img.ImageShape = joint.dia.Element.extend({
-
-    markup: '<g class="rotatable"><g class="scalable"><image/></g><text class="name"/></g>',
-
+joint.shapes.poly.Polygon = joint.dia.Element.extend({
+    markup: '<g class="rotatable"><g class="scalable"><path class="contenedor"/></g><image/><text class="name"/></g>',
     defaults: joint.util.deepSupplement({
 
-        type: 'imageShape',
-        size: { width: 180, height: 70 },
+        type: 'poly.Polygon',
+        size: { width: 180, height: 180 },
         attrs: {
-
-          'circle': { fill: '#FFFFFF', stroke: 'black', r: 30, transform: 'translate(30, 30)' },
-
-            image: {
-		width: 2, height: 2,
-                ref: '.card',
-                'ref-x': 0, 'ref-y': 0
+          path: { fill: '#FFFFFF', stroke: 'black' },
+          '.contenedor': {
+            fill: '#FFFFFF',
+            stroke: 'black',
+            'pointer-events': 'visiblePainted'
             },
-/*
-            '.rank': {
-                //'text-decoration': 'underline',
-                ref: '.card', 'ref-x': 0.9, 'ref-y': 0.2,
-                //'font-family': 'Courier New', 'font-size': 14,
-		'text-anchor': 'end'
-  },*/
+            image: {
+              width: 10, height: 10,
+              ref: '.contenedor',
+              'ref-x': 0.5, 'ref-y': 0.5,
+            },
 
             '.name': {
-                //'font-weight': 'bold',
-                ref: '.card', 'ref-x': 0.9, 'ref-y': 0.5,
-                //'font-family': 'Courier New', 'font-size': 14,
-		'text-anchor': 'end'
+              ref: '.contenedor',
+              'ref-x': 0.5, 'ref-y': 0.5,
+              'font-family': 'Arial, helvetica, sans-serif',
+              'font-size': 14,
+              'text-anchor': 'middle'
             }
         }
     }, joint.dia.Element.prototype.defaults)
@@ -58,7 +53,7 @@ joint.shapes.org.Arrow = joint.dia.Link.extend({
 
     defaults: {
         type: 'org.Arrow',
-        source: { selector: '.card' }, target: { selector: '.card' },
+        source: { selector: '.contenedor' }, target: { selector: '.contenedor' },
         attrs: { '.connection': { stroke: '#585858', 'stroke-width': 3 }},
         z: -1
     }
@@ -67,5 +62,5 @@ joint.shapes.org.Arrow = joint.dia.Link.extend({
 
 if (typeof exports === 'object') {
 
-    module.exports = joint.shapes.org;
+    module.exports = joint.shapes.img.ImageShape;
 }

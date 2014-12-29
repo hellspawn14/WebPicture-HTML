@@ -32,7 +32,8 @@ joint.shapes.org.Member = joint.dia.Element.extend({
             rect: { width: 170, height: 60, },
             '.card': {
                 fill: '#FFFFFF', stroke: '#000000', 'stroke-width': 2,
-                'pointer-events': 'visiblePainted', rx: 10, ry: 10
+                'pointer-events': 'visiblePainted',
+                rx: 10, ry: 10
             },
 
             image: {
