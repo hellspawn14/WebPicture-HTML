@@ -55,6 +55,7 @@
     <script src="../js/dist/joint.shapes.org.js"></script>
     <script src="../js/dist/joint.shapes.img.imageShape.js"></script>
     <script src="../js/dist/joint.shapes.poly.polygon.js"></script>
+    <script src="../js/dist/joint.shapes.iconic.icnShape.js"></script>
     <link rel="stylesheet" href="../js/joint.css">
     <!-- JQuery accordion -->
     <script src="../basic-js/accordion.js"></script>
@@ -462,367 +463,98 @@
             }
 
         });
-        var c = new joint.shapes.basic.Circle({
-            position: {
-                x: 20,
-                y: 20
-            },
-            size: {
-                width: 100,
-                height: 100
-            },
-            attrs: {
-                circle: {
-                    fill: '#9B59B6',
-                    opacity: 0.5,
-                    magnet: true,
-                    type: 'A',
-                },
-                text: {
-                    text: 'circle lld',
-                    fill: 'black',
-                    //'y-alignment': 'middle',
-                    'ref-y': -10
-                },
-            },
-        });
-        graph.addCell(c);
 
-        var Image7f31245a = new joint.shapes.basic.Image({
+        var GRPH_5e481248 = new joint.shapes.iconic.icnShape({
             position: {
                 x: 100,
                 y: 100
             },
             size: {
-                width: 50,
-                height: 50
-            },
-            attrs: {
-                text: {
-                    text: 'cosplay',
-                    'ref-y': -10,
-                    'ref-x': 0.5,
-                },
-                image: {
-                    magnet: true,
-                    type: 'A',
-                    opacity: 1,
-                    'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
-                    width: 50,
-                    height: 50,
-                    //'stroke-width': 1 ,stroke: '#0A640A' , 'stroke-dasharray': '10,2,5,2,5,2'
-                },
-            },
-        });
-        graph.addCell(Image7f31245a);
-
-
-        var ci = new joint.shapes.basic.Circle({
-            position: {
-                x: 500,
-                y: 500
-            },
-            size: {
-                width: 100,
-                height: 50
-            },
-            attrs: {
-                circle: {
-                    fill: '#9B59B6',
-                    opacity: 0.5,
-                    magnet: true,
-                    type: 'A',
-                },
-                text: {
-                    text: 'circle ci',
-                    fill: 'black',
-                    'y-alignment': 'middle'
-                },
-            },
-        });
-        graph.addCell(ci);
-
-
-        var member = function (x, y, name, image, background, border, Rx, Ry, w, h, ix, iy) {
-
-            var cell = new joint.shapes.org.Member({
-                size: {
-                    width: w,
-                    height: h
-                },
-                position: {
-                    x: x,
-                    y: y
-                },
-                attrs: {
-                    '.card': {
-                        fill: background,
-                        stroke: border,
-                        magnet: true,
-                        type: 'A',
-                        rx: Rx,
-                        ry: Ry,
-                        'stroke-width': 1,
-                        stroke: '#0A640A',
-                        'stroke-dasharray': '10,2,5,2,5,2'
-                    },
-                    image: {
-                        'xlink:href': image,
-                        'width': 48,
-                        'height': 48,
-                        'ref-x': 0.5,
-                        'ref-y': 0.5
-
-                    },
-
-                    '.name': {
-                        text: name,
-                        'y-alignment': 'middle',
-                        'ref-y': -10
-                    },
-                }
-            });
-            graph.addCell(cell);
-            return cell;
-        };
-
-
-         //var bart = member(100, 70, 'Bart Simpson', 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png', '#F1C40F', 'gray', 10, 10, 300, 70, 0, 0);
-         //var homer = memberX(90, 200, 'VP Marketing', 'Homer Simpson', 'member2.png', '#2ECC71', '#008e09');
-
-        var rectImagen = new joint.shapes.org.Member({
-            position: {
-                x: 100,
-                y: 100
-            },
-            size: {
-                width: 300,
-                height: 300
-            },
-            attrs: {
-                '.card': {
-                    fill: '#F1C40F',
-                    magnet: true,
-                    type: 'A',
-                    rx: 0,
-                    ry: 0,
-                    stroke: '#0A640A',
-                    'stroke-width': 1,
-                    'stroke-dasharray': '10,2,5,2,5,2'
-                },
-                image: {
-                    'xlink:href': 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Bart-Simpson-01-icon.png',
-                    'width': 10,
-                    'height': 10,
-                    'ref-x': 0.5,
-                    'ref-y': 0.5
-                },
-                '.name': {
-                    text: 'name',
-                    'y-alignment': 'middle',
-                    'ref-y': -10
-                },
-            }
-        });
-        graph.addCell(rectImagen);
-
-
-
-
-
-
-
-        var imageShape = function (x, y, name, image, background, border, w, h, ix, iy) {
-
-            var cell = new joint.shapes.img.ImageShape({
-                size: {
-                    width: w,
-                    height: h
-                },
-                position: {
-                    x: x,
-                    y: y
-                },
-                attrs: {
-                    '.contenedor': {
-                        fill: background,
-                        stroke: border,
-                        magnet: true,
-                        type: 'A',
-                        opacity: 0.5,
-                        'stroke-width': 1,
-                        stroke: '#0A640A',
-                        'stroke-dasharray': '10,2,5,2,5,2',
-
-
-                    },
-                    image: {
-                        'xlink:href': image,
-                        'ref-x': 0.9999,
-                        'ref-y': 0.9999
-                    },
-
-                    '.name': {
-                        text: name,
-                        'y-alignment': 'middle',
-                        'ref-y': -10
-                    },
-                }
-            });
-            graph.addCell(cell);
-            return cell;
-        };
-        var dom = imageShape(500, 500, 'Simpson', 'https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Target.png', '#F1C40F', 'gray', 500, 500, 0.2, 0.2);
-
-
-        var XD = new joint.shapes.img.ImageShape({
-            position: {
-                x: 500,
-                y: 400
-            },
-            size: {
-                width: 500,
-                height: 500
+                width: 200,
+                height: 200
             },
             attrs: {
                 '.contenedor': {
-                    fill: '#F1C40F',
                     magnet: true,
                     type: 'A',
-                    'stroke-width': 1,
-                    stroke: '#0A640A',
-                    'stroke-dasharray': '10,2,5,2,5,2',
-                },
-                image: {
-                    'xlink:href': 'https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Target.png',
-                    'ref-x': 0.5,
-                    'ref-y': 0.5,
-                    'width': 20,
-                    'height': 20,
-
-                },
-
-                '.name': {
-                    text: 'B0rt Simpson',
-                    'ref-y': -10,
-                },
-            }
-        });
-        graph.addCell(XD);
-
-
-
-        var poly = function (x, y, name, image, background, border, w, h, ix, iy) {
-
-            var cell = new joint.shapes.poly.Polygon({
-                size: {
-                    width: w,
-                    height: h
-                },
-                position: {
-                    x: x,
-                    y: y
-                },
-                attrs: {
-                    '.contenedor': {
-                        fill: background,
-                        stroke: border,
-                        magnet: true,
-                        type: 'A',
-                        d: 'M14.296,27.885v-2.013c0,0-0.402-1.408-1.073-2.013c-0.671-0.604-1.274-1.274-1.409-1.61c0,0-0.268,0.135-0.737-0.335s-1.812-2.616-1.812-2.616l-0.671-0.872c0,0-0.47-0.671-1.275-1.342c-0.805-0.672-0.938-0.067-1.476-0.738s0.604-1.275,1.006-1.409c0.403-0.134,1.946,0.134,2.684,0.872c0.738,0.738,0.738,0.738,0.738,0.738l1.073,1.141l0.537,0.201l0.671-1.073l-0.269-2.281c0,0-0.604-2.55-0.737-4.764c-0.135-2.214-0.47-5.703,1.006-5.837s1.007,2.55,1.073,3.489c0.067,0.938,0.806,5.232,1.208,5.568c0.402,0.335,0.671,0.066,0.671,0.066l0.402-7.514c0,0-0.479-2.438,1.073-2.549c0.939-0.067,0.872,1.543,0.872,2.147c0,0.604,0.269,7.514,0.269,7.514l0.537,0.135c0,0,0.402-2.214,0.604-3.153s0.604-2.416,0.537-3.087c-0.067-0.671-0.135-2.348,1.006-2.348s0.872,1.812,0.939,2.415s-0.134,3.153-0.134,3.757c0,0.604-0.738,3.623-0.537,3.824s2.08-2.817,2.349-3.958c0.268-1.141,0.201-3.02,1.408-2.885c1.208,0.134,0.47,2.817,0.402,3.086c-0.066,0.269-0.671,2.349-0.872,2.952s-0.805,1.476-1.006,2.013s0.402,2.349,0,4.629c-0.402,2.281-1.61,5.166-1.61,5.166l0.604,2.08c0,0-1.744,0.671-3.824,0.805C16.443,28.221,14.296,27.885,14.296,27.885z',
-                        'stroke-width': 1,
-                        stroke: '#0A640A',
-                        'stroke-dasharray': '10,2,5,2,5,2'
-                    },
-                    image: {
-                        'xlink:href': image,
-                        'ref-x': ix,
-                        'ref-y': iy
-                    },
-
-                    '.name': {
-                        text: name,
-                        'y-alignment': 'middle',
-                        'ref-y': -10
-                        //'ref-y': -15
-                    },
-                }
-            });
-            graph.addCell(cell);
-            return cell;
-        };
-
-        var domX = poly(500, 500, 'Bart Simpson', 'https://cdn3.iconfinder.com/data/icons/freeapplication/png/24x24/Target.png', '#F1C40F', 'gray', 50, 50, 0.2, 0.2);
-
-
-        var rpoc = new joint.shapes.basic.Rect({
-            position: {
-                x: 10,
-                y: 60
-            },
-            size: {
-                width: 100,
-                height: 40
-            },
-            attrs: {
-                text: {
-                    text: 'basic.ola ke ase',
-                    'ref-y': -10
-                },
-                rect: {
-                    fill: '#2ECC72',
-                    opacity: 0.5,
-                    magnet: true,
-                    type: 'A',
-                    rx: 10,
-                    ry: 10,
-                    'stroke-width': 1,
-                    stroke: '#0A640A',
-                    'stroke-dasharray': '10,2,5,2,5,2'
-                },
-            }
-        });
-        graph.addCell(rpoc);
-
-        var GRPH_5e481248 = new joint.shapes.img.ImageShape({
-            position: {
-                x: 100,
-                y: 100
-            },
-            size: {
-                width: 500,
-                height: 500
-            },
-            attrs: {
-                '.contenedor': {
-                    fill: '#EA0E16',
-                    magnet: true,
-                    type: 'A',
-                    'stroke-width': 2,
-                    stroke: '#00EAFF',
-                    'stroke-dasharray': '10,2,5,2,5,2'
+                    'xlink:href': 'http://static.comicvine.com/uploads/original/11112/111123678/3503035-3468468-2718720139-batma.jpg',
                 },
                 image: {
                     'xlink:href': 'https://cdn3.iconfinder.com/data/icons/business-101-1/512/Pie-2-512.png',
-                    'ref-x': 0.5,
-                    'ref-y': 0.5,
-                    'width': 20,
-                    'height': 20,
+                    'width': 50,
+                    'height': 50,
                 },
                 '.name': {
                     text: 'Prueba',
-                    'ref-y': -10.0,
+                    'ref-y': 0.5
                 },
             }
         });
 
-
-
-
-
-
-
         graph.addCell(GRPH_5e481248);
+
+        var GRPH_5e481249 = new joint.shapes.iconic.icnShape({
+            position: {
+                x: 100,
+                y: 200
+            },
+            size: {
+                width: 200,
+                height: 200
+            },
+            attrs: {
+                '.contenedor': {
+                    magnet: true,
+                    type: 'A',
+                    'xlink:href': 'http://static.comicvine.com/uploads/original/11112/111123678/3503035-3468468-2718720139-batma.jpg',
+                    opacity: 0.5
+                },
+                image: {
+                    'xlink:href': 'https://cdn3.iconfinder.com/data/icons/business-101-1/512/Pie-2-512.png',
+                    'width': 50,
+                    'height': 50,
+                    opacity: 0.5
+                },
+                '.name': {
+                    text: 'Prueba',
+                    'ref-y': 0.5
+                },
+            }
+        });
+
+        graph.addCell(GRPH_5e481249);
+
+        var GRPH_7f31245a = new joint.shapes.iconic.icnShape({
+            position: {
+                x: 100,
+                y: 100
+            },
+            size: {
+                width: 200,
+                height: 200
+            },
+            attrs: {
+                '.contenedor': {
+                    magnet: true,
+                    type: 'A',
+                    'xlink:href': 'http://static.comicvine.com/uploads/original/11112/111123678/3503035-3468468-2718720139-batma.jpg',
+                    opacity: 0.5
+                },
+                image: {
+                    'xlink:href': 'https://cdn3.iconfinder.com/data/icons/business-101-1/512/Pie-2-512.png',
+                    'width': 50,
+                    'height': 50,
+                    opacity: 0.5
+                },
+                '.name': {
+                    text: 'Generado',
+                    'ref-y': -10.0
+                },
+            }
+        });
+
+        graph.addCell(GRPH_7f31245a);
+
 
 
 
@@ -1777,7 +1509,7 @@
         function updateCell(cell, label) {
             var cellType = cell.model.get('type');
             cellType = cellType.split('.')[1].toLowerCase();
-            if (cellType == 'member' || cellType == 'imageshape') {
+            if (cellType == 'member' || cellType == 'imageshape' || cellType == 'polygon' || cellType == 'icnshape') {
                 return cell.model.attr('.name/text', label);
             } else {
                 return cell.model.attr('text/text', label);
@@ -1934,7 +1666,7 @@
             //trg -> tipo de magnet
             if (src == 'A' && trg == 'A') {
                 //Se hace un cambio en el estilo del link ya creado 
-                var msg = "Grids are off, would you like to turn them on?"
+                var msg = "Select the link to display"
                 bootbox.dialog({
                     message: msg,
                     buttons: {
@@ -1952,17 +1684,39 @@
                             callback: function () {
                                 oldLink.attr({
                                     '.connection': {
-                                        stroke: 'blue'
+                                        'stroke-width': 1,
+                                        stroke: '#0000FF',
+                                        'stroke-dasharray': '0,0'
                                     },
-
                                     '.marker-source': {
-                                        d: 'M 10 0 L 0 5 L 10 10 z'
-
+                                        d: 'M10.0 5.0 L5.0 0.0 L0.0 4.999999999999999 L4.999999999999999 10.0 Z',
+                                        fill: '#FFFFFF',
+                                        'stroke-width': 1,
+                                        stroke: '#0000FF',
+                                        'stroke-dasharray': '0,0'
                                     },
                                     '.marker-target': {
-                                        d: 'M 10 0 L 0 5 L 10 10 z'
+                                        d: 'M10 0 L0 5 L10 10 L0 4.5 Z',
+                                        fill: '#0000FF',
+                                        'stroke-width': 1,
+                                        stroke: '#0000FF',
+                                        'stroke-dasharray': '0,0'
                                     },
                                 });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'Batman',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+
+
+
+
                             }
                         }
                     }
@@ -1999,6 +1753,8 @@
                 return '.contenedor/type';
             } else if (cellType == 'polygon') {
                 return '.contenedor/type';
+            } else if (cellType == 'icnshape') {
+                return '.contenedor/type';
             }
         }
 
@@ -2009,7 +1765,7 @@
         function getElementInnerText(cell) {
             var cellType = cell.get('type');
             cellType = cellType.split('.')[1].toLowerCase();
-            if (cellType == 'member' || cellType == 'imageshape' || cellType == 'polygon') {
+            if (cellType == 'member' || cellType == 'imageshape' || cellType == 'polygon' || cellType == 'icnshape') {
                 return cell.attr('.name/text');
             } else {
                 return cell.attr('text/text');
