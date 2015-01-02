@@ -1,29 +1,29 @@
 <! DOCTYPE html>
-<meta charset="UTF-8">
-<html lang="en">
-<link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Index web site for WebPicture online DSL model editor">
+<meta charset='UTF-8'>
+<html lang='en'>
+<link rel='icon' href='../res/siteIcon.png' type='image/x-icon'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta name='description' content='Index web site for WebPicture online DSL model editor'>
 
 <head>
     <title>WebPicture</title>
-    <link rel="icon" href="../res/siteIcon.png" type="image/x-icon">
+    <link rel='icon' href='../res/siteIcon.png' type='image/x-icon'>
     <!-- JQuery -->
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-    <script src="http://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script src='http://code.jquery.com/jquery-2.1.1.js'></script>
+    <script src='http://code.jquery.com/ui/jquery-ui-git.js'></script>
     <!-- Bootstrap -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
     <!-- Bootbox -->
-    <script src="../bootbox/bootbox.js"></script>
+    <script src='../bootbox/bootbox.js'></script>
 
     <!-- Hojas de estilo -->
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure//pure.css">
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure//grids-responsive.css">
-    <link rel="stylesheet" href="../pure-css/css/layouts/marketing.css">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="../pure-css/css/layouts/headers.css">
+    <link rel='stylesheet' href='http://yui.yahooapis.com/pure//pure.css'>
+    <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.5.0/pure-min.css'>
+    <link rel='stylesheet' href='http://yui.yahooapis.com/pure//grids-responsive.css'>
+    <link rel='stylesheet' href='../pure-css/css/layouts/marketing.css'>
+    <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+    <link rel='stylesheet' href='../pure-css/css/layouts/headers.css'>
 </head>
 
 <body>
@@ -54,84 +54,51 @@
             </div>
         </div>
         <!-- Aca va el acceso a los diagramas existentes-->
-        <div id="diagrams" class="pure-u-2-3" style="text-align:center; height:100%; overflow-y: auto">
-            <div class="hero-titles">
-                <h3 class="hero-tagline" style="text-align:center; margin-top:50px">Available diagrams</h3>
-            </div>
-            <!-- Inicio plantilla de celda de tabla para un editor-->
-            <div id="diagram1" class="pure-g" style="border-top:1px solid #808080; border-bottom:1px solid #808080">
-                <!-- Preview del editor (icono por defecto) -->
-                <div class="pure-u-1-6" style="text-align:center">
-                    <img class="pure-img-responsive" src="../res/projectModel2.png" style="width:120px;height:120px" />
+        <form id="editorDetailForm" name="editorDetailForm" method="post" action="NO_ACTION">
+            <div id="diagrams" class="pure-u-2-3" style="text-align:center; height:100%; overflow-y: auto">
+                <div class="hero-titles">
+                    <h3 class="hero-tagline" style="text-align:center; margin-top:50px">Available diagrams</h3>
                 </div>
-                <!-- Información basica del editor -->
-                <div class="pure-u-5-6" style="text-align:left">
-                    <div class="pure-g">
-                        <div class="pure-u-5-6" style="text-align:left">
-                            <i class="fa fa-bookmark-o" style="margin-left:10px"></i> Name: Archimate application for AndiAsistencia
-                            <br>
-                            <i class="fa fa-user" style="margin-left:10px"></i> Author: Will Anderson
-                            <br>
-                            <i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: Application model as-is model for Andi asistencia
-                            <br>
-                            <i class="fa fa-calendar" style="margin-left:10px"></i> Created: 2014/11/28 22:30:54
-                            <br>
-                            <i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: 2014/11/28 22:30:54
-                            <br>
-                        </div>
-                        <div class="pure-u-1-6" style="text-align:left">
-                            <button type="submit" class="button-secondary pure-button" style="width:100%;height:65px" onclick="getSelectedActionForModel('newModel', 1)"><i class="fa fa-pencil-square-o" style="margin-left:10px"></i>
-                            </button>
+                <!-- Inicio plantilla de celda de tabla para un editor-->
+                <div id="diagram1" class="pure-g" style="border-top:1px solid #808080; border-bottom:1px solid #808080">
+                    <!-- Preview del editor (icono por defecto) -->
+                    <div class="pure-u-1-6" style="text-align:center">
+                        <img class="pure-img-responsive" src="../res/projectModel2.png" style="width:120px;height:120px" />
+                    </div>
+                    <!-- Información basica del editor -->
+                    <div class="pure-u-5-6" style="text-align:left">
+                        <div class="pure-g">
+                            <div class="pure-u-5-6" style="text-align:left">
+                                <i class="fa fa-bookmark-o" style="margin-left:10px"></i> Name: Archimate application for AndiAsistencia
+                                <br>
+                                <i class="fa fa-user" style="margin-left:10px"></i> Author: Will Anderson
+                                <br>
+                                <i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: Application model as-is model for Andi asistencia
+                                <br>
+                                <i class="fa fa-calendar" style="margin-left:10px"></i> Created: 2014/11/28 22:30:54
+                                <br>
+                                <i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: 2014/11/28 22:30:54
+                                <br>
+                            </div>
+                            <div class="pure-u-1-6" style="text-align:left">
+                                <button type="submit" class="button-secondary pure-button" style="width:100%;height:65px" onclick="getSelectedActionForModel('newModel', 1)"><i class="fa fa-pencil-square-o" style="margin-left:10px"></i>
+                                </button>
 
-                            <button type="submit" class="button-error pure-button" style="width:100%; height:65px" onclick="getSelectedActionForModel('delete', 1)"><i class="fa fa-times" style="margin-left:10px"></i>
-                            </button>
+                                <button type="submit" class="button-error pure-button" style="width:100%; height:65px" onclick="getSelectedActionForModel('delete', 1)"><i class="fa fa-times" style="margin-left:10px"></i>
+                                </button>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="pad1" style="height:2px">
-            </div>
-            <!-- Fin plantilla-->
-
-
-            <!-- Inicio plantilla de celda de tabla para un editor-->
-            <div id="diagram2" class="pure-g" style="border-top:1px solid #808080; border-bottom:1px solid #808080">
-                <!-- Preview del editor (icono por defecto) -->
-                <div class="pure-u-1-6" style="text-align:center">
-                    <img class="pure-img-responsive" src="../res/projectModel2.png" style="width:120px;height:120px" />
+                <div id="pad1" style="height:2px">
                 </div>
-                <!-- Información basica del editor -->
-                <div class="pure-u-5-6" style="text-align:left">
-                    <div class="pure-g">
-                        <div class="pure-u-5-6" style="text-align:left">
-                            <i class="fa fa-bookmark-o" style="margin-left:10px"></i> Name: Archimate application for AndiAsistencia
-                            <br>
-                            <i class="fa fa-user" style="margin-left:10px"></i> Author: Will Anderson
-                            <br>
-                            <i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: Application model as-is model for Andi asistencia
-                            <br>
-                            <i class="fa fa-calendar" style="margin-left:10px"></i> Created: 2014/11/28 22:30:54
-                            <br>
-                            <i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: 2014/11/28 22:30:54
-                            <br>
-                        </div>
-                        <div class="pure-u-1-6" style="text-align:left">
-                            <button type="submit" class="button-secondary pure-button" style="width:100%;height:65px" onclick="getSelectedActionForModel('newModel', 2)"><i class="fa fa-pencil-square-o" style="margin-left:10px"></i>
-                            </button>
-
-                            <button type="submit" class="button-error pure-button" style="width:100%; height:65px" onclick="getSelectedActionForModel('delete', 2)"><i class="fa fa-times" style="margin-left:10px"></i>
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
+                <!-- Fin plantilla-->
+                <!-- Fin acceso a diagramas existentes -->
             </div>
-            <div id="pad2" style="height:2px">
-            </div>
-            <!-- Fin plantilla-->
-            <!-- Fin acceso a diagramas existentes -->
-        </div>
+            <input id="editorModel" type="hidden" value="" name="editorModel" />
+        </form>
+
     </div>
 
 
@@ -141,12 +108,9 @@
     </div>
     <!-- Script de referencia para llamar la funcion de acuerdo al comando y al editor seleccionado-->
     <script>
+        
+        var form = $('#editorDetailForm');
         function getSelectedActionForEditor(action, editor) {
-            alert("editor: " + action + " for " + editor);
-        }
-
-        function getSelectedActionForModel(action, model) {
-            alert("model: " + action + " for " + model);
             if (action == 'delete') {
                 bootbox.dialog({
                     message: "Selected item will be deleted, would you like to continue?",
@@ -155,12 +119,97 @@
                             label: "Yes",
                             className: "btn-primary",
                             callback: function () {
-                                $('#diagram' + model).fadeOut(500, function () {
+                                //Eliminar el editor 
+                                $("#editor").val(editor);
+                                form.attr('action', 'available_editors');
+                                form.on("submit", function (e) {
+                                    $.ajax({
+                                        url: form.attr('action'),
+                                        type: form.attr('method'),
+                                        data: form.serialize(),
+                                        success: function (data) {
+
+                                        },
+                                        error: function (jXHR, textStatus, errorThrown) {
+                                            alert(errorThrown);
+                                        }
+                                    });
+                                });
+                                form.submit();
+                                //Redireccionar
+                                window.location = "all_editors";
+                            }
+                        },
+                        danger: {
+                            label: "No",
+                            className: "btn-danger",
+                            callback: function () {
+                                //Hacer nada
+                            }
+                        }
+                    }
+                });
+            }
+            //Ir crear diagrama
+            else if (action == 'newModel') {
+                console.log("new model");
+                $("#editor").val(editor);
+                form.attr('action', 'new_diagram');
+                form.on("submit", function (e) {
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: $(this).serialize(),
+                        success: function (data) {
+
+                        },
+                        error: function (jXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                    return true;
+                });
+                form.submit();
+            }
+        }
+
+        function getSelectedActionForModel(action, model) {
+            if (action == 'delete') {
+                bootbox.dialog({
+                    message: "Selected item will be deleted, would you like to continue?",
+                    buttons: {
+                        success: {
+                            label: "Yes",
+                            className: "btn-primary",
+                            callback: function () {
+                                $('#diagram_' + model).fadeOut(500, function () {
                                     $(this).remove();
                                 });
-                                $('#pad' + model).fadeOut(500, function () {
+                                $('#pad_' + model).fadeOut(500, function () {
                                     $(this).remove();
                                 });
+                                //Eliminar el diagrama
+                                $("#editor").val(editor);
+                                console.log("delete");
+                                //IR a ReviewModelsEditor
+                                form.attr('action', '');
+                                form.on("submit", function (e) {
+                                    e.preventDefault();
+                                    $.ajax({
+                                        url: form.attr('action'),
+                                        type: form.attr('method'),
+                                        data: form.serialize(),
+                                        success: function (data) {
+
+                                        },
+                                        error: function (jXHR, textStatus, errorThrown) {
+                                            alert(errorThrown);
+                                        }
+                                    });
+                                });
+                                form.submit(); 
+                                location.reload();
+
                                 checkState();
                             }
                         },
@@ -174,13 +223,18 @@
                     }
                 });
             }
+            //Ir a nuevo modelo 
+            else if (action == 'newModel') {
+                $("#editor").val(editor);
+            }
+
         }
 
         function checkState() {
             var elements = $("#diagrams > div").length;
             var elements = $("#diagrams > div").length;
             if (elements == 3) {
-                var msg = "<div class=" + '"' + "hero-titles" + '"' + ">" + "\n" + "<h3 class=" + '"' + "marketing-header" + '"' + " style=" + '"' + "text-align:center; margin-top:50px" + '"' + ">" + "There's no available diagrams to display" + "</h3>" + "\n" + "</div";
+                var msg = "<div class=" + '"' + "hero-titles" + '"' + ">" + "\n" + "<h3 class=" + '"' + "marketing-header" + '"' + " style=" + '"' + "text-align:center; margin-top:50px" + '"' + ">" + "There's no available diagrams to display" + "</h3>" + "\n" + "</div>";
                 $('#diagrams').append(msg);
             }
         }
