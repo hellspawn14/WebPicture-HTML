@@ -54,11 +54,12 @@
             </div>
         </div>
         <!-- Aca va el acceso a los diagramas existentes-->
-        <form id="editorDetailForm" name="editorDetailForm" method="post" action="NO_ACTION">
+        
             <div id="diagrams" class="pure-u-2-3" style="text-align:center; height:100%; overflow-y: auto">
                 <div class="hero-titles">
                     <h3 class="hero-tagline" style="text-align:center; margin-top:50px">Available diagrams</h3>
                 </div>
+                <form id="editorDetailForm" name="editorDetailForm" method="post" action="NO_ACTION">
                 <!-- Inicio plantilla de celda de tabla para un editor-->
                 <div id="diagram1" class="pure-g" style="border-top:1px solid #808080; border-bottom:1px solid #808080">
                     <!-- Preview del editor (icono por defecto) -->
@@ -95,34 +96,33 @@
                 </div>
                 <!-- Fin plantilla-->
                 <!-- Fin acceso a diagramas existentes -->
+                <input id="editorModel" type="hidden" value="" name="editorModel" />
             </div>
-            <input id="editorModel" type="hidden" value="" name="editorModel" />
+            
         </form>
-
     </div>
-
-
     <div class="footer l-box is-center" style="background-color:#181818; margin-top:0px">
         <p>All rights reserved Uniandes 2014</p>
         <p>Universidad de los Andes - Computer engineering department - Engineering Faculty</p>
     </div>
     <!-- Script de referencia para llamar la funcion de acuerdo al comando y al editor seleccionado-->
     <script>
-        
         var form = $('#editorDetailForm');
+
         function getSelectedActionForEditor(action, editor) {
             if (action == 'delete') {
                 bootbox.dialog({
-                    message: "Selected item will be deleted, would you like to continue?",
+                    message: "Current editor will be deleted, would you like to continue?",
                     buttons: {
                         success: {
                             label: "Yes",
                             className: "btn-primary",
                             callback: function () {
                                 //Eliminar el editor 
-                                $("#editor").val(editor);
+                                $("#editorModel").val(editor);
                                 form.attr('action', 'available_editors');
                                 form.on("submit", function (e) {
+                                    e.preventDefault();
                                     $.ajax({
                                         url: form.attr('action'),
                                         type: form.attr('method'),
@@ -136,7 +136,6 @@
                                     });
                                 });
                                 form.submit();
-                                //Redireccionar
                                 window.location = "all_editors";
                             }
                         },
@@ -152,8 +151,7 @@
             }
             //Ir crear diagrama
             else if (action == 'newModel') {
-                console.log("new model");
-                $("#editor").val(editor);
+                $("#editorModel").val(editor);
                 form.attr('action', 'new_diagram');
                 form.on("submit", function (e) {
                     $.ajax({
@@ -189,10 +187,10 @@
                                     $(this).remove();
                                 });
                                 //Eliminar el diagrama
-                                $("#editor").val(editor);
+                                $("#editorModel").val(editor);
                                 console.log("delete");
                                 //IR a ReviewModelsEditor
-                                form.attr('action', '');
+                                form.attr('action', 'review_models_for_editor');
                                 form.on("submit", function (e) {
                                     e.preventDefault();
                                     $.ajax({
@@ -209,7 +207,6 @@
                                 });
                                 form.submit(); 
                                 location.reload();
-
                                 checkState();
                             }
                         },
@@ -225,16 +222,31 @@
             }
             //Ir a nuevo modelo 
             else if (action == 'newModel') {
-                $("#editor").val(editor);
-            }
+                $("#editorModel").val(editor);
+                console.log("new model");
+                form.attr('action', 'new_diagram');
+                form.on("submit", function (e) {
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: $(this).serialize(),
+                        success: function (data) {
 
+                        },
+                        error: function (jXHR, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                    return true;
+                });
+                form.submit();
+            }
         }
 
         function checkState() {
-            var elements = $("#diagrams > div").length;
-            var elements = $("#diagrams > div").length;
+            var elements = $('#diagrams > div').length;
+            var elements = $('#diagrams > div').length;
             if (elements == 3) {
-                var msg = "<div class=" + '"' + "hero-titles" + '"' + ">" + "\n" + "<h3 class=" + '"' + "marketing-header" + '"' + " style=" + '"' + "text-align:center; margin-top:50px" + '"' + ">" + "There's no available diagrams to display" + "</h3>" + "\n" + "</div>";
                 $('#diagrams').append(msg);
             }
         }
