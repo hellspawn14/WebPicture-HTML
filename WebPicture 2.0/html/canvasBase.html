@@ -459,7 +459,8 @@
             //Generado 
             validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
                 var VAL_7f31245a = (magnetS && magnetS.getAttribute('type') === 'A') && (magnetT && magnetT.getAttribute('type') === 'A');
-                return VAL_7f31245a;
+                var VAL_7f3124xx = (magnetS && magnetS.getAttribute('type') === 'A') && (magnetT && magnetT.getAttribute('type') === 'B');
+                return VAL_7f31245a || VAL_7f3124xx;
             }
 
         });
@@ -485,7 +486,7 @@
                     'height': 50,
                 },
                 '.name': {
-                    text: 'Prueba',
+                    text: 'Tipo A',
                     'ref-y': 0.5
                 },
             }
@@ -516,7 +517,7 @@
                     opacity: 0.5
                 },
                 '.name': {
-                    text: 'Prueba',
+                    text: 'Tipo A',
                     'ref-y': 0.5
                 },
             }
@@ -536,7 +537,7 @@
             attrs: {
                 '.contenedor': {
                     magnet: true,
-                    type: 'A',
+                    type: 'B',
                     'xlink:href': 'http://static.comicvine.com/uploads/original/11112/111123678/3503035-3468468-2718720139-batma.jpg',
                     opacity: 0.5
                 },
@@ -547,7 +548,7 @@
                     opacity: 0.5
                 },
                 '.name': {
-                    text: 'Generado',
+                    text: 'Tipo B',
                     'ref-y': -10.0
                 },
             }
@@ -992,14 +993,7 @@
             }
             //Valida la estructura del modelo 
             var modelElements = graph.getElements();
-            for (var i = 0; i < modelElements.length; i++) {
-                //Valida que todos los links estan conectados
-                elements = validateElement(modelElements[i]);
-                if (elements != 'No') {
-                    errorIndex++;
-                    errorReport += errorIndex + elements;
-                }
-            }
+
             if (errorIndex == 0) {
                 errorReport = 'The diagram has been validated, no errors found';
                 return errorReport;
@@ -1008,26 +1002,6 @@
             }
         }
 
-        /**
-         * Valida el elemento de acuerdo con un conjunto de reglas generadas a partir del metamodelo
-         * - Genearado -
-         */
-        function validateElement(cell) {
-
-            var elType = cell.attr(getElementInstance(cell));
-            //Reglas generadas para cada elemento 
-            if (elType == 'A') {
-                //Ej - Los elementos tipo A no pueden tener mas de una conexion 
-                var elLinks = graph.getConnectedLinks(cell);
-                if (elLinks.length > 1) {
-                    return ' - Cardinality violation for element: ' + getElementInnerText(cell) + '<br>';
-                } else {
-                    return 'No';
-                }
-            } else {
-                return 'No';
-            }
-        }
 
         /**
          * Valida que los links creados en el diagrama esten conectados
@@ -1321,10 +1295,22 @@
          * en la celda seleccionada
          * - No generado -
          */
-        paper.on('cell:pointerdown', function (cell, evt) {
+        paper.on('cell:pointerdown', function (cell, evt, x, y) {
             $(".tool-container").remove();
             //console.log(getElementInnerText(cell));
             if (cell.model instanceof joint.dia.Link) {} else {
+
+                if (!cell.model.get('embeds') || cell.model.get('embeds').length === 0) {
+                    // Show the dragged element above all the other cells (except when the
+                    // element is a parent).
+                    cell.model.toFront();
+                }
+
+                if (cell.model.get('parent')) {
+                    graph.getCell(cell.model.get('parent')).unembed(cell.model);
+                }
+
+
                 showToolBar(cell);
             }
         });
@@ -1353,17 +1339,75 @@
         });
 
         /**
+        
          * Detecta los cambios de posición de los elementos del paper pricipal y
          * actualiza el estado del diagrama para la funcion un/re do
-         * - No generado -
+         * - Generado -
          */
+        /*
         paper.on('cell:pointerup', function (cellView, evt, x, y) {
             if (cellView.model instanceof joint.dia.Link) {
                 updateDiagram();
             } else {
+                var cell = cellView.model;
+                var cellViewsBelow = paper.findViewsFromPoint(cell.getBBox().center());
+
+                if (cellViewsBelow.length) {
+                    // Note that the findViewsFromPoint() returns the view for the `cell` itself.
+                    var cellViewBelow = _.find(cellViewsBelow, function (c) {
+                        return c.model.id !== cell.id
+                    });
+
+                    // Prevent recursive embedding.
+                    if (cellViewBelow && cellViewBelow.model.get('parent') !== cell.id) {
+
+                        //var father = cellViewBelow.model;
+                        var father = graph.getCell(cellViewBelow.model.id);
+                        var son = graph.getCell(cell.id);
+                        var child = son.attr(getElementInstance(son));
+                        var parent = father.attr(getElementInstance(father));
+
+                        var XXX = parent == 'A' && child == 'A';
+                        var XYY = parent == 'B' && child == 'A';
+                        if (XXX || XYY) {
+                            cellViewBelow.model.embed(cell);
+                        }
+                    }
+                }
+
+                updateDiagram();
+            }
+        });*/
+
+        paper.on('cell:pointerup', function (cellView, evt, x, y) {
+            if (cellView.model instanceof joint.dia.Link) {
+                updateDiagram();
+            } else {
+                var cell = cellView.model;
+                var cellViewsBelow = paper.findViewsFromPoint(cell.getBBox().center());
+                if (cellViewsBelow.length) {
+                    var cellViewBelow = _.find(cellViewsBelow, function (c) {
+                        return c.model.id !== cell.id
+                    });
+                    if (cellViewBelow && cellViewBelow.model.get('parent') !== cell.id) {
+                        var father = graph.getCell(cellViewBelow.model.id);
+                        var son = graph.getCell(cell.id);
+                        var child = son.attr(getElementInstance(son));
+                        var parent = father.attr(getElementInstance(father));
+                        var VAL_2b193f2d = parent == 'B' && child == 'A';
+                        var VAL_355da254 = parent == 'A' && child == 'A';
+                        if (VAL_2b193f2d || VAL_355da254) {
+                            cellViewBelow.model.embed(cell);
+                        }
+                    }
+                }
                 updateDiagram();
             }
         });
+
+
+
+
 
         /**
          * Indicador de scrolling left
@@ -1660,6 +1704,7 @@
          * Cambia el estilo del link generado
          * - Generado -
          */
+        /*
         function replaceLink(oldLink, src, trg) {
 
             //Formato de ejemplo 
@@ -1675,8 +1720,8 @@
                             label: "Default link",
                             className: "btn-primary",
                             callback: function () {
-                                setGrids('on');
-                                gridsIndicator = 1;
+                                //setGrids('on');
+                                //gridsIndicator = 1;
                             }
                         },
                         danger: {
@@ -1729,7 +1774,456 @@
                 //oldLink.set('router', { name: 'manhattan' });
 
             } else {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#0000FF',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {
+                        d: 'M10.0 5.0 L5.0 0.0 L0.0 4.999999999999999 L4.999999999999999 10.0 Z',
+                        fill: '#FFFFFF',
+                        'stroke-width': 1,
+                        stroke: '#0000FF',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-target': {
+                        d: 'M10 0 L0 5 L10 10 L0 4.5 Z',
+                        fill: '#0000FF',
+                        'stroke-width': 1,
+                        stroke: '#0000FF',
+                        'stroke-dasharray': '0,0'
+                    },
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'Arkham',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+        }*/
 
+        function replaceLink(oldLink, src, trg) {
+            if (src == 'C' && trg == 'D') {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#190E0E',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {},
+                    '.marker-target': {},
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'CD',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+            if (src == 'K' && trg == 'H') {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#190E0E',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {},
+                    '.marker-target': {},
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'KH',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+            if (src == 'K' && trg == 'D') {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#190E0E',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {},
+                    '.marker-target': {},
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'CD',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+            if (src == 'E' && trg == 'D') {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#190E0E',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {},
+                    '.marker-target': {},
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'CD',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+            if (src == 'I' && trg == 'H') {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#190E0E',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {},
+                    '.marker-target': {},
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'KH',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+            if (src == 'I' && trg == 'D') {
+                oldLink.attr({
+                    '.connection': {
+                        'stroke-width': 1,
+                        stroke: '#190E0E',
+                        'stroke-dasharray': '0,0'
+                    },
+                    '.marker-source': {},
+                    '.marker-target': {},
+                });
+                oldLink.label(0, {
+                    position: .5,
+                    attrs: {
+                        text: {
+                            text: 'CD',
+                            'font-family': 'Arial, helvetica, sans-serif',
+                            'font-size': 14,
+                        }
+                    }
+                });
+            }
+            if (src == 'A' && trg == 'B') {
+                var msg = 'Select the link to display';
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        AB: {
+                            label: 'AB',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        AB_X: {
+                            label: 'AB_X',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB_X',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                    }
+                });
+            }
+            if (src == 'C' && trg == 'B') {
+                var msg = 'Select the link to display';
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        AB: {
+                            label: 'AB',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        AB_X: {
+                            label: 'AB_X',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB_X',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                    }
+                });
+            }
+            if (src == 'K' && trg == 'B') {
+                var msg = 'Select the link to display';
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        AB: {
+                            label: 'AB',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        AB_X: {
+                            label: 'AB_X',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB_X',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                    }
+                });
+            }
+            if (src == 'E' && trg == 'B') {
+                var msg = 'Select the link to display';
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        AB: {
+                            label: 'AB',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        AB_X: {
+                            label: 'AB_X',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB_X',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                    }
+                });
+            }
+            if (src == 'I' && trg == 'B') {
+                var msg = 'Select the link to display';
+                bootbox.dialog({
+                    message: msg,
+                    buttons: {
+                        AB: {
+                            label: 'AB',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        AB_X: {
+                            label: 'AB_X',
+                            className: 'btn-primary',
+                            callback: function () {
+                                oldLink.attr({
+                                    '.connection': {
+                                        'stroke-width': 1,
+                                        stroke: '#190E0E',
+                                        'stroke-dasharray': '0,0'
+                                    },
+                                    '.marker-source': {},
+                                    '.marker-target': {},
+                                });
+                                oldLink.label(0, {
+                                    position: .5,
+                                    attrs: {
+                                        text: {
+                                            text: 'AB_X',
+                                            'font-family': 'Arial, helvetica, sans-serif',
+                                            'font-size': 14,
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                    }
+                });
             }
         }
 
