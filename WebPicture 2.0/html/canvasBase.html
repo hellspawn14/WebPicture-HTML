@@ -380,7 +380,7 @@
                     text: 'cosplay',
                 },
                 image: {
-                    'xlink:href': 'http://img-9gag-lol.9cache.com/photo/a1ZPj9R_700b.jpg',
+                    'xlink:href': 'http://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg',
                     width: 50,
                     height: 50,
                 },
@@ -478,7 +478,7 @@
                 '.contenedor': {
                     magnet: true,
                     type: 'A',
-                    'xlink:href': 'http://static.comicvine.com/uploads/original/11112/111123678/3503035-3468468-2718720139-batma.jpg',
+                    'xlink:href': 'file:///Users/hellspawn/Pictures/Wallpapers/charazard-awesome-charazard-pokemon-red-900x1440.jpg',
                 },
                 image: {
                     'xlink:href': 'https://cdn3.iconfinder.com/data/icons/business-101-1/512/Pie-2-512.png',
@@ -493,6 +493,35 @@
         });
 
         graph.addCell(GRPH_5e481248);
+
+
+        var GRPH_531c311e = new joint.shapes.basic.Image({
+            position: {
+                x: 100,
+                y: 100
+            },
+            size: {
+                width: 260,
+                height: 410
+            },
+            attrs: {
+                text: {
+                    text: 'Name',
+                    'ref-y': 0.5,
+                    'ref-x': 0.5,
+                },
+                image: {
+                    magnet: true,
+                    type: 'WebPool',
+                    opacity: 1.0,
+                    'xlink:href': 'file:///Users/hellspawn/Documents/Uniandes/Tesis/Repositorios/WebPicture-Java/co.edu.uniandes.picture.webpicture/WebContent/Ejemplos/UseCaseEditor/Images/pool.gif',
+                    width: 50,
+                    height: 50,
+                },
+            },
+        });
+
+        graph.addCell(GRPH_531c311e);
 
         var GRPH_5e481249 = new joint.shapes.iconic.icnShape({
             position: {
@@ -558,7 +587,41 @@
 
 
 
+        var GRPH_f9b7332 = new joint.shapes.org.Member({
+            position: {
+                x: 100,
+                y: 100
+            },
+            size: {
+                width: 140,
+                height: 60
+            },
+            attrs: {
+                '.card': {
+                    fill: '#F1F1B5',
+                    magnet: true,
+                    type: 'BusinessRole',
+                    rx: 10,
+                    ry: 10,
+                    'stroke-width': 2,
+                    stroke: '#000000',
+                    'stroke-dasharray': '0,0'
+                },
+                image: {
+                    'xlink:href': 'file:///Users/hellspawn/Documents/Uniandes/Tesis/Repositorios/WebPicture-Java/co.edu.uniandes.picture.webpicture/WebContent/Ejemplos/UseCaseEditor/Images/iconiconiconroleIcon.svg',
+                    'width': 16,
+                    'height': 16,
+                    'ref-x': 0.8785714285714286,
+                    'ref-y': 0.03333333333333333
+                },
+                '.name': {
+                    text: 'elementName',
+                    'ref-y': 0.5
+                },
+            }
+        });
 
+        graph.addCell(GRPH_f9b7332);
 
 
          //----------------------------------------------------------
@@ -916,6 +979,7 @@
 
         /**
          * Implementación de la funcion clear canvas
+         * - No generado -
          */
         function clearCanvasImpl() {
             saved = 0;
@@ -941,6 +1005,10 @@
         var lastModified = "2014/12/7 22:30:56";;
 
 
+        /**
+         * Actualiza la ultima modificación del diagrama
+         * - No generado -
+         */
         function updateLastModification() {
             var today = new Date();
             var yyyy = today.getFullYear();
@@ -952,6 +1020,10 @@
             lastModified = yyyy + "/" + MM + "/" + dd + " " + HH + ":" + mm + ":" + ss;
         }
 
+        /**
+         * Retorna una ventana de bootbox para mostrar la información del diagrama actual
+         * - Generado -
+         */
         function getDiagraminformation() {
             //"yyyy/MM/dd HH:mm:ss";
             var diagramName = "Archi";
@@ -1043,14 +1115,27 @@
 
     <!-- Script de referencia drag and drop for canvas -->
     <script>
-        //Origen
-
-         //Destino 
+        /**
+         * Paper de destino
+         * - No generado -
+         */
         var toPaper = paper;
+
+        /**
+         * Graph de destino
+         */
         var toGraph = graph;
 
-         //Intermedio 
+        /**
+         * Graph intermedio para transladar los elementos
+         * - No generado -
+         */
         var flyGraph = new joint.dia.Graph;
+
+        /**
+         * Paper intermedio para transladar los elementos
+         * - No generado -
+         */
         var flyPaper = new joint.dia.Paper({
             el: $('.paper-drag'),
             gridSize: 10,
@@ -1059,8 +1144,16 @@
             model: flyGraph
         });
 
+        /**
+         * Elemento clonado
+         * - No generado -
+         */
         var elementClone = undefined;
 
+        /**
+         * Contenedor del elemento clonado
+         * - No generado -
+         */
         var cloneBBox = undefined;
 
 
@@ -1100,15 +1193,23 @@
             elementOnDragStart(cell, evt);
         });
 
+
+
+
          //--------------------------------------------------------------
          // Funciones  
          //--------------------------------------------------------------
 
 
+        /**
+         * Inicia el evento para clonar un elemento de un paper a otro
+         * - Generado -
+         * - Hacer cambio para cambio de icono -
+         *
         function elementOnDragStart(cellView, event) {
-            $(".paper-drag").show();
-            $("tools").addClass("dragging");
-            flyPaper.$el.addClass("dragging");
+            $('.paper-drag').show();
+            $('tools').addClass('dragging');
+            flyPaper.$el.addClass('dragging');
             $(document.body).append(flyPaper.$el);
 
             //Cambio de icono en el drag and drop 
@@ -1122,8 +1223,38 @@
             }
             //cloneBBox = cellView.getBBox();
             var padding = 10;
-            var shift = g.point(cloneBBox.x - elementClone.get("position").x, cloneBBox.y - elementClone.get("position").y);
-            elementClone.set("position", {
+            var shift = g.point(cloneBBox.x - elementClone.get('position').x, cloneBBox.y - elementClone.get('position').y);
+            elementClone.set('position', {
+                x: -shift.x + padding,
+                y: -shift.y + padding
+            });
+            flyGraph.addCell(elementClone);
+            flyPaper.setDimensions(cloneBBox.width + 2 * padding, cloneBBox.height + 2 * padding);
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            flyPaper.$el.offset({
+                left: event.clientX - cloneBBox.width / 2,
+                top: event.clientY + scrollTop - cloneBBox.height / 2
+            });
+        }*/
+
+
+        function elementOnDragStart(cellView, event) {
+            $('.paper-drag').show();
+            $('tools').addClass('dragging');
+            flyPaper.$el.addClass('dragging');
+            $(document.body).append(flyPaper.$el);
+            var elType = cellView.model.attr(getElementInstance(cellView.model));
+            if (elType == '9gag') {
+                elementClone = c.clone();
+                cloneBBox = c.getBBox();
+            } else {
+                elementClone = cellView.model.clone();
+                cloneBBox = cellView.getBBox();
+            }
+
+            var padding = 10;
+            var shift = g.point(cloneBBox.x - elementClone.get('position').x, cloneBBox.y - elementClone.get('position').y);
+            elementClone.set('position', {
                 x: -shift.x + padding,
                 y: -shift.y + padding
             });
@@ -1135,6 +1266,10 @@
                 top: event.clientY + scrollTop - cloneBBox.height / 2
             });
         }
+
+
+
+
 
         /**
          * Inicia el evento drag para transladar un elemento de un paper a otro
@@ -1152,7 +1287,8 @@
         }
 
         /** 
-         *
+         * Confirma el drag-end en el paper principal
+         * - No generado -
          */
         function elementOnDragEnd(event) {
             event = joint.util.normalizeEvent(event);
@@ -1165,6 +1301,10 @@
             }
         }
 
+        /**
+         * Clona el elemento selecionado en el paper principal
+         * - No generado -
+         */
         function elementOnDrop(event, cell, cellViewBBox) {
             var paper = toPaper;
             var graph = toGraph;
@@ -1303,7 +1443,7 @@
                 if (!cell.model.get('embeds') || cell.model.get('embeds').length === 0) {
                     // Show the dragged element above all the other cells (except when the
                     // element is a parent).
-                    cell.model.toFront();
+                    //cell.model.toFront();
                 }
 
                 if (cell.model.get('parent')) {
@@ -1972,22 +2112,29 @@
                                 oldLink.attr({
                                     '.connection': {
                                         'stroke-width': 1,
-                                        stroke: '#190E0E',
-                                        'stroke-dasharray': '0,0'
+                                        stroke: '#000000',
+                                        'stroke-dasharray': '1,1'
                                     },
                                     '.marker-source': {},
-                                    '.marker-target': {},
+                                    '.marker-target': {
+                                        d: 'M10 0 L0 5 L10 10 L0 4.5 Z',
+                                        fill: '#000000',
+                                        'stroke-width': 1,
+                                        stroke: '#000000',
+                                        'stroke-dasharray': '1,1'
+                                    },
                                 });
                                 oldLink.label(0, {
                                     position: .5,
                                     attrs: {
                                         text: {
-                                            text: 'AB_X',
+                                            text: 'realizes',
                                             'font-family': 'Arial, helvetica, sans-serif',
                                             'font-size': 14,
                                         }
                                     }
                                 });
+
                             }
                         },
                     }
@@ -2204,17 +2351,23 @@
                                 oldLink.attr({
                                     '.connection': {
                                         'stroke-width': 1,
-                                        stroke: '#190E0E',
-                                        'stroke-dasharray': '0,0'
+                                        stroke: '#000000',
+                                        'stroke-dasharray': '1,1'
                                     },
                                     '.marker-source': {},
-                                    '.marker-target': {},
+                                    '.marker-target': {
+                                        d: 'M10 0 L0 5 L10 10 L0 4.5 Z',
+                                        fill: '#000000',
+                                        'stroke-width': 1,
+                                        stroke: '#000000',
+                                        'stroke-dasharray': '1,1'
+                                    },
                                 });
                                 oldLink.label(0, {
                                     position: .5,
                                     attrs: {
                                         text: {
-                                            text: 'AB_X',
+                                            text: 'realizes',
                                             'font-family': 'Arial, helvetica, sans-serif',
                                             'font-size': 14,
                                         }
