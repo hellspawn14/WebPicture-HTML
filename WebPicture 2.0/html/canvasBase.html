@@ -172,7 +172,7 @@
         <a id="toBackElement" href="" onclick="$('#hdnClickedIcon').val('toBack');"><i class="icon-arrow-down"></i></a>
         <a id="reSizeElementBtn" href="" onclick="$('#hdnClickedIcon').val('change');"><i class="icon-list-alt"></i></a>
         <a id="deleteElementBtn" href="" onclick="$('#hdnClickedIcon').val('delete');"><i class="icon-remove"></i></a>
-        <input id="hdnClickedIcon" type="hidden" value="none" />
+        <button id="hdnClickedIcon" type="hidden" value="none" />
     </div>
     <!-- Script de pruba de la paleta -->
     <script>
@@ -1026,16 +1026,15 @@
          */
         function getDiagraminformation() {
             //"yyyy/MM/dd HH:mm:ss";
-            var diagramName = "Archi";
-            var editorName = "Archi light editor";
-            var diagramDescription = "Archi application diagram for EA";
-            var created = "2014/11/15 22:30:56";
-            var author = "Mario Sanchez";
-            var inf = '<div class="pure-u-5-6" style="text-align:left">' + '<i class="fa fa-bookmark-o" style="margin-left:10px"></i> Diagram name: ' + diagramName + '<br>' + '<i class="fa fa-pencil" style="margin-left:10px"></i> Editor: ' + editorName + '<br>' + '<i class="fa fa-user" style="margin-left:10px"></i> Author: ' + author + '<br>' + '<i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: ' + diagramDescription + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Created: ' + created + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: ' + lastModified + '<br>' + '</div>';
-            bootbox.dialog({
-                title: "Diagram information",
-                message: inf
-            });
+    var diagramName = "Archi";
+    var diagramDescription = "Archi application diagram for EA";
+    var created = "2014/11/15 22:30:56";
+    var author = "Mario Sanchez";
+    var inf = '<div class="pure-u-5-6" style="text-align:left">' + '<i class="fa fa-bookmark-o" style="margin-left:10px"></i> Diagram name: ' + diagramName + '<br>' + '<i class="fa fa-user" style="margin-left:10px"></i> Author: ' + author + '<br>' + '<i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: ' + diagramDescription + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Created: ' + created + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: ' + lastModified + '<br>' + '</div>';
+    bootbox.dialog({
+        title: "Diagram information",
+        message: inf
+    });
 
         }
 

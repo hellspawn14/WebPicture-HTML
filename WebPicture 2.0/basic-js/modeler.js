@@ -1,4 +1,3 @@
-
 $(function () {
     $("#tools").accordion({
         collapsible: true,
@@ -146,68 +145,66 @@ function showToolBar(cell) {
         hideOnClick: true
     });
     el.on('toolbarItemClick',
+    function (event) {
+        var command = $('#hdnClickedIcon').val();
 
-        function (event) {
-            var command = $('#hdnClickedIcon').val();
-
-            if (command == 'edit') {
-                bootbox.prompt("Edit element name", function (result) {
-                    if (result === null) {
-                        console.log("No text");
+        if (command == 'edit') {
+            bootbox.prompt("Edit element name", function (result) {
+                if (result === null) {
+                    console.log("No text");
+                } else {
+                    result = result.trim();
+                    if (result != '') {
+                        updateCell(cell, result);
                     } else {
-                        result = result.trim();
-                        if (result != '') {
-                            updateCell(cell, result);
-                        } else {
-                            console.log("No text");
-                        }
+                        console.log("No text");
                     }
-                });
+                }
+            });
 
-            } else if (command == 'delete') {
-                removeCell(cell);
-                $(".tool-container").remove();
-            } else if (command == 'toTop') {
-                sentToTop(cell);
-            } else if (command == 'toBack') {
-                sendToBack(cell);
-            } else if (command == 'change') {
-                var oldWidth = cell.model.get("size").width;
-                var oldHeight = cell.model.get("size").height;
-                var cnt = '<form class="pure-form pure-form-stacked"><fieldset><div class="pure-control-group"><label for="nWidth">Width (px)</label><input id="nWidth" type="range" min="0" max="1000" step="10" value="' + oldWidth + '"> <output></output> </div><div class="pure-control-group"><label for="nHeight">Height (px)</label><input id="nHeight" type="range" min="0" max="1000" step="10" value="' + oldHeight + '"> <output></output> </div><div class="pure-control-group"><label for="nAngle">Angle (deg)</label><input id="nAngle" type="range" min="0" max="360" step="15" value="0"><output></output> </div></fieldset></form>';
-                bootbox.dialog({
-                    title: "Change element properties",
-                    message: cnt,
-                    buttons: {
-                        success: {
-                            label: "Save",
-                            className: "btn-success",
-                            callback: function () {
-                                var nWidth = $('#nWidth').val();
-                                var nHeight = $('#nHeight').val();
-                                var nAngle = $('#nAngle').val();
-                                resizeCell(cell, nHeight, nWidth);
-                                rotateCell(cell, nAngle);
-                                //Revisa cambios para actualizar el estado actual  
-                                if (nAngle > 0 || oldWidth != nWidth || oldHeight != nHeight) {
-                                    updateDiagram();
-                                }
+        } else if (command == 'delete') {
+            removeCell(cell);
+            $(".tool-container").remove();
+        } else if (command == 'toTop') {
+            sentToTop(cell);
+        } else if (command == 'toBack') {
+            sendToBack(cell);
+        } else if (command == 'change') {
+            var oldWidth = cell.model.get("size").width;
+            var oldHeight = cell.model.get("size").height;
+            var cnt = '<form class="pure-form pure-form-stacked"><fieldset><div class="pure-control-group"><label for="nWidth">Width (px)</label><input id="nWidth" type="range" min="0" max="1000" step="10" value="' + oldWidth + '"> <output></output> </div><div class="pure-control-group"><label for="nHeight">Height (px)</label><input id="nHeight" type="range" min="0" max="1000" step="10" value="' + oldHeight + '"> <output></output> </div><div class="pure-control-group"><label for="nAngle">Angle (deg)</label><input id="nAngle" type="range" min="0" max="360" step="15" value="0"><output></output> </div></fieldset></form>';
+            bootbox.dialog({
+                title: "Change element properties",
+                message: cnt,
+                buttons: {
+                    success: {
+                        label: "Save",
+                        className: "btn-success",
+                        callback: function () {
+                            var nWidth = $('#nWidth').val();
+                            var nHeight = $('#nHeight').val();
+                            var nAngle = $('#nAngle').val();
+                            resizeCell(cell, nHeight, nWidth);
+                            rotateCell(cell, nAngle);
+                            //Revisa cambios para actualizar el estado actual  
+                            if (nAngle > 0 || oldWidth != nWidth || oldHeight != nHeight) {
+                                updateDiagram();
                             }
                         }
                     }
-                });
-                $('#nWidth').rangeslider({
-                    polyfill: false
-                });
-                $('#nHeight').rangeslider({
-                    polyfill: false
-                });
-                $('#nAngle').rangeslider({
-                    polyfill: false
-                });
-            }
+                }
+            });
+            $('#nWidth').rangeslider({
+                polyfill: false
+            });
+            $('#nHeight').rangeslider({
+                polyfill: false
+            });
+            $('#nAngle').rangeslider({
+                polyfill: false
+            });
         }
-    );
+    });
 }
 
 /**
@@ -223,7 +220,7 @@ function resizeCell(cell, nHeight, nWidth) {
  * - No generado -
  */
 function rotateCell(cell, nDeg) {
-    cell.model.rotate(-nDeg);
+    cell.model.rotate( - nDeg);
 }
 
 
@@ -382,7 +379,8 @@ graph.on('change:target', function (oldLink) {
     var source = oldLink.get('source');
     var target = oldLink.get('target');
 
-    if (source.id && target.id) { // link is connected from an element to an element
+    if (source.id && target.id) {
+        // link is connected from an element to an element
         var sourceCell = graph.getCell(source.id);
         var targetCell = graph.getCell(target.id);
         var src = sourceCell.attr(getElementInstance(sourceCell));
@@ -444,8 +442,8 @@ paper.on('cell:pointermove', function (cell, evt, x, y) {
 $(document).ready(function () {
 
     /*
-     * Tooltips de los botones de la herramienta
-     */
+         * Tooltips de los botones de la herramienta
+         */
     Tipped.create('#homeBtn', 'Home', {
         position: 'bottom'
     });
@@ -484,9 +482,9 @@ $(document).ready(function () {
     });
 
     /**
-     * Tool tips paneles de herramientas
-     * - Generado segun los paneles de herramientas de la paleta -
-     */
+         * Tool tips paneles de herramientas
+         * - Generado segun los paneles de herramientas de la paleta -
+         */
     Tipped.create('#headGroup1', 'Group I description', {
         position: 'right'
     });
@@ -507,8 +505,13 @@ $(document).ready(function () {
 });
 
 window.onload = function () {
-    startDiagram();
+    //console.log(estadoActual);
+    //startDiagram(estadoActual);
 };
+
+$(document).ready(function () {
+    startDiagram(estadoActual);
+});
 
 
 
@@ -710,7 +713,8 @@ function throwErrorReport(msg) {
 /*
  * Indica si los cambios en el canvas estan guardados en el servidor
  */
-var saved = 0;
+var saved = 1;
+
 
 //---------------------------------------------------------------
 //Funciones botones barra herramientas
@@ -775,7 +779,6 @@ function saveModel() {
 function saveModelImpl() {
     saved = 1;
     saveDiagram();
-
 }
 
 /*
@@ -865,14 +868,6 @@ function help() {
     });
 }
 
-
-/**
- * Ultima fecha de modificación registrada
- * - Generado -
- */
-var lastModified = "2014/12/7 22:30:56";;
-
-
 /**
  * Actualiza la ultima modificación del diagrama
  * - No generado -
@@ -889,35 +884,17 @@ function updateLastModification() {
 }
 
 /**
- * Retorna una ventana de bootbox para mostrar la información del diagrama actual
- * - Generado -
- */
-function getDiagraminformation() {
-    //"yyyy/MM/dd HH:mm:ss";
-    var diagramName = "Archi";
-    var editorName = "Archi light editor";
-    var diagramDescription = "Archi application diagram for EA";
-    var created = "2014/11/15 22:30:56";
-    var author = "Mario Sanchez";
-    var inf = '<div class="pure-u-5-6" style="text-align:left">' + '<i class="fa fa-bookmark-o" style="margin-left:10px"></i> Diagram name: ' + diagramName + '<br>' + '<i class="fa fa-pencil" style="margin-left:10px"></i> Editor: ' + editorName + '<br>' + '<i class="fa fa-user" style="margin-left:10px"></i> Author: ' + author + '<br>' + '<i class="fa fa-ellipsis-h" style="margin-left:10px"></i> Description: ' + diagramDescription + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Created: ' + created + '<br>' + '<i class="fa fa-calendar" style="margin-left:10px"></i> Last modified: ' + lastModified + '<br>' + '</div>';
-    bootbox.dialog({
-        title: "Diagram information",
-        message: inf
-    });
-
-}
-
-
-/**
  * Inicializa los estados del diagrama
  * - No generado -
  */
-function startDiagram() {
+function startDiagram(estadoActual) {
 
     while (states.length > 0) {
         states.pop();
     }
     mainStateIndex = 0;
+    restoreDiagram(estadoActual);
+
     mainState = JSON.stringify(graph);
     states.push(mainState);
 }
@@ -933,10 +910,12 @@ function updateDiagram() {
         mainState = JSON.stringify(graph);
         states.push(mainState);
         mainStateIndex = states.length - 1;
+        saved = 0;
     } else {
         mainState = JSON.stringify(graph);
         states.push(mainState);
         mainStateIndex++;
+        saved = 0;
     }
 }
 
@@ -989,8 +968,27 @@ function restoreDiagram(strJSON) {
  */
 function saveDiagram() {
     savedDiagram = JSON.stringify(graph);
-    console.log(savedDiagram);
-    startDiagram();
+    //Guardar el diagrama
+    $("#cnt").val(savedDiagram);
+    $("#diagram").val(diagramId);
+    var form = $('#save_diagram');
+    form.attr('action', 'save_diagram');
+    form.on("submit", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            success: function (data) {
+},
+            error: function (jXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    });
+    form.submit();
+
+    startDiagram(savedDiagram);
     updateLastModification();
 }
 
